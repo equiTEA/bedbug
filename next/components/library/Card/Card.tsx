@@ -17,7 +17,7 @@ import type { SystemStyleObject } from '@mui/system'
 type Sx<Theme extends {} = {}> = { sx?: SystemStyleObject<Theme> }
 
 namespace Card {
-  export type Props = {
+  export type Props = Sx & {
     children: ReactNode
     onClick?: () => unknown
   }
@@ -34,20 +34,20 @@ namespace Card {
   export type DataPointProps = Sx & { children: ReactNode }
 }
 
-const Card = ({ children, onClick }: Card.Props) => (
+const Card = ({ children, onClick, sx = {} }: Card.Props) => (
   <Box
     className="card"
     onClick={onClick}
-    sx={(theme) => cardStyles({ onClickProvided: !!onClick, theme })}
+    sx={(theme) => cardStyles({ onClickProvided: !!onClick, theme, sx })}
   >
     {children}
   </Box>
 )
 
-Card.Heading = ({ children, sx }: Card.HeadingProps) => (
+Card.Heading = ({ children, sx = {} }: Card.HeadingProps) => (
   <Typography
     className="card-heading"
-    sx={{ ...cardHeadingStyles, ...(sx ? sx : {}) }}
+    sx={{ ...cardHeadingStyles, ...sx }}
     variant="h3"
     component="h3"
   >
@@ -55,10 +55,10 @@ Card.Heading = ({ children, sx }: Card.HeadingProps) => (
   </Typography>
 )
 
-Card.Subheading = ({ children, sx }: Card.HeadingProps) => (
+Card.Subheading = ({ children, sx = {} }: Card.HeadingProps) => (
   <Typography
     className="card-heading"
-    sx={{ ...cardSubheadingStyles, ...(sx ? sx : {}) }}
+    sx={{ ...cardSubheadingStyles, ...sx }}
     variant="h3"
     component="h3"
   >
@@ -70,9 +70,9 @@ Card.Divider = ({ sx }: Card.DividerProps) => (
   <Box className="card-divider" sx={dividerStyles} />
 )
 
-Card.SectionHeading = ({ children, sx }: Card.SectionHeadingProps) => (
+Card.SectionHeading = ({ children, sx = {} }: Card.SectionHeadingProps) => (
   <Typography
-    sx={{ ...cardSectionHeadingStyles, ...(sx ? sx : {}) }}
+    sx={{ ...cardSectionHeadingStyles, ...sx }}
     className="card-section-heading"
     variant="h4"
     component="h4"
@@ -80,12 +80,10 @@ Card.SectionHeading = ({ children, sx }: Card.SectionHeadingProps) => (
     {children}
   </Typography>
 )
+
 /** A flex container to contain Card.DataPointLabel and Card.DataPointValue */
-Card.DataPoint = ({ children, sx }: Card.DataPointProps) => (
-  <Box
-    sx={{ ...dataPointStyles, ...(sx ? sx : {}) }}
-    className="card-data-point"
-  >
+Card.DataPoint = ({ children, sx = {} }: Card.DataPointProps) => (
+  <Box className="card-data-point" sx={dataPointStyles}>
     {children}
   </Box>
 )

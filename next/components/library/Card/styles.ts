@@ -1,13 +1,15 @@
-import type { Theme } from '@mui/material/styles'
+import type { Theme, SxProps } from '@mui/material/styles'
 
 const PADDING = '16px'
 
 export const cardStyles = ({
   onClickProvided,
   theme,
+  sx = {},
 }: {
   onClickProvided: boolean
   theme: Theme
+  sx?: SxProps<Theme>
 }) => ({
   width: '100%',
   padding: PADDING,
@@ -64,6 +66,8 @@ export const cardStyles = ({
         },
       }
     : {}),
+
+  ...sx,
 })
 
 export const cardHeadingStyles = {
@@ -109,7 +113,7 @@ export const dataPointStyles = {
 export const dataPointLabelStyles = {
   fontFamily: 'Albert Sans',
   fontStyle: 'normal',
-  fontWeight: 500,
+  fontWeight: 600,
   fontSize: '14px',
   color: 'secondary.main',
   lineHeight: '133.4%',

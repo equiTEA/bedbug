@@ -1,13 +1,14 @@
 import { list } from '@keystone-6/core'
 import {
   text,
-  relationship,
   select,
   checkbox,
   password,
+  relationship,
 } from '@keystone-6/core/fields'
-import { Roles } from '../types/data/User'
 import { disableHardDelete } from '../hooks/disableHardDelete'
+
+import { Roles } from '../types/data/User'
 
 export const User = list({
   fields: {
@@ -65,6 +66,7 @@ export const User = list({
     ...disableHardDelete,
     resolveInput: ({ resolvedData }) => {
       const { role } = resolvedData
+
       if (role === Roles.ADMIN) throw new Error('Cannot create an admin user')
 
       return { ...resolvedData, role: role ?? Roles.TENANT }

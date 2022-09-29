@@ -131,7 +131,7 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (!mostRecentRating?.landlordAtDateOfRatingId) return null
 
           const landlord = await context.prisma.landlord.findFirst({
             where: {
@@ -174,7 +174,8 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (!mostRecentRating?.propertyManagementCompanyAtDateOfRatingId)
+            return null
 
           const propertyManagementCompany =
             await context.prisma.propertyManagementCompany.findFirst({
@@ -221,7 +222,7 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (!mostRecentRating?.doingBusinessAsAtDateOfRatingId) return null
 
           const doingBusinessAs = await context.prisma.business.findFirst({
             where: {
@@ -245,6 +246,28 @@ export const Address = list({
           })
 
           return { ...doingBusinessAs, avgRating: avgRating._avg.sentiment }
+        },
+      }),
+    }),
+
+    mostRecentRentPrice: virtual({
+      field: graphql.field({
+        type: graphql.JSON,
+        resolve: async (item, __, context) => {
+          const mostRecentRating = await context.prisma.rating.findFirst({
+            where: {
+              address: {
+                id: (item as any).id, // TODO: extract types into consumable library
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
+
+          if (!mostRecentRating) return null
+
+          return mostRecentRating.rentPriceAtDateOfRating
         },
       }),
     }),

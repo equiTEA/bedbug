@@ -1,13 +1,14 @@
-import { RatingSentiments } from '../types/data/Rating'
-import { list } from '@keystone-6/core'
 import {
-  relationship,
-  timestamp,
-  checkbox,
-  select,
   text,
+  select,
+  integer,
+  checkbox,
+  timestamp,
+  relationship,
 } from '@keystone-6/core/fields'
+import { list } from '@keystone-6/core'
 import { baseHooks } from '../hooks/base'
+import { RatingSentiments } from '../types/data/Rating'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
 
 export const Rating = list({
@@ -80,5 +81,9 @@ export const Rating = list({
     }),
 
     body: text({ validation: { isRequired: true } }),
+
+    rentPriceAtDateOfRating: integer({
+      validation: { isRequired: true },
+    }),
   },
 })

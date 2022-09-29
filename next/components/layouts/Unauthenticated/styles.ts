@@ -59,8 +59,9 @@ export const accountForBorderRadiusStyles = ({ theme }: { theme: Theme }) => ({
 })
 
 export const asideStyles = ({ theme }: { theme: Theme }) => ({
+  p: 3,
+  pb: 0,
   zIndex: 1,
-  padding: 3,
   width: '550px',
   height: '100vh',
   position: 'relative',

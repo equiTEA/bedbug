@@ -11,8 +11,10 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
         id: ctx.query.id,
       },
       ratingsCountWhere: {
-        id: {
-          equals: ctx.query.id,
+        address: {
+          id: {
+            equals: ctx.query.id,
+          },
         },
       },
     },

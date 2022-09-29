@@ -64,8 +64,8 @@ export const Landlord = list({
               sentiment: true,
             },
             where: {
-              landlord: {
-                some: {
+              landlordAtDateOfRating: {
+                is: {
                   id: (item as any).id,
                 },
               },

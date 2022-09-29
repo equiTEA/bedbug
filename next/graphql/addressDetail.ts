@@ -54,6 +54,7 @@ export const addressDetail = /* GraphQL */ `
       mostRecentLandlord
       mostRecentDoingBusinessAs
       mostRecentPropertyManagementCompany
+      mostRecentRentPrice
     }
   }
 `

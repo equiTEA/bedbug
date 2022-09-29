@@ -63,8 +63,8 @@ export const Business = list({
               sentiment: true,
             },
             where: {
-              landlord: {
-                some: {
+              landlordAtDateOfRating: {
+                is: {
                   doingBusinessAs: {
                     some: {
                       id: (item as any).id, // TODO: Extract types into shared lib and assert type here

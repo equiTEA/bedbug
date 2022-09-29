@@ -1,4 +1,3 @@
-import { list, graphql } from '@keystone-6/core'
 import {
   text,
   relationship,
@@ -6,8 +5,9 @@ import {
   checkbox,
   virtual,
 } from '@keystone-6/core/fields'
-import { hideUIForDefaults } from '../helpers/schemaHelpers'
 import { baseHooks } from '../hooks/base'
+import { list, graphql } from '@keystone-6/core'
+import { hideUIForDefaults } from '../helpers/schemaHelpers'
 
 export const PropertyManagementCompany = list({
   hooks: baseHooks,
@@ -63,8 +63,8 @@ export const PropertyManagementCompany = list({
               sentiment: true,
             },
             where: {
-              propertyManagementCompany: {
-                some: {
+              propertyManagementCompanyAtDateOfRating: {
+                is: {
                   id: (item as any).id,
                 },
               },

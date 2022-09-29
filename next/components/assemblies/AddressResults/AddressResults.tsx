@@ -83,7 +83,7 @@ const AddressResults = ({
           Results ({resultsCount})
         </H3>
         {results.map((address, index) => (
-          <Fade in={true} timeout={index * 2000} key={address.id}>
+          <Fade in={true} timeout={index * 1000} key={address.id}>
             <Box sx={{ mb: 2 }}>
               <AddressCard
                 index={index}

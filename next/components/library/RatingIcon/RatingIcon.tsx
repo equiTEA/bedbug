@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
 import VerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfiedOutlined'
 import SatisfiedIcon from '@mui/icons-material/SentimentSatisfiedOutlined'
@@ -27,12 +27,16 @@ type Props = {
   size?: number
   /** The MUI sx prop to pass to the icon */
   sx?: SxProps
+
+  /** Where the tooltip will be rendered in relation to the icon */
+  tooltipPlacement?: TooltipProps['placement']
 }
 
 const RatingIcon = ({
   rating,
   color = 'secondary',
   size = 32,
+  tooltipPlacement = 'right',
   sx = {},
 }: Props) => {
   const icon = useMemo(() => {
@@ -65,7 +69,12 @@ const RatingIcon = ({
   }, [color, size, sx, rating])
 
   return (
-    <Tooltip arrow placement="right" title={`${rating} / 5`} enterDelay={250}>
+    <Tooltip
+      arrow
+      placement={tooltipPlacement}
+      title={`${rating} / 5`}
+      enterDelay={250}
+    >
       {icon}
     </Tooltip>
   )
