@@ -1,4 +1,5 @@
-import type { Theme, SxProps } from '@mui/material/styles'
+import type { Theme } from '@mui/material/styles'
+import type { SystemStyleObject } from '@mui/system'
 
 const PADDING = '16px'
 
@@ -9,7 +10,7 @@ export const cardStyles = ({
 }: {
   onClickProvided: boolean
   theme: Theme
-  sx?: SxProps<Theme>
+  sx?: SystemStyleObject<Theme>
 }) => ({
   width: '100%',
   padding: PADDING,
