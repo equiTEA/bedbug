@@ -1,0 +1,36 @@
+{
+  "name": "next",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "dev:local": "dotenv -e ../../.env.local yarn dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@bedbug/ui": "*",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/material": "^5.10.5",
+    "dotenv": "^16.0.2",
+    "use-state-if-mounted": "^1.0.7",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@bedbug/types": "*",
+    "@types/node": "^17.0.12",
+    "@types/react": "18.0.17",
+    "eslint-config-custom": "*",
+    "eslint": "7.32.0",
+    "@babel/core": "^7.0.0",
+    "next-transpile-modules": "9.0.0",
+    "tsconfig": "*",
+    "typescript": "^4.5.3"
+  }
+}

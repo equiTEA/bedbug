@@ -1,0 +1,24 @@
+{
+  "name": "@bedbug/utility",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {},
+  "scripts": {
+    "package": "yarn clean && rollup -c rollup.config.js",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.32.0"
+  }
+}

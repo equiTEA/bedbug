@@ -1,0 +1,27 @@
+{
+  "name": "keystone",
+  "version": "1.0.2",
+  "private": true,
+  "scripts": {
+    "dev": "keystone dev",
+    "dev:local": "dotenv -e ../../.env.local yarn keystone dev",
+    "start": "keystone start",
+    "build": "keystone build",
+    "postinstall": "keystone postinstall"
+  },
+  "dependencies": {
+    "@bedbug/utility": "*",
+    "@faker-js/faker": "^7.5.0",
+    "@keystone-6/auth": "^4.0.0",
+    "@keystone-6/core": "^2.1.0",
+    "@keystone-6/fields-document": "^4.0.1",
+    "graphql": "^15.8.0",
+    "next": "12.2.4",
+    "typescript": "^4.7.4"
+  },
+  "// yarn": "this is a temporary workaround for yarn users, see https://github.com/keystonejs/create-keystone-app/pull/350",
+  "resolutions": {
+    "graphql": "^15.8.0",
+    "next": "12.2.4"
+  }
+}
