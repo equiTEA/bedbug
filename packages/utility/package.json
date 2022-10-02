@@ -8,7 +8,6 @@
       "import": "./dist/index.js"
     }
   },
-  "dependencies": {},
   "scripts": {
     "package": "yarn clean && rollup -c rollup.config.js",
     "clean": "rimraf dist"
