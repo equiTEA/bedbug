@@ -18,9 +18,16 @@
     "dotenv-cli": "^6.0.0",
     "eslint-config-custom": "*",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "^4.8.4"
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "// yarn": "this is a temporary workaround for yarn users, see https://github.com/keystonejs/create-keystone-app/pull/350",
+  "resolutions": {
+    "graphql": "^15.8.0",
+    "next": "12.2.4"
+  },
+  "packageManager": "yarn@1.22.19"
 }
