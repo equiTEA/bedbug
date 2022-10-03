@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import {
@@ -11,7 +13,7 @@ import {
   cardSectionHeadingStyles,
 } from './styles'
 
-import type { ReactNode } from 'react'
+import type { ReactNode, FC } from 'react'
 import type { SystemStyleObject } from '@mui/system'
 
 type Sx<Theme extends {} = {}> = { sx?: SystemStyleObject<Theme> }

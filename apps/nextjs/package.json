@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "wait-on http://localhost:3000 next dev -p 3001",
-    "dev:local": "wait-on http://localhost:3000 && dotenv -e ../../.env.local yarn dev -p 3001",
+    "dev": "wait-on http-get://localhost:3000 && next dev -p 3001",
+    "dev:local": "wait-on http-get://localhost:3000 && dotenv -e ../../.env.local next dev -- -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,7 +20,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "use-state-if-mounted": "^1.0.7",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "wait-on": "^6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -31,7 +32,6 @@
     "eslint-config-custom": "*",
     "next-transpile-modules": "9.0.0",
     "tsconfig": "*",
-    "typescript": "^4.5.3",
-    "wait-on": "^6.0.1"
+    "typescript": "^4.5.3"
   }
 }

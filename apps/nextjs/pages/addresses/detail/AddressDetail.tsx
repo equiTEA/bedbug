@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, SyntheticEvent } from 'react'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import Button from '@mui/material/Button'
@@ -13,7 +13,7 @@ import type { Address } from '@bedbug/types'
 import type { NextPageWithLayout } from '../../_app'
 import { useRouter } from 'next/router'
 import { AddressDetailTabOptions } from './config'
-import { dividerColor } from '../../../styles/shared/dividerStyles'
+import { containerStyles, tabsStyles } from './styles'
 
 type Props = {
   address: Address
@@ -21,6 +21,7 @@ type Props = {
 }
 
 const AddressDetail: NextPageWithLayout<Props> = ({
+  ratingsCount,
   address: {
     line1,
     line2,
@@ -32,14 +33,20 @@ const AddressDetail: NextPageWithLayout<Props> = ({
     mostRecentDoingBusinessAs,
     mostRecentPropertyManagementCompany,
   },
-  ratingsCount,
 }: Props) => {
   const { query, route, push } = useRouter()
 
-  const handleTabChange = useCallback(async (_, value) => {
-    console.log({ value })
-    // await push(`${route}?tab=${AddressDetailTabOptions.Ratings}`)
-  }, [])
+  const handleTabChange = useCallback(
+    async (_: SyntheticEvent<Element, Event>, value: string) => {
+      console.log({ value })
+      await push(
+        { pathname: route, query: { ...query, tab: value } },
+        undefined,
+        { shallow: true },
+      )
+    },
+    [route, push, query],
+  )
 
   const currentTab = useMemo(() => {
     switch (query.tab) {
@@ -51,15 +58,7 @@ const AddressDetail: NextPageWithLayout<Props> = ({
   }, [query])
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        maxWidth: '750px',
-        py: 3,
-        px: 1,
-        '& .card': { mb: 3 },
-      }}
-    >
+    <Box sx={containerStyles}>
       <H1>Address Breakdown</H1>
       <Box sx={{ mb: 3 }}>
         <H2 sx={{ mb: 0 }}>{line1}</H2>
@@ -71,11 +70,7 @@ const AddressDetail: NextPageWithLayout<Props> = ({
       </Box>
 
       <Tabs
-        sx={{
-          mb: 3,
-          color: '#fff',
-          '& .MuiButtonBase-root:not(.Mui-selected)': { color: dividerColor },
-        }}
+        sx={tabsStyles}
         indicatorColor="secondary"
         textColor="secondary"
         value={currentTab}
