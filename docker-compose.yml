@@ -1,33 +1,39 @@
-version: "3.9"
+version: "3"
 services:
 
-  monorepo:
-    image: monorepo
+  keystone:
+    container_name: keystone
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
+      dockerfile: ./apps/keystone/Dockerfile
+    restart: always
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+
+  nextjs:
+    container_name: nextjs
+    build:
+      context: .
+      dockerfile: ./apps/nextjs/Dockerfile
+    restart: always
+    ports:
       - "3001:3001"
     depends_on:
-      - postgres
+      - keystone
 
-  postgres:
-    image: postgres
+  db:
+    container_name: db
+    image: postgres:latest
     restart: always
     ports:
       - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
     environment: 
       POSTGRES_USER: postgres
-      POSTGRES_DB: bedbug
       POSTGRES_PASSWORD: postgres
-    
 
-
-    
-
-
-
-
+volumes:
+  postgres:
