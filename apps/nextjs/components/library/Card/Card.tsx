@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import {
@@ -20,6 +22,7 @@ namespace Card {
   export type Props = {
     children: ReactNode
     onClick?: () => unknown
+    sx?: SystemStyleObject
   }
 
   export type HeadingProps = Sx & {
@@ -34,11 +37,11 @@ namespace Card {
   export type DataPointProps = Sx & { children: ReactNode }
 }
 
-const Card = ({ children, onClick }: Card.Props) => (
+const Card = ({ children, onClick, sx = {} }: Card.Props) => (
   <Box
     className="card"
     onClick={onClick}
-    sx={(theme) => cardStyles({ onClickProvided: !!onClick, theme })}
+    sx={(theme) => cardStyles({ onClickProvided: !!onClick, theme, ...sx })}
   >
     {children}
   </Box>

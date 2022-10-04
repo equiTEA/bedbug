@@ -17,7 +17,6 @@ type Props = {
 
 const AddressCard = ({
   onClick,
-  index,
   address: {
     full,
     line1,
@@ -38,19 +37,25 @@ const AddressCard = ({
         {full ? full : `${line1} ${line2} ${city} ${state} ${zip}`}
       </Card.Heading>
 
-      {ratingCount > 0 && avgRating && (
+      {ratingCount !== undefined && ratingCount > 0 && avgRating && (
         <Card.Subheading>
-          Average Property Rating:{' '}
-          <RatingIcon
-            rating={avgRating}
-            sx={{ transform: 'translateY(10px)' }}
-          />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box>Average Property Rating: </Box>
+            <RatingIcon
+              rating={avgRating}
+              sx={{ transform: 'translate(4px, 10px)' }}
+            />
+          </Box>
         </Card.Subheading>
       )}
 
       <Card.DataPoint>
         <Card.DataPointLabel>
-          {ratingCount} Rating{ratingCount === 1 ? '' : 's'}
+          <NextLink href={`/addresses/${id}?tab=Ratings`} passHref>
+            <MuiLink color="secondary" underline="hover">
+              {ratingCount} Rating{ratingCount === 1 ? '' : 's'}
+            </MuiLink>
+          </NextLink>
         </Card.DataPointLabel>
       </Card.DataPoint>
 
@@ -73,16 +78,18 @@ const AddressCard = ({
             </Box>
           </Card.DataPoint>
 
-          <Card.DataPoint>
-            <Card.DataPointLabel>Average Rating:</Card.DataPointLabel>
-            <Card.DataPointValue>
-              <RatingIcon
-                rating={mostRecentDoingBusinessAs.avgRating}
-                size={24}
-                sx={{ transform: 'translateX(4px)' }}
-              />
-            </Card.DataPointValue>
-          </Card.DataPoint>
+          {mostRecentDoingBusinessAs.avgRating && (
+            <Card.DataPoint>
+              <Card.DataPointLabel>Average Rating:</Card.DataPointLabel>
+              <Card.DataPointValue>
+                <RatingIcon
+                  rating={mostRecentDoingBusinessAs.avgRating}
+                  size={24}
+                  sx={{ transform: 'translateX(4px)' }}
+                />
+              </Card.DataPointValue>
+            </Card.DataPoint>
+          )}
         </>
       )}
 
@@ -107,16 +114,18 @@ const AddressCard = ({
             </Box>
           </Card.DataPoint>
 
-          <Card.DataPoint>
-            <Card.DataPointLabel>Average Rating:</Card.DataPointLabel>
-            <Card.DataPointValue>
-              <RatingIcon
-                rating={mostRecentPropertyManagementCompany.avgRating}
-                size={24}
-                sx={{ transform: 'translateX(4px)' }}
-              />
-            </Card.DataPointValue>
-          </Card.DataPoint>
+          {mostRecentPropertyManagementCompany.avgRating && (
+            <Card.DataPoint>
+              <Card.DataPointLabel>Average Rating:</Card.DataPointLabel>
+              <Card.DataPointValue>
+                <RatingIcon
+                  rating={mostRecentPropertyManagementCompany.avgRating}
+                  size={24}
+                  sx={{ transform: 'translateX(4px)' }}
+                />
+              </Card.DataPointValue>
+            </Card.DataPoint>
+          )}
         </>
       )}
     </>

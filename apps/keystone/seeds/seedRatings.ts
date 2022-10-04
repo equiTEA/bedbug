@@ -26,16 +26,19 @@ export const seedRatings = async ({
   }
 
   const ratings: Rating[] = []
-  for (let i = 0; i < seedCount; i++) {
+
+  // Create 10 ratings per address
+  for (let i = 0; i < seedCount * 10; i++) {
     const possibleSentiments = Object.values(sentiments)
 
-    /** Sentiments are 1 indexed */
+    /** Sentiments are 1-indexed to avoid potential falsiness pitfalls with 0 */
     const randomIndex = Math.ceil(Math.random() * possibleSentiments.length)
     const bodySentenceCount = Math.ceil(Math.random() * 20)
 
     const rating = {
       sentiment: randomIndex,
       body: faker.lorem.paragraph(bodySentenceCount),
+      rentPrice: parseFloat(faker.finance.amount(900, 3000, 2)),
     }
 
     ratings.push(rating)

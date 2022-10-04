@@ -1,5 +1,6 @@
-import type { BaseEntity } from './BaseEntity'
+import type { Rating } from './Rating'
 import type { Landlord } from './Landlord'
+import type { BaseEntity } from './BaseEntity'
 import type { PropertyManagementCompany } from './PropertyManagementCompany'
 
 type Scalars = {
@@ -15,13 +16,14 @@ type Scalars = {
 }
 
 type Associations = {
-  /** TODO:  */
+  ratings?: Rating[]
 }
 
 type Virtuals = {
   mostRecentLandlord?: Landlord
   mostRecentDoingBusinessAs?: Landlord
   mostRecentPropertyManagementCompany?: PropertyManagementCompany
+  mostRecentRentPrice?: number
 
   avgRating?: number
   ratingCount?: number

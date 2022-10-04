@@ -8,13 +8,13 @@ import UnauthenticatedLayout from '../components/layouts/Unauthenticated'
 import AddressResults from '../components/assemblies/AddressResults/AddressResults'
 
 import { states } from './home/config'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, ChangeEvent } from 'react'
 import { useTheme } from '@mui/material/styles'
 import { getCurrentUser } from '../ssr/getCurrentUser'
 import { useUnauthenticatedAddressForm } from './home/useUnauthenticatedAddressForm'
 import { sharedAnimatedContainerStyles } from '../styles/shared/animatedContainerStyles'
 
-import type { ReactElement } from 'react'
+import type { ReactElement, SyntheticEvent } from 'react'
 import type { NextPageContext } from 'next'
 import type { NextPageWithLayout } from './_app'
 
@@ -83,8 +83,8 @@ const Home: NextPageWithLayout = () => {
       >
         <H1>Search for an address</H1>
         <Body1 sx={{ mb: 2 }} gutterBottom>
-          Enter an address below to search for it. If it has been rated, we'll
-          present it below.
+          Enter an address below to search for it. If it has been rated,
+          we&apos;ll present it below.
         </Body1>
 
         <FormControl fullWidth>
@@ -94,7 +94,9 @@ const Home: NextPageWithLayout = () => {
             color="secondary"
             id="unauthed-form-address-line-1"
             name="address-line-1"
-            onChange={({ target: { value } }) => setLine1(value)}
+            onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+              setLine1(value)
+            }
             value={line1}
           />
         </FormControl>
@@ -106,7 +108,9 @@ const Home: NextPageWithLayout = () => {
             color="secondary"
             id="unauthed-form-address-line-2"
             name="address-line-2"
-            onChange={({ target: { value } }) => setLine2(value)}
+            onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+              setLine2(value)
+            }
             value={line2}
           />
         </FormControl>
@@ -118,7 +122,9 @@ const Home: NextPageWithLayout = () => {
             color="secondary"
             id="unauthed-form-address-city"
             name="address-city"
-            onChange={({ target: { value } }) => setCity(value)}
+            onChange={({ target: { value } }: ChangeEvent<HTMLInputElement>) =>
+              setCity(value)
+            }
             value={city}
           />
         </FormControl>
@@ -144,10 +150,8 @@ const Home: NextPageWithLayout = () => {
               }}
               renderInput={(params) => (
                 <TextField
-                  size="small"
                   label="State"
                   color="secondary"
-                  id="unauthed-form-address-state"
                   name="address-state"
                   {...params}
                 />
@@ -166,7 +170,9 @@ const Home: NextPageWithLayout = () => {
               color="secondary"
               id="unauthed-form-address-zip"
               name="address-zip"
-              onChange={({ target: { value } }) => setZip(value)}
+              onChange={({
+                target: { value },
+              }: ChangeEvent<HTMLInputElement>) => setZip(value)}
               value={zip}
             />
           </FormControl>

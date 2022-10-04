@@ -114,6 +114,7 @@ export const dataPointLabelStyles = {
   color: 'secondary.main',
   lineHeight: '133.4%',
   transition: 'color 0.15s ease-in-out',
+  mb: 1,
 }
 
 export const dataPointValueStyles = {

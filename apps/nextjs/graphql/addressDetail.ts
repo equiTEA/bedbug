@@ -49,11 +49,14 @@ export const addressDetail = /* GraphQL */ `
         }
 
         sentiment
+        body
+        rentPrice
       }
 
       mostRecentLandlord
       mostRecentDoingBusinessAs
       mostRecentPropertyManagementCompany
+      mostRecentRentPrice
     }
   }
 `

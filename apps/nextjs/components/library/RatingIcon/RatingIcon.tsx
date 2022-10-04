@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
 import VerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfiedOutlined'
 import SatisfiedIcon from '@mui/icons-material/SentimentSatisfiedOutlined'
@@ -27,35 +27,37 @@ type Props = {
   size?: number
   /** The MUI sx prop to pass to the icon */
   sx?: SxProps
+  /** The placement of the tooltip */
+  tooltipPlacement?: TooltipProps['placement']
 }
 
 const RatingIcon = ({
   rating,
-  color = 'secondary',
+  color,
   size = 32,
   sx = {},
+  tooltipPlacement = 'right' as const,
 }: Props) => {
   const icon = useMemo(() => {
     const props = {
-      color,
       sx: { fontSize: size, transition: 'color .15s', ...sx },
     }
 
     switch (true) {
       case rating >= 4.5:
-        return <VerySatisfiedIcon {...props} />
+        return <VerySatisfiedIcon color={color ?? 'success'} {...props} />
 
       case rating >= 4:
-        return <SatisfiedIcon {...props} />
+        return <SatisfiedIcon color={color ?? 'success'} {...props} />
 
       case rating >= 3:
-        return <NeutralIcon {...props} />
+        return <NeutralIcon color={color ?? 'secondary'} {...props} />
 
       case rating >= 2:
-        return <DissatisfiedIcon {...props} />
+        return <DissatisfiedIcon color={color ?? 'primary'} {...props} />
 
       case rating >= 1:
-        return <VeryDissatisfiedIcon {...props} />
+        return <VeryDissatisfiedIcon color={color ?? 'primary'} {...props} />
 
       default:
         throw new Error(
@@ -65,7 +67,12 @@ const RatingIcon = ({
   }, [color, size, sx, rating])
 
   return (
-    <Tooltip arrow placement="right" title={`${rating} / 5`} enterDelay={250}>
+    <Tooltip
+      arrow
+      placement={tooltipPlacement}
+      title={`${rating} / 5`}
+      enterDelay={250}
+    >
       {icon}
     </Tooltip>
   )

@@ -31,6 +31,7 @@ const Colors = {
   primary: '#D2223C',
   secondary: '#CAFDFF',
   backgroundColor: '#3E4D5D',
+  success: '#00FFA3',
   text: '#FFFFFF',
 }
 
@@ -58,5 +59,11 @@ export const palette = {
     light: Colors.text,
     dark: Colors.text,
     contrastText: Colors.backgroundColor,
+  },
+  success: {
+    main: Colors.success,
+    light: Colors.success,
+    dark: Colors.success,
+    contrastText: Colors.text,
   },
 }

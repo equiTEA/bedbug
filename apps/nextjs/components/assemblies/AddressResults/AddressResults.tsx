@@ -15,9 +15,9 @@ import type { Address } from '@bedbug/types'
 
 type Props = {
   /** The Address results to display */
-  results: Address[]
+  results: Address[] | null
   /** The number of results to display */
-  resultsCount: number
+  resultsCount: number | null
   /** Whether the request for Address results is loading */
   loading: boolean
   /** A CSS height value representing the vertical space allowed for the results' bounding box */
@@ -57,7 +57,7 @@ const AddressResults = ({
         }
       >
         <Body1 gutterBottom={false}>
-          Couldn't find any address matches.{' '}
+          Couldn&apos;t find any address matches.{' '}
           <Link passHref href="/signup">
             <Button color="secondary" component="a" type="text">
               Sign up

@@ -389,6 +389,7 @@ type Rating {
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompany
   sentiment: Int
   body: String
+  rentPrice: Float
 }
 
 scalar DateTime
@@ -415,6 +416,7 @@ input RatingWhereInput {
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyWhereInput
   sentiment: IntNullableFilter
   body: StringFilter
+  rentPrice: FloatFilter
 }
 
 input DateTimeFilter {
@@ -439,6 +441,17 @@ input IntNullableFilter {
   not: IntNullableFilter
 }
 
+input FloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: FloatFilter
+}
+
 input RatingOrderByInput {
   id: OrderDirection
   createdAt: OrderDirection
@@ -446,6 +459,7 @@ input RatingOrderByInput {
   isDeleted: OrderDirection
   sentiment: OrderDirection
   body: OrderDirection
+  rentPrice: OrderDirection
 }
 
 input RatingUpdateInput {
@@ -461,6 +475,7 @@ input RatingUpdateInput {
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForUpdateInput
   sentiment: Int
   body: String
+  rentPrice: Float
 }
 
 input UserRelateToOneForUpdateInput {
@@ -511,6 +526,7 @@ input RatingCreateInput {
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForCreateInput
   sentiment: Int
   body: String
+  rentPrice: Float
 }
 
 input UserRelateToOneForCreateInput {
@@ -566,6 +582,7 @@ type Address {
   mostRecentLandlord: JSON
   mostRecentPropertyManagementCompany: JSON
   mostRecentDoingBusinessAs: JSON
+  mostRecentRentPrice: Float
 }
 
 input AddressWhereUniqueInput {

@@ -1,19 +1,18 @@
-import { useCallback, useMemo, SyntheticEvent } from 'react'
+import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
-import Button from '@mui/material/Button'
+import { useRouter } from 'next/router'
+import MuiLink from '@mui/material/Link'
 import H1 from '../../../components/library/H1'
 import H2 from '../../../components/library/H2'
 import H3 from '../../../components/library/H3'
-import Card from '../../../components/library/Card'
-import Body1 from '../../../components/library/Body1'
+import { containerStyles, tabsStyles } from './styles'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import LinkTab from '../../../components/library/LinkTab/LinkTab'
+import { useAddressDetailTabs } from './hooks/useAddressDetailTabs'
 
 import type { Address } from '@bedbug/types'
 import type { NextPageWithLayout } from '../../_app'
-import { useRouter } from 'next/router'
-import { AddressDetailTabOptions } from './config'
-import { containerStyles, tabsStyles } from './styles'
 
 type Props = {
   address: Address
@@ -22,55 +21,44 @@ type Props = {
 
 const AddressDetail: NextPageWithLayout<Props> = ({
   ratingsCount,
-  address: {
-    line1,
-    line2,
-    line3,
-    city,
-    state,
-    zip,
-    mostRecentLandlord,
-    mostRecentDoingBusinessAs,
-    mostRecentPropertyManagementCompany,
-  },
+  address,
 }: Props) => {
-  const { query, route, push } = useRouter()
+  const { query, route } = useRouter()
 
-  const handleTabChange = useCallback(
-    async (_: SyntheticEvent<Element, Event>, value: string) => {
-      console.log({ value })
-      await push(
-        { pathname: route, query: { ...query, tab: value } },
-        undefined,
-        { shallow: true },
-      )
-    },
-    [route, push, query],
-  )
+  const { headerRef, tabContent, handleTabChange, currentTab } =
+    useAddressDetailTabs({
+      ratingsCount,
+      address,
+    })
 
-  const currentTab = useMemo(() => {
-    switch (query.tab) {
-      case AddressDetailTabOptions.Ratings:
-        return 1
-      default:
-        return 0
-    }
-  }, [query])
+  const { line1, line2, line3, city, state, zip } = address
 
   return (
     <Box sx={containerStyles}>
-      <H1>Address Breakdown</H1>
-      <Box sx={{ mb: 3 }}>
-        <H2 sx={{ mb: 0 }}>{line1}</H2>
-        {line2 && <H3>{line2}</H3>}
-        {line3 && <H3>{line3}</H3>}
-        <H3>
-          {city}, {state} {zip}
-        </H3>
+      <Box ref={headerRef}>
+        <Link passHref href="/">
+          <MuiLink
+            sx={{ mb: 3, display: 'flex', alignItems: 'center' }}
+            color="secondary"
+            underline="hover"
+          >
+            <ChevronLeftIcon sx={{ ml: -1, mr: 1 }} /> Address Search
+          </MuiLink>
+        </Link>
+
+        <H1>Address Breakdown</H1>
+        <Box sx={{ mb: 3 }}>
+          <H2 sx={{ mb: 0 }}>{line1}</H2>
+          {line2 && <H3>{line2}</H3>}
+          {line3 && <H3>{line3}</H3>}
+          <H3>
+            {city}, {state} {zip}
+          </H3>
+        </Box>
       </Box>
 
       <Tabs
-        sx={tabsStyles}
+        sx={(theme) => tabsStyles({ theme })}
         indicatorColor="secondary"
         textColor="secondary"
         value={currentTab}
@@ -80,93 +68,7 @@ const AddressDetail: NextPageWithLayout<Props> = ({
         <LinkTab label="Ratings" href={`${route}${query}`} />
       </Tabs>
 
-      <Card>
-        <Card.Heading>Landlord Info</Card.Heading>
-        <Body1>
-          The landlord at the time of the most recent rating (the property may
-          have switched hands since then).
-        </Body1>
-        <Card.Divider />
-
-        {mostRecentLandlord ? (
-          <>
-            <Card.SectionHeading>Landlord Name</Card.SectionHeading>
-            <H2 sx={{ mb: 0 }}>{mostRecentLandlord.name}</H2>
-          </>
-        ) : (
-          <>
-            <Card.DataPointLabel sx={{ mb: 1 }}>
-              No landlord info available
-            </Card.DataPointLabel>
-
-            <Body1 sx={{ mb: 0 }}>
-              Do you know the current landlord for this property?{' '}
-              <Button sx={{ height: '30px' }} color="secondary" variant="text">
-                Let us know
-              </Button>
-            </Body1>
-          </>
-        )}
-      </Card>
-
-      <Card>
-        <Card.Heading>Business Info</Card.Heading>
-        <Body1>
-          Landlords limit their liability by operating as an LLC or corporation.
-        </Body1>
-        <Card.Divider />
-
-        {mostRecentDoingBusinessAs ? (
-          <>
-            <Card.SectionHeading>Doing Business As</Card.SectionHeading>
-            <H2 sx={{ mb: 0 }}>{mostRecentDoingBusinessAs.name}</H2>
-          </>
-        ) : (
-          <>
-            <Card.DataPointLabel sx={{ mb: 1 }}>
-              No landlord business info available
-            </Card.DataPointLabel>
-
-            <Body1 sx={{ mb: 0 }}>
-              Do you know what company / companies the landlord operates as?{' '}
-              <Button sx={{ height: '24px' }} color="secondary" variant="text">
-                Let us know
-              </Button>
-            </Body1>
-          </>
-        )}
-      </Card>
-
-      <Card>
-        <Card.Heading>Property Manager Info</Card.Heading>
-        <Body1>
-          The property manager at the time of the most recent rating (the
-          landlord may have switched property managers since then).
-        </Body1>
-        <Card.Divider />
-
-        {mostRecentPropertyManagementCompany ? (
-          <>
-            <Card.SectionHeading>
-              Property Management Company
-            </Card.SectionHeading>
-            <H2 sx={{ mb: 0 }}>{mostRecentPropertyManagementCompany.name}</H2>
-          </>
-        ) : (
-          <>
-            <Card.DataPointLabel sx={{ mb: 1 }}>
-              No property manager info available
-            </Card.DataPointLabel>
-
-            <Body1 sx={{ mb: 0 }}>
-              Do you know the current property manager for this property?{' '}
-              <Button sx={{ height: '24px' }} color="secondary" variant="text">
-                Let us know
-              </Button>
-            </Body1>
-          </>
-        )}
-      </Card>
+      {tabContent}
     </Box>
   )
 }

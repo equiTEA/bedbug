@@ -1,6 +1,6 @@
 import '../styles/globals.css'
-import { ThemeProvider } from '@mui/material/styles'
 import theme from '../theme'
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles'
 
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
@@ -18,9 +18,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <ThemeProvider theme={theme}>
-      {getLayout(<Component {...pageProps} />)}
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
+    </StyledEngineProvider>
   )
 }
 

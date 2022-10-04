@@ -57,6 +57,7 @@ model Rating {
   propertyManagementCompanyAtDateOfRatingId String?                    @map("propertyManagementCompanyAtDateOfRating")
   sentiment                                 Int?
   body                                      String                     @default("")
+  rentPrice                                 Float
 
   @@index([createdById])
   @@index([updatedById])

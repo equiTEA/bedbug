@@ -58,14 +58,13 @@ Card.Heading = ({ children, sx }: Card.HeadingProps) => (
 )
 
 Card.Subheading = ({ children, sx }: Card.HeadingProps) => (
-  <Typography
+  <Box
     className="card-heading"
     sx={{ ...cardSubheadingStyles, ...(sx ? sx : {}) }}
-    variant="h3"
     component="h3"
   >
     {children}
-  </Typography>
+  </Box>
 )
 
 Card.Divider = ({ sx }: Card.DividerProps) => (

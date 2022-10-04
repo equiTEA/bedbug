@@ -1,7 +1,15 @@
 import Typography from '@mui/material/Typography'
 import { h3Styles } from './styles'
 
-export const H3 = ({ children, sx = {}, ...props }) => (
+import type { ReactNode } from 'react'
+import type { SystemStyleObject } from '@mui/system'
+
+type Props = {
+  children: ReactNode
+  sx?: SystemStyleObject
+}
+
+export const H3 = ({ children, sx = {}, ...props }: Props) => (
   <Typography
     sx={(theme) => ({ ...h3Styles(theme), ...sx })}
     variant="h3"

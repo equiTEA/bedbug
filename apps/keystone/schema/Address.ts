@@ -10,6 +10,8 @@ import { baseHooks } from '../hooks/base'
 import { list, graphql } from '@keystone-6/core'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
 
+import type { Address as AddressType } from '@bedbug/types'
+
 export const Address = list({
   hooks: baseHooks,
 
@@ -106,7 +108,7 @@ export const Address = list({
             },
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
           })
@@ -123,7 +125,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -166,7 +168,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -213,7 +215,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -245,6 +247,28 @@ export const Address = list({
           })
 
           return { ...doingBusinessAs, avgRating: avgRating._avg.sentiment }
+        },
+      }),
+    }),
+
+    mostRecentRentPrice: virtual({
+      field: graphql.field({
+        type: graphql.Float,
+        resolve: async (item, __, context) => {
+          const mostRecentRating = await context.prisma.rating.findFirst({
+            where: {
+              address: {
+                id: (item as AddressType).id,
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
+
+          if (!mostRecentRating) return null
+
+          return mostRecentRating.rentPrice
         },
       }),
     }),

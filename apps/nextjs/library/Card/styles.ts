@@ -109,7 +109,7 @@ export const dataPointStyles = {
 export const dataPointLabelStyles = {
   fontFamily: 'Albert Sans',
   fontStyle: 'normal',
-  fontWeight: 500,
+  fontWeight: `700 !important`,
   fontSize: '14px',
   color: 'secondary.main',
   lineHeight: '133.4%',
@@ -124,7 +124,6 @@ export const dataPointValueStyles = {
   color: 'secondary.main',
   lineHeight: '133.4%',
   textAlign: 'right' as const,
-  mb: 1,
   transition: 'color 0.15s ease-in-out',
 }
 

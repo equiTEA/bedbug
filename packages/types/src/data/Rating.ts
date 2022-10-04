@@ -1,4 +1,7 @@
+import type { Business } from './Business'
+import type { Landlord } from './Landlord'
 import type { BaseEntity } from './BaseEntity'
+import type { PropertyManagementCompany } from './PropertyManagementCompany'
 
 export enum RatingSentiments {
   EXTREMELY_POSITIVE = 5,
@@ -11,10 +14,13 @@ export enum RatingSentiments {
 type Scalars = {
   sentiment: RatingSentiments
   body: string
+  rentPrice: number
 }
 
 type Associations = {
-  /** TODO:  */
+  landlordAtDateOfRating?: Landlord
+  propertyManagementCompanyAtDateOfRating?: PropertyManagementCompany
+  doingBusinessAsAtDateOfRating?: Business
 }
 
 export type Rating = Partial<Associations & Scalars & BaseEntity>
