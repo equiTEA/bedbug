@@ -1,3 +1,4 @@
+import Big from 'big.js'
 import {
   text,
   virtual,
@@ -93,7 +94,8 @@ export const Address = list({
             },
           })
 
-          return aggregate._avg.sentiment
+          const average = new Big(aggregate._avg.sentiment)
+          return average.round(1, Big.roundHalfEven).toNumber()
         },
       }),
     }),
@@ -156,7 +158,11 @@ export const Address = list({
             },
           })
 
-          return { ...landlord, avgRating: avgRating._avg.sentiment }
+          const average = new Big(avgRating._avg.sentiment)
+          return {
+            ...landlord,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
+          }
         },
       }),
     }),
@@ -200,9 +206,10 @@ export const Address = list({
             },
           })
 
+          const average = new Big(avgRating._avg.sentiment)
           return {
             ...propertyManagementCompany,
-            avgRating: avgRating._avg.sentiment,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
           }
         },
       }),
@@ -246,7 +253,11 @@ export const Address = list({
             },
           })
 
-          return { ...doingBusinessAs, avgRating: avgRating._avg.sentiment }
+          const average = new Big(avgRating._avg.sentiment)
+          return {
+            ...doingBusinessAs,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
+          }
         },
       }),
     }),

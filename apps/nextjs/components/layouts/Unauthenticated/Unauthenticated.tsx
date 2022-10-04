@@ -22,9 +22,17 @@ import { useRouter } from 'next/router'
 import BedbugsImage from './Bedbugs.png'
 import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
-import { Children, cloneElement, isValidElement } from 'react'
+import { Children, cloneElement, isValidElement, ReactNode } from 'react'
+import type { User } from '@bedbug/types'
 
-const UnauthenticatedLayout = ({ children, user, ...props }) => {
+type Props = {
+  /** The content to display in the main column. */
+  children: ReactNode
+  /** The currently logged-in user  */
+  user: User
+}
+
+const UnauthenticatedLayout = ({ children, user, ...props }: Props) => {
   const { route } = useRouter()
   const theme = useTheme()
   return (
@@ -56,7 +64,7 @@ const UnauthenticatedLayout = ({ children, user, ...props }) => {
           <Box sx={flexColumnStyles}>
             <Box sx={(theme) => ctaContainerStyles({ theme })}>
               <H1>
-                It's <em>always</em> free for renters.
+                It&apos;s <em>always</em> free for renters.
               </H1>
 
               <Link href="/signup" passHref>
@@ -70,7 +78,7 @@ const UnauthenticatedLayout = ({ children, user, ...props }) => {
           <Box sx={flexColumnStyles}>
             <Box sx={(theme) => ctaContainerStyles({ theme })}>
               <H1>
-                It's <em>always</em> free for renters.
+                It&apos;s <em>always</em> free for renters.
               </H1>
 
               <Link href="/" passHref>
@@ -89,7 +97,7 @@ const UnauthenticatedLayout = ({ children, user, ...props }) => {
 
       <Box sx={(theme) => asideStyles({ theme })} component="aside">
         <Box sx={(theme) => accountForBorderRadiusStyles({ theme })} />
-        <Box sx={asideContentContainerStyles}>
+        <Box sx={(theme) => asideContentContainerStyles({ theme })}>
           {!['/', `/addresses/[id]`].includes(route) && (
             <Box sx={smallViewportLogoContainerStyles}>
               <Logo fill={theme.palette.secondary.main} />

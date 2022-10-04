@@ -2,15 +2,34 @@ import { dividerColor } from '../../../styles/shared/dividerStyles'
 
 import type { Theme } from '@mui/material/styles'
 
-export const containerStyles = {
+export const containerStyles = ({ theme }: { theme: Theme }) => ({
   width: '100%',
   maxWidth: '750px',
-  px: 1,
-  '& .card': { mb: 3 },
-}
+  margin: '0 auto',
+
+  '& .card': {
+    mb: 3,
+  },
+
+  [theme.breakpoints.down('md')]: {
+    '& .card:last-of-type': {
+      mb: 0,
+    },
+  },
+})
 
 export const tabsStyles = ({ theme }: { theme: Theme }) => ({
   color: '#fff',
   borderBottom: `1px solid ${dividerColor(theme)}`,
-  '& .MuiButtonBase-root:not(.Mui-selected)': { color: dividerColor(theme) },
+  boxShadow: `rgba(33, 35, 38, 0.1) 0px 10px 10px -10px`,
+
+  '& .MuiButtonBase-root:not(.Mui-selected)': {
+    color: dividerColor(theme),
+  },
 })
+
+export const iconLinkStyles = {
+  mb: 2,
+  display: 'flex',
+  alignItems: 'center',
+}

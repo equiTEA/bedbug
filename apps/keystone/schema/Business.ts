@@ -1,3 +1,4 @@
+import Big from 'big.js'
 import {
   text,
   virtual,
@@ -8,6 +9,8 @@ import {
 import { baseHooks } from '../hooks/base'
 import { list, graphql } from '@keystone-6/core'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
+
+import type { Business as BusinessType } from '@bedbug/types'
 
 export const Business = list({
   hooks: baseHooks,
@@ -68,7 +71,7 @@ export const Business = list({
                 some: {
                   doingBusinessAs: {
                     some: {
-                      id: (item as any).id, // TODO: Extract types into shared lib and assert type here
+                      id: (item as BusinessType).id,
                     },
                   },
                 },
@@ -76,7 +79,10 @@ export const Business = list({
             },
           })
 
-          return aggregate._avg.sentiment
+          const average = new Big(aggregate._avg.sentiment)
+          return average
+            .round(aggregate._avg.sentiment, Big.roundHalfEven)
+            .toNumber()
         },
       }),
     }),

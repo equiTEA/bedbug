@@ -19,7 +19,7 @@ type Props = {
 }
 
 /** The sum total of vertical padding influencing the form layout  */
-const VERTICAL_PADDING = 96
+const VERTICAL_PADDING = 160
 
 export const useAddressDetailTabs = ({ address, ratingsCount }: Props) => {
   const { query, push, asPath } = useRouter()

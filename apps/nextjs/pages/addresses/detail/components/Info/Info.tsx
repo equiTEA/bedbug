@@ -33,7 +33,10 @@ export const Info = forwardRef(
   ) => {
     return (
       <Fade in appear>
-        <Box sx={containerStyles({ allottedHeight })} ref={ref}>
+        <Box
+          sx={(theme) => containerStyles({ allottedHeight, theme })}
+          ref={ref}
+        >
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box>
               <H3 sx={{ mb: 0 }}>Rent Price:</H3>

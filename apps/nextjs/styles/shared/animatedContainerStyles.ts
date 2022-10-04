@@ -12,8 +12,10 @@ export const sharedAnimatedContainerStyles = ({ theme }: { theme: Theme }) => ({
   margin: '0 auto',
   transition: 'opacity 400ms ease',
   animation: 'fadeIn 0.5s ease-in-out forwards',
+  maxWidth: '750px',
 
   [theme.breakpoints.down('md')]: {
     width: '100%',
+    px: 2,
   },
 })

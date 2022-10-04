@@ -57,7 +57,7 @@ const AddressResults = ({
         }
       >
         <Body1 gutterBottom={false}>
-          Couldn't find any address matches.{' '}
+          Couldn&apos;t find any address matches.{' '}
           <Link passHref href="/signup">
             <Button color="secondary" component="a" type="text">
               Sign up
@@ -83,7 +83,12 @@ const AddressResults = ({
           Results ({resultsCount})
         </H3>
         {results.map((address, index) => (
-          <Fade in={true} timeout={index * 2000} key={address.id}>
+          <Fade
+            in={true}
+            timeout={1000}
+            key={address.id}
+            style={{ transitionDelay: `${index * 200}ms` }}
+          >
             <Box sx={{ mb: 2 }}>
               <AddressCard
                 index={index}
