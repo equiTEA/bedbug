@@ -9,6 +9,7 @@ const withNextTranspileModules = require('next-transpile-modules')([
 ])
 
 const nextConfig = withNextTranspileModules({
+  pageExtensions: ['page.tsx', 'page.ts'], // [page-name].page.ts(x)
   reactStrictMode: env.STRICT_MODE ?? true,
   swcMinify: true,
   rewrites: () => [

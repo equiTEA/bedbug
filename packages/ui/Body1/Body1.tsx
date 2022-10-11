@@ -19,7 +19,6 @@ export const Body1 = ({
   ...props
 }: Body1Props) => (
   <Typography
-    component="p"
     color={color}
     variant="body1"
     gutterBottom={gutterBottom}

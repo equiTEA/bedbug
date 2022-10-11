@@ -5,7 +5,7 @@ RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=nextjs --docker
 
-# Add lockfile and package.json's of isolated subworkspace
+# Add lockfile and package.jsons of isolated subworkspace
 FROM node:18-buster AS next-installer
 WORKDIR /next
 
