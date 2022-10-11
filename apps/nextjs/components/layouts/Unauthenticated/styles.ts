@@ -2,8 +2,9 @@ import type { Theme } from '@mui/material/styles'
 
 const BORDER_RADIUS = '60px'
 const BORDER_RADIUS_MOBILE = '30px'
+const MIN_HEIGHT = '624px'
 
-export const pageContainerStyles = (theme) => ({
+export const pageContainerStyles = (theme: Theme) => ({
   width: '100vw',
   display: 'flex',
   height: '100vh',
@@ -20,12 +21,13 @@ export const pageContainerStyles = (theme) => ({
   },
 })
 
-export const backgroundImageContainerStyles = (theme) => ({
+export const backgroundImageContainerStyles = (theme: Theme) => ({
   top: '-16px',
   left: '-16px',
   position: 'absolute',
-  width: 'calc(100vw + 32px)',
-  height: 'calc(100vh + 32px)',
+  width: '100vw',
+  height: '100vh',
+  minHeight: MIN_HEIGHT,
 
   /** Place a solid blue background behind the corner radii */
   [theme.breakpoints.down('md')]: {
@@ -49,6 +51,7 @@ export const accountForBorderRadiusStyles = ({ theme }: { theme: Theme }) => ({
   height: '100vh',
   position: 'absolute',
   width: BORDER_RADIUS,
+  minHeight: MIN_HEIGHT,
   left: `-${BORDER_RADIUS}`,
   backgroundColor: 'backgroundColor.main',
 
@@ -63,6 +66,7 @@ export const asideStyles = ({ theme }: { theme: Theme }) => ({
   padding: 3,
   width: '550px',
   height: '100vh',
+  minHeight: MIN_HEIGHT,
   position: 'relative',
   backgroundColor: 'backgroundColor.main',
 
@@ -70,21 +74,33 @@ export const asideStyles = ({ theme }: { theme: Theme }) => ({
     width: '100%',
     height: 'auto',
     minHeight: '100vh',
+    px: 1,
   },
 })
 
-export const asideContentContainerStyles = {
+export const asideContentContainerStyles = ({ theme }: { theme: Theme }) => ({
   m: '0 auto',
   width: '100%',
   maxWidth: '450px',
-}
 
-export const mainStyles = ({ theme, route }) => ({
+  [theme.breakpoints.down('md')]: {
+    maxWidth: '100%',
+  },
+})
+
+export const mainStyles = ({
+  theme,
+  route,
+}: {
+  theme: Theme
+  route: string
+}) => ({
   p: 6,
   zIndex: 2,
   display: 'flex',
   height: '100vh',
   position: 'relative',
+  minHeight: MIN_HEIGHT,
   alignItems: 'flex-end',
   flexDirection: 'column',
   width: 'calc(100vw - 400px)',
@@ -120,51 +136,9 @@ export const logoContainerStyles = ({ theme }: { theme: Theme }) => ({
   },
 })
 
-export const flexColumnStyles = {
-  display: 'flex',
-  alignItems: 'flex-end',
-  flexDirection: 'column',
-  justifyContent: 'flex-end',
-}
-
-export const ctaContainerStyles = ({ theme }: { theme: Theme }) => ({
-  mb: '25vh',
-  display: 'flex',
-  alignItems: 'flex-end',
-  flexDirection: 'column',
-
-  '& > h1, p': { textAlign: 'right' },
-
-  [theme.breakpoints.down('md')]: {
-    mb: '15vh',
-    mt: 5,
-    height: 'auto',
-  },
-})
-
 export const heroHeadingStyles = {
   display: 'flex',
   alignSelf: 'flex-start',
   flexDirection: 'column',
   justifySelf: 'flex-start',
-}
-
-/**
- * On certain routes (and on small screens when the hero content
- * is not displayed), a logo is displayed at the top of the aside
- */
-export const smallViewportLogoContainerStyles = {
-  m: '0 auto',
-  width: '50%',
-  display: 'flex',
-  maxWidth: '400px',
-  minWidth: '200px',
-  alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center',
-
-  '& > svg': {
-    m: '0 auto',
-    width: '80%',
-  },
 }

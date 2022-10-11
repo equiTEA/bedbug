@@ -7,18 +7,22 @@ export const seedAssociations = async ({
   process.stdout.write('Associating records...\n')
 
   const [
-    addresses,
     ratings,
-    users,
     landlords,
+    addresses,
+    users,
     businesses,
     propertyManagementCompanies,
-  ] = await Promise.all(
-    [
-      'Address',
-      'Rating',
-      'User',
+  ] = await Promise.all([
+    /** Add 10 ratings per address */
+    keystoneContext.query.Rating.findMany({
+      take: seedCount * 10,
+    }),
+
+    ...[
       'Landlord',
+      'Address',
+      'User',
       'Business',
       'PropertyManagementCompany',
     ].map((recordType) =>
@@ -26,62 +30,22 @@ export const seedAssociations = async ({
         take: seedCount,
       }),
     ),
-  )
+  ])
 
   /**
    * Addresses
    */
 
   for (const [index, address] of addresses.entries()) {
-    if (!ratings[index]) break
-
     await keystoneContext.query.Address.updateOne({
       where: { id: address.id },
       data: {
-        ratings: { connect: [{ id: ratings[index].id }] },
-        createdBy: { connect: { id: users[index].id } },
-      },
-    })
-  }
-
-  /**
-   * Ratings
-   */
-
-  for (const [index, rating] of ratings.entries()) {
-    if (
-      !users[index] ||
-      !landlords[index] ||
-      !businesses[index] ||
-      !propertyManagementCompanies[index]
-    )
-      break
-
-    await keystoneContext.query.Rating.updateOne({
-      where: { id: rating.id },
-      data: {
-        createdBy: { connect: { id: users[index].id } },
-        landlordAtDateOfRating: { connect: { id: landlords[index].id } },
-        doingBusinessAsAtDateOfRating: {
-          connect: { id: businesses[index].id },
+        ratings: {
+          /** Add 10 ratings per address */
+          connect: ratings
+            .slice(index * 10, index * 10 + 10)
+            .map(({ id }) => ({ id })),
         },
-        propertyManagementCompanyAtDateOfRating: {
-          connect: { id: propertyManagementCompanies[index].id },
-        },
-      },
-    })
-  }
-
-  /**
-   * Businesses
-   */
-
-  for (const [index, business] of businesses.entries()) {
-    if (!users[index]) break
-
-    await keystoneContext.query.Business.updateOne({
-      where: { id: business.id },
-      data: {
         createdBy: { connect: { id: users[index].id } },
       },
     })
@@ -99,6 +63,60 @@ export const seedAssociations = async ({
       data: {
         createdBy: { connect: { id: users[index].id } },
         doingBusinessAs: { connect: [{ id: businesses[index].id }] },
+      },
+    })
+  }
+
+  /**
+   * Ratings
+   */
+
+  /** Landlords have been modified with populated doingBusinessAs: fetch them again */
+  const updatedLandlords = await keystoneContext.query.Landlord.findMany({
+    take: seedCount,
+    query: 'id doingBusinessAs { id }',
+  })
+
+  for (const rating of ratings) {
+    const landlord =
+      updatedLandlords[Math.floor(Math.random() * updatedLandlords.length)]
+
+    await keystoneContext.query.Rating.updateOne({
+      where: { id: rating.id },
+      data: {
+        createdBy: {
+          connect: { id: users[Math.floor(Math.random() * users.length)].id },
+        },
+        landlordAtDateOfRating: {
+          connect: {
+            id: landlord.id,
+          },
+        },
+        doingBusinessAsAtDateOfRating: {
+          connect: { id: landlord.doingBusinessAs[0].id },
+        },
+        propertyManagementCompanyAtDateOfRating: {
+          connect: {
+            id: propertyManagementCompanies[
+              Math.floor(Math.random() * propertyManagementCompanies.length)
+            ].id,
+          },
+        },
+      },
+    })
+  }
+
+  /**
+   * Businesses
+   */
+
+  for (const [index, business] of businesses.entries()) {
+    if (!users[index]) break
+
+    await keystoneContext.query.Business.updateOne({
+      where: { id: business.id },
+      data: {
+        createdBy: { connect: { id: users[index].id } },
       },
     })
   }

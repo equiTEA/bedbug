@@ -17,14 +17,19 @@ html, body {
 }
 
 /**
-  * Overidden Button Styles
-  */
+* Overidden Button Styles
+*/
 
 .MuiButton-root {
   font-weight: 900;
   letter-spacing: .75px;
+  font-family: 'Albert Sans', sans-serif;
 } 
 
 .MuiButton-outlined, .MuiButton-outlined:hover {
   border-width: 2px;
+}
+
+.MuiButton-text {
+  background-color: #465665;
 }

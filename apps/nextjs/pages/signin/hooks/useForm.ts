@@ -2,7 +2,7 @@ import {
   graphql,
   GraphQLError,
   authenticateUserWithPassword,
-} from '../../../graphql'
+} from '@bedbug/networking'
 import { useRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
 import { useCallback, useEffect, useState, useMemo, FormEvent } from 'react'
@@ -14,7 +14,7 @@ type Errors = {
 }
 
 export const useForm = () => {
-  const router = useRouter()
+  const { push } = useRouter()
 
   const [email, setEmail] = useState('')
   const [emailBlurred, setEmailBlurred] = useState(false)
@@ -85,9 +85,9 @@ export const useForm = () => {
         )
       }
 
-      if (!response.errors) router.push('/')
+      if (!response.errors) push('/')
     },
-    [errors, email, password],
+    [errors, email, password, push],
   )
 
   return {

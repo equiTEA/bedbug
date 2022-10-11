@@ -1,13 +1,14 @@
-import { list, graphql } from '@keystone-6/core'
 import {
   text,
-  relationship,
-  timestamp,
-  checkbox,
   virtual,
+  checkbox,
+  timestamp,
+  relationship,
 } from '@keystone-6/core/fields'
-import { hideUIForDefaults } from '../helpers/schemaHelpers'
 import { baseHooks } from '../hooks/base'
+import { list, graphql } from '@keystone-6/core'
+import { hideUIForDefaults } from '../helpers/schemaHelpers'
+import Big from 'big.js'
 
 export const Landlord = list({
   hooks: baseHooks,
@@ -73,7 +74,8 @@ export const Landlord = list({
             },
           })
 
-          return aggregate._avg.sentiment
+          const average = Big(aggregate._avg.sentiment)
+          return average.round(1, Big.roundHalfEven).toNumber()
         },
       }),
     }),

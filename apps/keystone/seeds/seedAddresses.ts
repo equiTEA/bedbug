@@ -26,14 +26,15 @@ export const seedAddresses = async ({
       city: faker.address.city(),
       state: faker.address.stateAbbr(),
       zip: faker.address.zipCode(),
+      countryCode: 'USA',
 
       isVerified: Math.floor(Math.random() * 2) ? true : false,
     }
 
     addresses.push({
-      full: `${address.line1}${address.line2 ? ` ${address.line2} ` : ' '}${
+      full: `${address.line1}${address.line2 ? ` ${address.line2}` : ''}, ${
         address.city
-      } ${address.state} ${address.zip}`,
+      }, ${address.state} ${address.zip}, ${address.countryCode}`,
       line1: address.line1,
       line2: address.line2,
       line3: address.line3,

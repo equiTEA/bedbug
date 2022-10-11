@@ -1,3 +1,4 @@
+import Big from 'big.js'
 import {
   text,
   virtual,
@@ -9,6 +10,8 @@ import { Roles } from '@bedbug/types'
 import { baseHooks } from '../hooks/base'
 import { list, graphql } from '@keystone-6/core'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
+
+import type { Address as AddressType } from '@bedbug/types'
 
 export const Address = list({
   hooks: baseHooks,
@@ -65,7 +68,7 @@ export const Address = list({
       },
     }),
 
-    full: text(),
+    full: text({ isIndexed: 'unique' }),
 
     line1: text({ validation: { isRequired: true } }),
     line2: text({ validation: { isRequired: false } }),
@@ -73,6 +76,10 @@ export const Address = list({
     city: text({ validation: { isRequired: true } }),
     state: text({ validation: { isRequired: true } }),
     zip: text({ validation: { isRequired: true } }),
+    countryCode: text({
+      validation: { isRequired: true },
+      defaultValue: 'USA',
+    }),
 
     /** Virtuals */
 
@@ -91,7 +98,8 @@ export const Address = list({
             },
           })
 
-          return aggregate._avg.sentiment
+          const average = new Big(aggregate._avg.sentiment)
+          return average.round(1, Big.roundHalfEven).toNumber()
         },
       }),
     }),
@@ -106,7 +114,7 @@ export const Address = list({
             },
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
           })
@@ -123,7 +131,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -154,7 +162,11 @@ export const Address = list({
             },
           })
 
-          return { ...landlord, avgRating: avgRating._avg.sentiment }
+          const average = new Big(avgRating._avg.sentiment)
+          return {
+            ...landlord,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
+          }
         },
       }),
     }),
@@ -166,7 +178,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -198,9 +210,10 @@ export const Address = list({
             },
           })
 
+          const average = new Big(avgRating._avg.sentiment)
           return {
             ...propertyManagementCompany,
-            avgRating: avgRating._avg.sentiment,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
           }
         },
       }),
@@ -213,7 +226,7 @@ export const Address = list({
           const mostRecentRating = await context.prisma.rating.findFirst({
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
             orderBy: {
@@ -244,7 +257,33 @@ export const Address = list({
             },
           })
 
-          return { ...doingBusinessAs, avgRating: avgRating._avg.sentiment }
+          const average = new Big(avgRating._avg.sentiment)
+          return {
+            ...doingBusinessAs,
+            avgRating: average.round(1, Big.roundHalfEven).toNumber(),
+          }
+        },
+      }),
+    }),
+
+    mostRecentRentPrice: virtual({
+      field: graphql.field({
+        type: graphql.Float,
+        resolve: async (item, __, context) => {
+          const mostRecentRating = await context.prisma.rating.findFirst({
+            where: {
+              address: {
+                id: (item as AddressType).id,
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          })
+
+          if (!mostRecentRating) return null
+
+          return mostRecentRating.rentPrice
         },
       }),
     }),

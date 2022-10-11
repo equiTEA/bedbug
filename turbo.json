@@ -11,7 +11,8 @@
     "SEED_COUNT",
 
     "ADMIN_USER_EMAIL",
-    "ADMIN_USER_PASSWORD"
+    "ADMIN_USER_PASSWORD",
+    "POSITIONSTACK_API_ACCESS_KEY"
   ],
   "pipeline": {
     "package": {

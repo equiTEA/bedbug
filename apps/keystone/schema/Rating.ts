@@ -6,6 +6,7 @@ import {
   checkbox,
   select,
   text,
+  float,
 } from '@keystone-6/core/fields'
 import { baseHooks } from '../hooks/base'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
@@ -80,5 +81,6 @@ export const Rating = list({
     }),
 
     body: text({ validation: { isRequired: true } }),
+    rentPrice: float({ validation: { isRequired: true } }),
   },
 })

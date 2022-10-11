@@ -1,6 +1,6 @@
 import '../styles/globals.css'
-import { ThemeProvider } from '@mui/material/styles'
 import theme from '../theme'
+import { ThemeProvider } from '@mui/material/styles'
 
 import type { ReactElement, ReactNode } from 'react'
 import type { NextPage } from 'next'
