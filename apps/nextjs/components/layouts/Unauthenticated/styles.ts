@@ -136,51 +136,9 @@ export const logoContainerStyles = ({ theme }: { theme: Theme }) => ({
   },
 })
 
-export const flexColumnStyles = {
-  display: 'flex',
-  alignItems: 'flex-end',
-  flexDirection: 'column',
-  justifyContent: 'flex-end',
-}
-
-export const ctaContainerStyles = ({ theme }: { theme: Theme }) => ({
-  mb: '25vh',
-  display: 'flex',
-  alignItems: 'flex-end',
-  flexDirection: 'column' as const,
-
-  '& > h1, p': { textAlign: 'right' },
-
-  [theme.breakpoints.down('md')]: {
-    mb: '15vh',
-    mt: 5,
-    height: 'auto',
-  },
-})
-
 export const heroHeadingStyles = {
   display: 'flex',
   alignSelf: 'flex-start',
   flexDirection: 'column',
   justifySelf: 'flex-start',
-}
-
-/**
- * On certain routes (and on small screens when the hero content
- * is not displayed), a logo is displayed at the top of the aside
- */
-export const smallViewportLogoContainerStyles = {
-  m: '0 auto',
-  width: '50%',
-  display: 'flex',
-  maxWidth: '400px',
-  minWidth: '200px',
-  alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center',
-
-  '& > svg': {
-    m: '0 auto',
-    width: '80%',
-  },
 }

@@ -1,21 +1,30 @@
 import type { Theme } from '@mui/material/styles'
+import type { SystemStyleObject } from '@mui/system'
 
-export const sharedAnimatedContainerStyles = ({ theme }: { theme: Theme }) => ({
+export const sharedAnimatedContainerStyles = ({
+  sx = {},
+  theme,
+}: {
+  theme: Theme
+  sx?: SystemStyleObject
+}) => ({
   '@keyframes fadeIn': {
     from: { opacity: 0 },
     to: { opacity: 1 },
   },
 
-  pt: 4,
   opacity: 0,
-  width: '400px',
+  width: '100%',
   margin: '0 auto',
   transition: 'opacity 400ms ease',
   animation: 'fadeIn 0.5s ease-in-out forwards',
-  maxWidth: '750px',
 
   [theme.breakpoints.down('md')]: {
-    width: '100%',
     px: 2,
+    pt: 2,
+    width: '100%',
+    maxWidth: '500px',
   },
+
+  ...sx,
 })

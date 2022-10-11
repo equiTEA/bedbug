@@ -1,11 +1,11 @@
 import type { NextPageContext } from 'next'
-import { graphql, authenticatedItem, GraphQLError } from '../graphql'
+import { graphql, authenticatedItem, GraphQLError } from '@bedbug/networking'
 
 export const getCurrentUser = async (ctx: NextPageContext) => {
   return await graphql({
     operationName: 'authenticatedItem',
     query: authenticatedItem,
-    headers: { cookie: ctx.req.headers.cookie },
+    headers: { cookie: ctx.req?.headers.cookie },
     handleErrors: (errors: GraphQLError[]) => {
       console.error({ errors })
       console.error('An unknown error occurred while loading the user.')

@@ -11,6 +11,7 @@ type Scalars = {
   city: string
   state: string
   zip: string
+  countryCode: string
 
   isVerified: boolean
 }

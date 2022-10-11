@@ -1,23 +1,23 @@
-import Link from 'next/link'
-import H3 from '../../library/H3'
+import { useMemo } from 'react'
+import { H3 } from '@bedbug/ui'
+import { Body1 } from '@bedbug/ui'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
-import Body1 from '../../library/Body1'
-import Button from '@mui/material/Button'
-import AddressCard from '../AddressCard'
-import CircularProgress from '@mui/material/CircularProgress'
-
-import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+import AddressCard from '../AddressCard'
+import { useAuthUser } from '@bedbug/hooks'
 import { resultsContainerStyles } from './styles'
+import NewAddressCTACard from '../NewAddressCTACard'
+import CircularProgress from '@mui/material/CircularProgress'
+import SignUpCTACard from '../../assemblies/SignUpCTACard'
 
 import type { Address } from '@bedbug/types'
 
 type Props = {
   /** The Address results to display */
-  results: Address[]
+  results: Address[] | null
   /** The number of results to display */
-  resultsCount: number
+  resultsCount: number | null
   /** Whether the request for Address results is loading */
   loading: boolean
   /** A CSS height value representing the vertical space allowed for the results' bounding box */
@@ -31,6 +31,7 @@ const AddressResults = ({
   allottedHeight,
 }: Props) => {
   const { push } = useRouter()
+  const { user } = useAuthUser()
 
   const noResultsFound = useMemo(
     () => !loading && Array.isArray(results) && results.length === 0,
@@ -39,81 +40,95 @@ const AddressResults = ({
 
   if (loading)
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-        <CircularProgress size={16} />{' '}
-        <Body1 gutterBottom={false}>Loading results...</Body1>
-      </Box>
+      <Fade in={true} timeout={1000} style={{ transitionDelay: '200ms' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+          <CircularProgress size={16} />{' '}
+          <Body1 gutterBottom={false}>Loading results...</Body1>
+        </Box>
+      </Fade>
     )
 
   if (noResultsFound)
     return (
+      <Fade in={true} timeout={1000} style={{ transitionDelay: '200ms' }}>
+        <Box
+          sx={(theme) =>
+            resultsContainerStyles({
+              theme,
+              resultsLoaded: false,
+              height: allottedHeight,
+            })
+          }
+        >
+          <Body1 sx={{ mb: 2 }} gutterBottom={!!user}>
+            Couldn&apos;t find any address matches.
+          </Body1>
+
+          {user ? <NewAddressCTACard /> : <SignUpCTACard />}
+        </Box>
+      </Fade>
+    )
+
+  if (Array.isArray(results))
+    return (
+      <Fade in={true} timeout={1000} style={{ transitionDelay: '200ms' }}>
+        <Box
+          sx={(theme) =>
+            resultsContainerStyles({
+              theme,
+              height: allottedHeight,
+              resultsLoaded: !noResultsFound,
+            })
+          }
+        >
+          <H3 sx={{ color: 'textColor.main', mb: 2 }}>
+            Results ({resultsCount})
+          </H3>
+          {results.map((address, index) => (
+            <Fade
+              in={true}
+              timeout={1000}
+              key={address.id}
+              style={{ transitionDelay: `${index * 200}ms` }}
+            >
+              <Box sx={{ mb: 2 }}>
+                <AddressCard
+                  index={index}
+                  onClick={() => push(`/addresses/${address.id}`)}
+                  address={address}
+                />
+              </Box>
+            </Fade>
+          ))}
+
+          <Fade
+            in={true}
+            timeout={1000}
+            style={{ transitionDelay: `${results.length * 200}ms` }}
+          >
+            <Box sx={{ color: 'textColor.main' }}>
+              {user ? <NewAddressCTACard /> : <SignUpCTACard />}
+            </Box>
+          </Fade>
+        </Box>
+      </Fade>
+    )
+
+  return (
+    <Fade in={true} timeout={1000} style={{ transitionDelay: '200ms' }}>
       <Box
         sx={(theme) =>
           resultsContainerStyles({
             theme,
-            resultsLoaded: false,
             height: allottedHeight,
           })
         }
       >
         <Body1 gutterBottom={false}>
-          Couldn&apos;t find any address matches.{' '}
-          <Link passHref href="/signup">
-            <Button color="secondary" component="a" type="text">
-              Sign up
-            </Button>
-          </Link>{' '}
-          to add a review for this address!
+          Search for an address above to get started!
         </Body1>
       </Box>
-    )
-
-  if (Array.isArray(results))
-    return (
-      <Box
-        sx={(theme) =>
-          resultsContainerStyles({
-            theme,
-            height: allottedHeight,
-            resultsLoaded: !noResultsFound,
-          })
-        }
-      >
-        <H3 sx={{ color: 'textColor.main', mb: 2 }}>
-          Results ({resultsCount})
-        </H3>
-        {results.map((address, index) => (
-          <Fade
-            in={true}
-            timeout={1000}
-            key={address.id}
-            style={{ transitionDelay: `${index * 200}ms` }}
-          >
-            <Box sx={{ mb: 2 }}>
-              <AddressCard
-                index={index}
-                onClick={() => push(`/addresses/${address.id}`)}
-                address={address}
-              />
-            </Box>
-          </Fade>
-        ))}
-      </Box>
-    )
-
-  return (
-    <Box
-      sx={(theme) =>
-        resultsContainerStyles({
-          theme,
-          height: allottedHeight,
-        })
-      }
-    >
-      <Body1 gutterBottom={false}>
-        Search for an address above to get started!
-      </Body1>
-    </Box>
+    </Fade>
   )
 }
 

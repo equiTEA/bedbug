@@ -1,4 +1,4 @@
-import { dividerColor } from '../../../styles/shared/dividerStyles'
+import { dividerColor } from '../../styles/shared/dividerStyles'
 import type { Theme } from '@mui/material/styles'
 
 type ResultsContainerStylesProps = {

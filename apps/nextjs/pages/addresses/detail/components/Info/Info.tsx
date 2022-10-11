@@ -2,11 +2,8 @@ import { forwardRef } from 'react'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
-import H2 from '../../../../../components/library/H2'
-import H3 from '../../../../../components/library/H3'
-import Card from '../../../../../components/library/Card'
-import Body1 from '../../../../../components/library/Body1'
 import { containerStyles } from './styles'
+import { H2, H3, Card, Body1, RatingIcon } from '@bedbug/ui'
 
 import type { Address } from '@bedbug/types'
 
@@ -27,6 +24,7 @@ export const Info = forwardRef(
         mostRecentDoingBusinessAs,
         mostRecentPropertyManagementCompany,
         mostRecentRentPrice,
+        avgRating,
       },
     }: Props,
     ref,
@@ -37,6 +35,22 @@ export const Info = forwardRef(
           sx={(theme) => containerStyles({ allottedHeight, theme })}
           ref={ref}
         >
+          {/* Rating */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box>
+              <H3 sx={{ mb: 0 }}>Avg Rating:</H3>
+            </Box>
+
+            <Box>
+              {avgRating ? (
+                <RatingIcon size={24} rating={avgRating} />
+              ) : (
+                'Not Yet Rated'
+              )}
+            </Box>
+          </Box>
+
+          {/* Rent Price */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Box>
               <H3 sx={{ mb: 0 }}>Rent Price:</H3>
@@ -48,9 +62,10 @@ export const Info = forwardRef(
             </Box>
           </Box>
 
+          {/* Landlord Info */}
           <Card sx={{ mt: 3 }}>
-            <Card.Heading>Landlord Info</Card.Heading>
-            <Body1>
+            <Card.Heading sx={{ px: 2 }}>Landlord Info</Card.Heading>
+            <Body1 sx={{ px: 2 }}>
               The landlord at the time of the most recent rating (the property
               may have switched hands since then).
             </Body1>
@@ -58,8 +73,10 @@ export const Info = forwardRef(
 
             {mostRecentLandlord ? (
               <>
-                <Card.SectionHeading>Landlord Name</Card.SectionHeading>
-                <H3 sx={{ mb: 0 }}>{mostRecentLandlord.name}</H3>
+                <Card.SectionHeading sx={{ px: 2 }}>
+                  Landlord Name
+                </Card.SectionHeading>
+                <H3 sx={{ mb: 0, px: 2 }}>{mostRecentLandlord.name}</H3>
               </>
             ) : (
               <>
@@ -81,9 +98,10 @@ export const Info = forwardRef(
             )}
           </Card>
 
+          {/* Landlord Doing Business As Info */}
           <Card>
-            <Card.Heading>Business Info</Card.Heading>
-            <Body1>
+            <Card.Heading sx={{ px: 2 }}>Business Info</Card.Heading>
+            <Body1 sx={{ px: 2 }}>
               Landlords limit their liability by operating as an LLC or
               corporation.
             </Body1>
@@ -91,8 +109,10 @@ export const Info = forwardRef(
 
             {mostRecentDoingBusinessAs ? (
               <>
-                <Card.SectionHeading>Doing Business As</Card.SectionHeading>
-                <H3 sx={{ mb: 0 }}>{mostRecentDoingBusinessAs.name}</H3>
+                <Card.SectionHeading sx={{ px: 2 }}>
+                  Doing Business As
+                </Card.SectionHeading>
+                <H3 sx={{ mb: 0, px: 2 }}>{mostRecentDoingBusinessAs.name}</H3>
               </>
             ) : (
               <>
@@ -114,9 +134,10 @@ export const Info = forwardRef(
             )}
           </Card>
 
+          {/* Property Manager Info */}
           <Card>
-            <Card.Heading>Property Manager Info</Card.Heading>
-            <Body1>
+            <Card.Heading sx={{ px: 2 }}>Property Manager Info</Card.Heading>
+            <Body1 sx={{ px: 2 }}>
               The property manager at the time of the most recent rating (the
               landlord may have switched property managers since then).
             </Body1>
@@ -124,10 +145,10 @@ export const Info = forwardRef(
 
             {mostRecentPropertyManagementCompany ? (
               <>
-                <Card.SectionHeading>
+                <Card.SectionHeading sx={{ px: 2 }}>
                   Property Management Company
                 </Card.SectionHeading>
-                <H3 sx={{ mb: 0 }}>
+                <H3 sx={{ mb: 0, px: 2 }}>
                   {mostRecentPropertyManagementCompany.name}
                 </H3>
               </>

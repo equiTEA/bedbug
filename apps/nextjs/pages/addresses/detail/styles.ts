@@ -5,10 +5,10 @@ import type { Theme } from '@mui/material/styles'
 export const containerStyles = ({ theme }: { theme: Theme }) => ({
   width: '100%',
   maxWidth: '750px',
-  margin: '0 auto',
+  m: '0 auto',
 
   '& .card': {
-    mb: 3,
+    mb: 2,
   },
 
   [theme.breakpoints.down('md')]: {
@@ -27,9 +27,3 @@ export const tabsStyles = ({ theme }: { theme: Theme }) => ({
     color: dividerColor(theme),
   },
 })
-
-export const iconLinkStyles = {
-  mb: 2,
-  display: 'flex',
-  alignItems: 'center',
-}

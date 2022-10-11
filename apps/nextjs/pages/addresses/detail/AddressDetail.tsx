@@ -1,19 +1,13 @@
-import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import { useRouter } from 'next/router'
-import MuiLink from '@mui/material/Link'
-import H1 from '../../../components/library/H1'
-import H2 from '../../../components/library/H2'
-import H3 from '../../../components/library/H3'
-import { containerStyles, tabsStyles, iconLinkStyles } from './styles'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import LinkTab from '../../../components/library/LinkTab/LinkTab'
+import { containerStyles, tabsStyles } from './styles'
+import { H1, H2, H3, LinkTab, BackLink } from '@bedbug/ui'
 import { useAddressDetailTabs } from './hooks/useAddressDetailTabs'
+import { sharedAnimatedContainerStyles } from '../../../styles/shared/animatedContainerStyles'
 
 import type { Address } from '@bedbug/types'
 import type { NextPageWithLayout } from '../../_app'
-import { sharedAnimatedContainerStyles } from '../../../styles/shared/animatedContainerStyles'
 
 type Props = {
   address: Address
@@ -28,21 +22,25 @@ const AddressDetail: NextPageWithLayout<Props> = ({
 
   const { headerRef, tabContent, handleTabChange, currentTab } =
     useAddressDetailTabs({
-      ratingsCount,
       address,
     })
 
   const { line1, line2, line3, city, state, zip } = address
 
   return (
-    <Box sx={(theme) => sharedAnimatedContainerStyles({ theme })}>
+    <Box
+      sx={(theme) =>
+        sharedAnimatedContainerStyles({ theme, sx: { maxWidth: '400px' } })
+      }
+    >
       <Box sx={(theme) => containerStyles({ theme })}>
         <Box ref={headerRef}>
-          <Link passHref href="/">
-            <MuiLink sx={iconLinkStyles} color="secondary" underline="hover">
-              <ChevronLeftIcon sx={{ ml: -1, mr: 1 }} /> Address Search
-            </MuiLink>
-          </Link>
+          <BackLink
+            href="/"
+            color="secondary"
+            underline="hover"
+            linkText="Address Search"
+          />
 
           <H1>Address Breakdown</H1>
           <Box sx={{ mb: 3 }}>
@@ -63,7 +61,10 @@ const AddressDetail: NextPageWithLayout<Props> = ({
           onChange={handleTabChange}
         >
           <LinkTab label="Address Info" href={`${route}${query}`} />
-          <LinkTab label="Ratings" href={`${route}${query}`} />
+          <LinkTab
+            href={`${route}${query}`}
+            label={`Ratings (${ratingsCount})`}
+          />
         </Tabs>
 
         {tabContent}

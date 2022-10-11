@@ -1,3 +1,5 @@
+import { lighten, darken } from '@mui/system'
+
 declare module '@mui/material/styles' {
   interface Theme {}
 
@@ -38,32 +40,32 @@ const Colors = {
 export const palette = {
   primary: {
     main: Colors.primary,
-    light: Colors.primary,
-    dark: Colors.primary,
+    light: lighten(Colors.primary, 0.25),
+    dark: darken(Colors.primary, 0.25),
     contrastText: Colors.text,
   },
   secondary: {
     main: Colors.secondary,
-    light: Colors.secondary,
-    dark: Colors.secondary,
+    light: lighten(Colors.secondary, 0.25),
+    dark: darken(Colors.secondary, 0.25),
     contrastText: Colors.backgroundColor,
   },
   backgroundColor: {
     main: Colors.backgroundColor,
-    light: Colors.backgroundColor,
-    dark: Colors.backgroundColor,
+    light: lighten(Colors.backgroundColor, 0.25),
+    dark: darken(Colors.backgroundColor, 0.25),
     contrastText: Colors.text,
   },
   textColor: {
     main: Colors.text,
-    light: Colors.text,
-    dark: Colors.text,
+    light: lighten(Colors.text, 0.25),
+    dark: darken(Colors.text, 0.25),
     contrastText: Colors.backgroundColor,
   },
   success: {
     main: Colors.success,
-    light: Colors.success,
-    dark: Colors.success,
+    light: lighten(Colors.success, 0.25),
+    dark: darken(Colors.success, 0.25),
     contrastText: Colors.text,
   },
 }

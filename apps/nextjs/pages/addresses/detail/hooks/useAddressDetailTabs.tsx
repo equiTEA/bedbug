@@ -15,13 +15,12 @@ import type { Address } from '@bedbug/types'
 
 type Props = {
   address: Address
-  ratingsCount: number
 }
 
 /** The sum total of vertical padding influencing the form layout  */
 const VERTICAL_PADDING = 160
 
-export const useAddressDetailTabs = ({ address, ratingsCount }: Props) => {
+export const useAddressDetailTabs = ({ address }: Props) => {
   const { query, push, asPath } = useRouter()
   const headerRef = useRef<HTMLDivElement>(null)
 

@@ -54,17 +54,22 @@ const verifyEnv = () => {
   if (!process.env.ADMIN_USER_PASSWORD)
     throw new Error('ADMIN_USER_PASSWORD not set in environment variables')
 
-  if (!process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT) {
+  if (!process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT)
     throw new Error(
       'NEXT_PUBLIC_GRAPHQL_ENDPOINT not set in environment variables',
     )
-  }
+
+  if (!process.env.POSITIONSTACK_API_ACCESS_KEY)
+    throw new Error(
+      'POSITIONSTACK_API_ACCESS_KEY not set in environment variables',
+    )
 
   return {
     DATABASE_URL: process.env.DATABASE_URL,
     COOKIE_SECRET: process.env.COOKIE_SECRET,
     SEED_COUNT: parseInt(process.env.SEED_COUNT) || 0,
     NEXT_PUBLIC_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+    POSITIONSTACK_API_ACCESS_KEY: process.env.POSITIONSTACK_API_ACCESS_KEY,
     STRICT_MODE: process.env.STRICT_MODE
       ? JSON.parse(process.env.STRICT_MODE)
       : true,

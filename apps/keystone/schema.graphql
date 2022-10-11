@@ -577,6 +577,7 @@ type Address {
   city: String
   state: String
   zip: String
+  countryCode: String
   avgRating: Float
   ratingCount: Int
   mostRecentLandlord: JSON
@@ -587,6 +588,7 @@ type Address {
 
 input AddressWhereUniqueInput {
   id: ID
+  full: String
 }
 
 input AddressWhereInput {
@@ -609,6 +611,7 @@ input AddressWhereInput {
   city: StringFilter
   state: StringFilter
   zip: StringFilter
+  countryCode: StringFilter
 }
 
 input AddressOrderByInput {
@@ -624,6 +627,7 @@ input AddressOrderByInput {
   city: OrderDirection
   state: OrderDirection
   zip: OrderDirection
+  countryCode: OrderDirection
 }
 
 input AddressUpdateInput {
@@ -642,6 +646,7 @@ input AddressUpdateInput {
   city: String
   state: String
   zip: String
+  countryCode: String
 }
 
 input AddressUpdateArgs {
@@ -665,6 +670,7 @@ input AddressCreateInput {
   city: String
   state: String
   zip: String
+  countryCode: String
 }
 
 type Business {
@@ -1074,6 +1080,7 @@ type Query {
   ): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
+  forwardGeocode(address: String!): [ForwardGeocodeResult!]!
 }
 
 union AuthenticatedItem = User
@@ -1159,4 +1166,20 @@ type KeystoneAdminUISort {
 enum KeystoneAdminUISortDirection {
   ASC
   DESC
+}
+
+type ForwardGeocodeResult {
+  latitude: Float!
+  longitude: Float!
+  full: String!
+  line1: String!
+  city: String!
+  state: String!
+  zip: String!
+
+  """
+  Supplemental /  Nice to have
+  """
+  neighborhood: String
+  countryCode: String!
 }

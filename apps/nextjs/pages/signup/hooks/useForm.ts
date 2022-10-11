@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
-import { graphql, createUser, GraphQLError } from '../../../graphql'
+import { graphql, createUser, GraphQLError } from '@bedbug/networking'
 import { useCallback, useState, useMemo, FormEvent, useEffect } from 'react'
 
 type Errors = {
@@ -11,7 +11,7 @@ type Errors = {
 }
 
 export const useForm = () => {
-  const router = useRouter()
+  const { push } = useRouter()
 
   const [username, setUsername] = useState('')
   const [usernameBlurred, setUsernameBlurred] = useState(false)
@@ -100,9 +100,9 @@ export const useForm = () => {
         },
       })
 
-      if (!response.errors) router.push('/')
+      if (!response.errors) push('/')
     },
-    [errors, username, email, password],
+    [errors, username, email, password, push],
   )
 
   return {

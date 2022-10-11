@@ -1,5 +1,4 @@
-import { graphql } from '../../../graphql'
-import { addressDetail } from '../../../graphql/addressDetail'
+import { graphql, addressDetail } from '@bedbug/networking'
 
 import type { NextPageContext } from 'next'
 
@@ -11,8 +10,10 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
         id: ctx.query.id,
       },
       ratingsCountWhere: {
-        id: {
-          equals: ctx.query.id,
+        address: {
+          id: {
+            equals: ctx.query.id,
+          },
         },
       },
     },

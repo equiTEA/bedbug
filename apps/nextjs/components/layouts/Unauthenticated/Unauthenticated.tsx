@@ -2,37 +2,30 @@ import {
   mainStyles,
   imageStyles,
   asideStyles,
-  flexColumnStyles,
   heroHeadingStyles,
-  ctaContainerStyles,
   logoContainerStyles,
   pageContainerStyles,
   asideContentContainerStyles,
   accountForBorderRadiusStyles,
   backgroundImageContainerStyles,
-  smallViewportLogoContainerStyles,
 } from './styles'
-import Link from 'next/link'
 import Logo from '../../Logo'
 import Image from 'next/image'
-import H1 from '../../library/H1'
-import H2 from '../../library/H2'
+import { H1, H2 } from '@bedbug/ui'
 import Box from '@mui/material/Box'
 import { useRouter } from 'next/router'
 import BedbugsImage from './Bedbugs.png'
-import Button from '@mui/material/Button'
 import { useTheme } from '@mui/material/styles'
+import UserProfileMenu from '../../../assemblies/UserProfileMenu'
+import HeroCallToAction from '../../../assemblies/HeroCallToAction'
 import { Children, cloneElement, isValidElement, ReactNode } from 'react'
-import type { User } from '@bedbug/types'
 
 type Props = {
   /** The content to display in the main column. */
   children: ReactNode
-  /** The currently logged-in user  */
-  user: User
 }
 
-const UnauthenticatedLayout = ({ children, user, ...props }: Props) => {
+const UnauthenticatedLayout = ({ children, ...props }: Props) => {
   const { route } = useRouter()
   const theme = useTheme()
   return (
@@ -46,6 +39,7 @@ const UnauthenticatedLayout = ({ children, user, ...props }: Props) => {
         />
       </Box>
 
+      {/* Hero (Map Placeholder) */}
       <Box sx={(theme) => mainStyles({ theme, route })} component="main">
         <Box sx={heroHeadingStyles}>
           <Box>
@@ -60,50 +54,19 @@ const UnauthenticatedLayout = ({ children, user, ...props }: Props) => {
           </Box>
         </Box>
 
-        {!user && !['/signup', '/signin'].includes(route) ? (
-          <Box sx={flexColumnStyles}>
-            <Box sx={(theme) => ctaContainerStyles({ theme })}>
-              <H1>
-                It&apos;s <em>always</em> free for renters.
-              </H1>
-
-              <Link href="/signup" passHref>
-                <Button color="textColor" variant="outlined">
-                  Join our tenant union
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-        ) : (
-          <Box sx={flexColumnStyles}>
-            <Box sx={(theme) => ctaContainerStyles({ theme })}>
-              <H1>
-                It&apos;s <em>always</em> free for renters.
-              </H1>
-
-              <Link href="/" passHref>
-                <Button color="textColor" variant="outlined">
-                  Search for your address
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-        )}
+        <HeroCallToAction />
 
         <Box sx={(theme) => logoContainerStyles({ theme })}>
           <Logo fill={theme.palette.secondary.main} />
         </Box>
+
+        <UserProfileMenu />
       </Box>
 
+      {/* Aside */}
       <Box sx={(theme) => asideStyles({ theme })} component="aside">
         <Box sx={(theme) => accountForBorderRadiusStyles({ theme })} />
         <Box sx={(theme) => asideContentContainerStyles({ theme })}>
-          {!['/', `/addresses/[id]`].includes(route) && (
-            <Box sx={smallViewportLogoContainerStyles}>
-              <Logo fill={theme.palette.secondary.main} />
-            </Box>
-          )}
-
           {Children.map(children, (child) => {
             if (isValidElement(child)) return cloneElement(child, props)
             return child

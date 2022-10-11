@@ -68,7 +68,7 @@ export const Address = list({
       },
     }),
 
-    full: text(),
+    full: text({ isIndexed: 'unique' }),
 
     line1: text({ validation: { isRequired: true } }),
     line2: text({ validation: { isRequired: false } }),
@@ -76,6 +76,10 @@ export const Address = list({
     city: text({ validation: { isRequired: true } }),
     state: text({ validation: { isRequired: true } }),
     zip: text({ validation: { isRequired: true } }),
+    countryCode: text({
+      validation: { isRequired: true },
+      defaultValue: 'USA',
+    }),
 
     /** Virtuals */
 
