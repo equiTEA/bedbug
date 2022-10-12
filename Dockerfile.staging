@@ -5,6 +5,8 @@ WORKDIR /usr/src/app
 RUN yarn global add turbo
 COPY . .
 
+RUN ls -la
+
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY . .
@@ -12,7 +14,6 @@ RUN yarn install --ignore-scripts
 
 COPY turbo.json turbo.json
 
-RUN ls -la
 
 # Build packages
 RUN yarn package
