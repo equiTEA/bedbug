@@ -2,7 +2,6 @@ import {
   useAddressSearchForm,
   useAddressFormHeight,
   useInHouseAddressSearch,
-  useAddressQueryParamsEffect,
 } from '@bedbug/hooks'
 import Box from '@mui/material/Box'
 import { Body1, H1 } from '@bedbug/ui'

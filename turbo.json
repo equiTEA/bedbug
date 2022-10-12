@@ -1,8 +1,9 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "globalEnv": [
+    "DEPLOYMENT_TARGET",
     "NODE_ENV",
-    "STRICT_MODE",
+    "NEXT_PUBLIC_STRICT_MODE",
     
     "NEXT_PUBLIC_GRAPHQL_ENDPOINT",
     "COOKIE_SECRET",
@@ -25,7 +26,25 @@
       "dependsOn": [
         "^build"
       ],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
+    },
+    "build:staging": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
+    },
+    "migrate:deploy": {
+      "dependsOn": [
+        "^build",
+        "^migrate:deploy"
+      ],
+      "outputs": ["prisma/migrations/**"]
+    },
+    "start:staging": {
+      "dependsOn": [
+        "^start:staging"
+      ]
     },
     "lint": {
       "outputs": []

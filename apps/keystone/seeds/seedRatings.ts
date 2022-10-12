@@ -44,7 +44,11 @@ export const seedRatings = async ({
     ratings.push(rating)
   }
 
-  return await keystoneContext.query.Rating.createMany({
+  const createdRatings = await keystoneContext.query.Rating.createMany({
     data: ratings,
   })
+
+  process.stdout.write(`Seeded ${seedCount * 10} ratings \n`)
+
+  return createdRatings
 }

@@ -27,7 +27,12 @@ export const seedPropertyManagementCompanies = async ({
     propertyManagementCompanies.push(propertyManagementCompany)
   }
 
-  return await keystoneContext.query.PropertyManagementCompany.createMany({
-    data: propertyManagementCompanies,
-  })
+  const createdPropManagementCompanies =
+    await keystoneContext.query.PropertyManagementCompany.createMany({
+      data: propertyManagementCompanies,
+    })
+
+  process.stdout.write(`Seeded ${seedCount} property management companies\n`)
+
+  return createdPropManagementCompanies
 }

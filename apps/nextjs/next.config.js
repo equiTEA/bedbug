@@ -6,11 +6,14 @@ const withNextTranspileModules = require('next-transpile-modules')([
   '@bedbug/types',
   '@bedbug/hooks',
   '@bedbug/networking',
+  '@mui/material',
+  '@mui/system',
+  '@mui/icons-material',
 ])
 
 const nextConfig = withNextTranspileModules({
   pageExtensions: ['page.tsx', 'page.ts'], // [page-name].page.ts(x)
-  reactStrictMode: env.STRICT_MODE ?? true,
+  reactStrictMode: env.NEXT_PUBLIC_STRICT_MODE ?? true,
   swcMinify: true,
   rewrites: () => [
     {

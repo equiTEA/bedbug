@@ -4,7 +4,6 @@ FROM node:18-buster AS builder
 WORKDIR /
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune --docker
 
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
@@ -12,4 +11,12 @@ COPY . .
 RUN yarn install --ignore-scripts
 
 COPY turbo.json turbo.json
-CMD ["yarn", "build"]
+
+# Build packages
+RUN yarn package
+
+RUN yarn build:staging
+
+EXPOSE 3000
+EXPOSE 3001
+CMD ["yarn", "start:staging"]

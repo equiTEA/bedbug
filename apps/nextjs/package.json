@@ -6,14 +6,17 @@
     "dev": "wait-on http-get://localhost:3000 && next dev -p 3001",
     "dev:local": "wait-on http-get://localhost:3000 && dotenv -e ../../.env.local next dev -- -p 3001",
     "build": "next build",
-    "start": "next start",
+    "build:staging": "dotenv -e ../../.env.staging next build",
+    "start:staging": "wait-on http-get://localhost:3000 && dotenv -e ../../.env.staging -- next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
+    "@bedbug/hooks": "*",
     "@bedbug/networking": "*",
     "@bedbug/ui": "*",
-    "@bedbug/hooks": "*",
+    "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@mapbox/search-js-core": "^1.0.0-beta.13",
@@ -25,6 +28,7 @@
     "next": "12.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.31.1",
     "use-state-if-mounted": "^1.0.7",
     "validator": "^13.7.0",
     "wait-on": "^6.0.1"

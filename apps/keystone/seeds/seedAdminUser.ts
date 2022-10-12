@@ -24,4 +24,8 @@ export const seedAdminUser = async (keystone: KeystoneContext) => {
       banned: false,
     },
   })
+
+  process.stdout.write(`Seeded admin user\n`)
+
+  return
 }

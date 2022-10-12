@@ -46,7 +46,10 @@ export const seedAddresses = async ({
     })
   }
 
-  return await keystoneContext.query.Address.createMany({
+  const createdAddresses = await keystoneContext.query.Address.createMany({
     data: addresses,
   })
+
+  process.stdout.write(`Seeded ${seedCount} addresses\n`)
+  return createdAddresses
 }

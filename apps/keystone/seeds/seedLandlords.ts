@@ -29,7 +29,11 @@ export const seedLandlords = async ({
     })
   }
 
-  return await keystoneContext.query.Landlord.createMany({
+  const createdLandlords = await keystoneContext.query.Landlord.createMany({
     data: landlords,
   })
+
+  process.stdout.write(`Seeded ${seedCount} landlords\n`)
+
+  return createdLandlords
 }

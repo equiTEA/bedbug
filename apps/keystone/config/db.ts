@@ -19,9 +19,9 @@ export const db: DatabaseConfig<BaseKeystoneTypeInfo> = {
   onConnect: async (keystoneContext) => {
     process.stdout.write('Seeding database...\n')
 
-    if (process.env.NODE_ENV !== 'production') {
-      await seedAdminUser(keystoneContext)
+    await seedAdminUser(keystoneContext)
 
+    if (process.env.DEPLOYMENT_TARGET !== 'production') {
       const [
         users,
         landlords,

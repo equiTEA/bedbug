@@ -11,6 +11,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "package": "turbo run package",
     "build": "turbo run build",
+    "build:staging": "turbo run build:staging",
+    "start:staging": "turbo run start:staging",
     "dev": "turbo run dev --parallel",
     "dev:local": "turbo run dev:local --parallel"
   },

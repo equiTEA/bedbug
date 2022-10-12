@@ -11,6 +11,12 @@ export default config(
     lists,
     session,
     extendGraphqlSchema,
+    graphql: {
+      apolloConfig: {
+        cache: 'bounded',
+        introspection: process.env.DEPLOYMENT_TARGET !== 'production',
+      },
+    },
     ui: {
       isAccessAllowed: (context) => {
         return context.session?.data.role === Roles.ADMIN
