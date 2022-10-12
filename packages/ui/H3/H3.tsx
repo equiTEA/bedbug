@@ -7,6 +7,7 @@ export const H3 = ({ children, sx = {}, ...props }: TypographyProps) => (
   <Typography
     sx={(theme) => ({ ...h3Styles({ theme }), ...sx })}
     variant="h3"
+    component="h3"
     {...props}
   >
     {children}

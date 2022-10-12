@@ -8,6 +8,7 @@ export type LinkTabProps = TabProps & {
 
 export const LinkTab = (props: LinkTabProps) => (
   <Tab
+    component="a"
     onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
       e.preventDefault()
     }
