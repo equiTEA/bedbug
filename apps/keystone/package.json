@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "keystone dev",
     "dev:local": "dotenv -e ../../.env.local yarn keystone dev",
-    "start": "keystone start",
     "build": "keystone build",
-    "postinstall": "keystone postinstall"
+    "build:staging": "dotenv -e ../../.env.staging keystone build",
+    "start:staging": "dotenv -e ../../.env.staging keystone start",
+    "postinstall": "keystone postinstall",
+    "migrate:deploy": "keystone prisma migrate deploy"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",

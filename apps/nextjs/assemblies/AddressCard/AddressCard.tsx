@@ -107,18 +107,13 @@ const AddressCard = ({
                   Doing Business As:
                 </Card.DataPointLabel>
 
-                <Box sx={{ maxWidth: '60%' }}>
-                  <Card.DataPointValue key={id} sx={{ mb: 0, px: 0.5 }}>
-                    <NextLink href={`/landlords/${id}`} passHref>
-                      <MuiLink
-                        underline="hover"
-                        sx={{ color: 'secondary.main' }}
-                      >
-                        {mostRecentDoingBusinessAs.name}
-                      </MuiLink>
-                    </NextLink>
-                  </Card.DataPointValue>
-                </Box>
+                <Card.DataPointValue key={id} sx={{ mb: 0, px: 0.5 }}>
+                  <NextLink href={`/landlords/${id}`} passHref>
+                    <MuiLink underline="hover" sx={{ color: 'secondary.main' }}>
+                      {mostRecentDoingBusinessAs.name}
+                    </MuiLink>
+                  </NextLink>
+                </Card.DataPointValue>
               </Card.DataPoint>
 
               {mostRecentDoingBusinessAs.avgRating && (
@@ -149,21 +144,16 @@ const AddressCard = ({
                   Property Mgmt. Company:
                 </Card.DataPointLabel>
 
-                <Box sx={{ maxWidth: '60%' }}>
-                  <Card.DataPointValue key={id}>
-                    <NextLink
-                      href={`/property-management-companies/${mostRecentPropertyManagementCompany.id}`}
-                      passHref
-                    >
-                      <MuiLink
-                        sx={{ color: 'secondary.main' }}
-                        underline="hover"
-                      >
-                        {mostRecentPropertyManagementCompany.name}
-                      </MuiLink>
-                    </NextLink>
-                  </Card.DataPointValue>
-                </Box>
+                <Card.DataPointValue key={id}>
+                  <NextLink
+                    href={`/property-management-companies/${mostRecentPropertyManagementCompany.id}`}
+                    passHref
+                  >
+                    <MuiLink sx={{ color: 'secondary.main' }} underline="hover">
+                      {mostRecentPropertyManagementCompany.name}
+                    </MuiLink>
+                  </NextLink>
+                </Card.DataPointValue>
               </Card.DataPoint>
 
               {mostRecentPropertyManagementCompany.avgRating && (

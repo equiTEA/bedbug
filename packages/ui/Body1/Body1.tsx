@@ -19,8 +19,8 @@ export const Body1 = ({
   ...props
 }: Body1Props) => (
   <Typography
-    component="p"
     color={color}
+    component="p"
     variant="body1"
     gutterBottom={gutterBottom}
     sx={(theme) => ({ ...body1Styles({ theme }), ...sx })}

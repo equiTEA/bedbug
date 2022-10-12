@@ -1,14 +1,5 @@
 import { config } from 'dotenv'
 
-const getEnvPath = () => {
-  if (
-    (process.env.NODE_ENV as typeof process.env.NODE_ENV | 'local') === 'local'
-  )
-    return '../../.env.local'
-
-  return '../../.env'
-}
-
 /**
  * Strict mode can be disabled in development mode to ensure that
  * effects don't fire twice. See https://github.com/facebook/react/issues/24553
@@ -18,7 +9,8 @@ const getEnvPath = () => {
  */
 const verifyStrictMode = () => {
   const strictModeIsDisabled =
-    process.env.STRICT_MODE === 'false' || !process.env.STRICT_MODE
+    process.env.NEXT_PUBLIC_STRICT_MODE === 'false' ||
+    !process.env.NEXT_PUBLIC_STRICT_MODE
 
   if (process.env.NODE_ENV === 'production' && strictModeIsDisabled)
     throw new Error(
@@ -31,7 +23,6 @@ const verifyStrictMode = () => {
 }
 
 const verifyEnv = () => {
-  config({ path: getEnvPath() })
   verifyStrictMode()
 
   if (!process.env.DATABASE_URL)
@@ -70,8 +61,8 @@ const verifyEnv = () => {
     SEED_COUNT: parseInt(process.env.SEED_COUNT) || 0,
     NEXT_PUBLIC_GRAPHQL_ENDPOINT: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     POSITIONSTACK_API_ACCESS_KEY: process.env.POSITIONSTACK_API_ACCESS_KEY,
-    STRICT_MODE: process.env.STRICT_MODE
-      ? JSON.parse(process.env.STRICT_MODE)
+    NEXT_PUBLIC_STRICT_MODE: process.env.NEXT_PUBLIC_STRICT_MODE
+      ? JSON.parse(process.env.NEXT_PUBLIC_STRICT_MODE)
       : true,
   }
 }

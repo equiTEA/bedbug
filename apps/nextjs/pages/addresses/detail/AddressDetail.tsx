@@ -7,7 +7,7 @@ import { useAddressDetailTabs } from './hooks/useAddressDetailTabs'
 import { sharedAnimatedContainerStyles } from '../../../styles/shared/animatedContainerStyles'
 
 import type { Address } from '@bedbug/types'
-import type { NextPageWithLayout } from '../../_app'
+import type { NextPageWithLayout } from '../../_app.page'
 
 type Props = {
   address: Address

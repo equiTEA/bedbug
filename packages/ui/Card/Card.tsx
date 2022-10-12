@@ -68,8 +68,8 @@ Card.Subheading = ({ children, sx = {} }: Card.HeadingProps) => (
   </Typography>
 )
 
-Card.Divider = ({ sx }: Card.DividerProps) => (
-  <Box className="card-divider" sx={dividerStyles} />
+Card.Divider = ({ sx = {} }: Card.DividerProps) => (
+  <Box className="card-divider" sx={{ ...dividerStyles, ...sx }} />
 )
 
 Card.SectionHeading = ({ children, sx = {} }: Card.SectionHeadingProps) => (

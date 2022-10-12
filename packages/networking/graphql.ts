@@ -63,7 +63,7 @@ export const graphql = async <
   // Don't log the error if an error handler is provided
   console.error(deserialized.errors)
 
-  if (process.env.NODE_ENV === 'development')
+  if (process.env.DEPLOYMENT_TARGET !== 'production')
     console.error(
       `Error handler not provided ${
         operationName ? `for operation ${operationName}` : `for query ${query}`

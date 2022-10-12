@@ -1,7 +1,7 @@
-const commonjs = require('rollup-plugin-commonjs')
+const commonjs = require('@rollup/plugin-commonjs')
 const typescript = require('rollup-plugin-typescript2')
-const nodeResolve = require('rollup-plugin-node-resolve')
-const json = require('rollup-plugin-json')
+const nodeResolve = require('@rollup/plugin-node-resolve')
+const json = require('@rollup/plugin-json')
 
 const config = {
   external: (id) => ['dotenv'].includes(id),

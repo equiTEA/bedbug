@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
-import { useStateIfMounted } from 'use-state-if-mounted'
+import { useEffect, useState } from 'react'
 
 export const useDebouncedState = <T>(value: T, delay: number): T => {
   // State and setters for debounced value
-  const [debouncedValue, setDebouncedValue] = useStateIfMounted<T>(value)
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
   useEffect(
     () => {
       // Update debounced value after delay

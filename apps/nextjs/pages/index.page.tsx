@@ -8,7 +8,7 @@ import { sharedAnimatedContainerStyles } from '../styles/shared/animatedContaine
 import type { ReactElement } from 'react'
 import type { User } from '@bedbug/types'
 import type { NextPageContext } from 'next'
-import type { NextPageWithLayout } from './_app'
+import type { NextPageWithLayout } from './_app.page'
 import { AuthUserContextProvider } from '@bedbug/hooks'
 
 type Props = {
@@ -22,19 +22,25 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 }
 
 const Home: NextPageWithLayout<Props> = ({ user }) => (
-  <Box sx={(theme) => sharedAnimatedContainerStyles({ theme })}>
-    <AddressSearch />
-  </Box>
+  <AuthUserContextProvider user={user}>
+    <Box
+      sx={(theme) => {
+        return sharedAnimatedContainerStyles({ theme })
+      }}
+    >
+      <AddressSearch />
+    </Box>
+  </AuthUserContextProvider>
 )
 
 Home.getLayout = (page: ReactElement) => (
-  <AuthUserContextProvider user={page.props.user}>
+  <>
     {page.props.user ? (
       <AuthenticatedLayout user={page.props.user}>{page}</AuthenticatedLayout>
     ) : (
       <UnauthenticatedLayout>{page}</UnauthenticatedLayout>
     )}
-  </AuthUserContextProvider>
+  </>
 )
 
 export default Home
