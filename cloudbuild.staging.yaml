@@ -3,13 +3,13 @@ steps:
     args:
       - 'build'
       - '--file=Dockerfile.staging'
-      - '.'
       - --build-arg
-      - ENV=$$ENV
+      - ENV_FILE=$$ENV_FILE
+      - '.'
     id: 'staging'
-    secretEnv: ['ENV']
+    secretEnv: ['ENV_FILE']
 
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/bedbug-staging-env/versions/latest
-      env: 'ENV'
+      env: 'ENV_FILE'
