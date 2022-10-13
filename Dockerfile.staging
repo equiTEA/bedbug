@@ -7,7 +7,7 @@ COPY . .
 
 ARG ENV
 RUN touch .env.staging
-RUN cat $ENV >> .env.staging
+RUN echo $ENV >> .env.staging
 RUN cat .env.staging
 RUN ls -la
 
