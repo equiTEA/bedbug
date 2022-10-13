@@ -5,9 +5,9 @@ WORKDIR /usr/src/app
 RUN yarn global add turbo
 COPY . .
 
-ARG ENV
+ARG ENV_FILE
 RUN touch .env.staging
-RUN echo $ENV >> .env.staging
+RUN echo $ENV_FILE >> .env.staging
 RUN cat .env.staging
 RUN ls -la
 
