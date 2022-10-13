@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 RUN yarn global add turbo
 COPY . .
 
+RUN touch .env.staging
 RUN ls -la
 
 # First install dependencies (as they change less often)
