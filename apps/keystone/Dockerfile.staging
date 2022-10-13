@@ -18,6 +18,7 @@ RUN yarn install --ignore-scripts
 
 RUN yarn package
 RUN yarn build:staging --filter=keystone
+RUN yarn migrate:deploy --filter=keystone
 
 # Build the project and its dependencies
 COPY --from=builder /app/out/full/ .

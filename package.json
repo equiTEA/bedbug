@@ -12,6 +12,7 @@
     "package": "turbo run package",
     "build": "turbo run build",
     "build:staging": "turbo run build:staging",
+    "migrate:deploy": "turbo run migrate:deploy",
     "start:staging": "turbo run start:staging",
     "dev": "turbo run dev --parallel",
     "dev:local": "turbo run dev:local --parallel"
