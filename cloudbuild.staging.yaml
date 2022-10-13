@@ -4,7 +4,8 @@ steps:
       - 'build'
       - '--file=Dockerfile.staging'
       - '.'
-      - '--build-arg ENV=$$ENV'
+      - --build-arg
+      - ENV=$$ENV
     id: 'staging'
     secretEnv: ['ENV']
 
