@@ -11,5 +11,11 @@ steps:
     args:
       - 'build'
       - '--file=./apps/keystone/Dockerfile.staging'
+      - '-t'
+      - 'bedbug-staging-keystone/$PROJECT_ID/image'
       - '.'
     id: 'bedbug-keystone-staging'
+
+  images: [
+    'bedbug-staging-keystone/$PROJECT_ID/image'
+  ]
