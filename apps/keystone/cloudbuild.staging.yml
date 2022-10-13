@@ -10,6 +10,6 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
-      - '--file=Dockerfile.staging'
+      - '--file=./Dockerfile.staging'
       - '.'
-    id: 'staging'
+    id: 'bedbug-keystone-staging'
