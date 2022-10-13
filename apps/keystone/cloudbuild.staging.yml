@@ -16,6 +16,4 @@ steps:
       - '.'
     id: 'bedbug-keystone-staging'
 
-  images: [
-    'bedbug-staging-keystone/$PROJECT_ID/image'
-  ]
+images: ['bedbug-staging-keystone/$PROJECT_ID/image']
