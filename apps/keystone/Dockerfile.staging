@@ -9,6 +9,8 @@ RUN turbo prune --scope=keystone --docker
 FROM node:18-buster AS installer
 WORKDIR /app
 
+RUN cat .env.staging
+
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
 COPY . .
