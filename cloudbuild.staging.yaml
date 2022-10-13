@@ -12,4 +12,4 @@ steps:
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/bedbug-staging-env/versions/latest
-      env: ENV
+      env: 'ENV'
