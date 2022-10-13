@@ -1,15 +1,15 @@
 steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'bash'
+    args:
+      [
+        '-c',
+        "gcloud secrets versions access latest --secret=bedbug-staging-env --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env.staging",
+      ]
+
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '--file=Dockerfile.staging'
-      - --build-arg
-      - ENV_FILE=$$ENV_FILE
       - '.'
     id: 'staging'
-    secretEnv: ['ENV_FILE']
-
-availableSecrets:
-  secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/bedbug-staging-env/versions/latest
-      env: 'ENV_FILE'
