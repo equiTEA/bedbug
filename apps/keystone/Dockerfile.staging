@@ -33,4 +33,4 @@ COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
 EXPOSE 3000
-CMD ["yarn", "migrate:deploy && start:staging", "--filter=keystone"]
+CMD ["yarn migrate:deploy && yarn start:staging", "--filter=keystone"]
