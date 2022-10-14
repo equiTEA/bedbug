@@ -25,7 +25,7 @@ steps:
     args:
       - '-c'
       - './cloud_sql_proxy -dir=/workspace/cloudsql -instances=bedbug-365120:us-central1:bedbug'
-    timeout: '120s'
+    timeout: '1200s'
     waitFor: ['proxy-install']
 
   - id: debug
