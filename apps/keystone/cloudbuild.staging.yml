@@ -43,7 +43,6 @@ steps:
       - 'bedbug-staging-keystone/$PROJECT_ID/image'
       - '.'
     id: 'bedbug-keystone-staging'
-    waitFor: ['debug']
 options:
   logging: CLOUD_LOGGING_ONLY
 
