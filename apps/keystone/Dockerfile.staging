@@ -2,19 +2,20 @@ FROM node:18-buster AS builder
 # Set working directory
 WORKDIR /usr/src/app
 
-
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=keystone --docker
 
-RUN ifconfig
+RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+RUN chmod +x cloud_sql_proxy
+RUN ./cloud_sql_proxy -instances=bedbug-365120:us-central1:bedbug=tcp:5432
+
 RUN ls -la
 RUN cat /usr/src/app/.env.staging
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-buster AS installer
 WORKDIR /usr/src/app
-
 
 # First install dependencies (as they change less often)
 COPY .gitignore .gitignore
