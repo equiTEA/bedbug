@@ -1,4 +1,5 @@
 steps:
+  # Read Environment Variables from Secret Manager
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: 'bash'
     args:
@@ -7,6 +8,7 @@ steps:
         "gcloud secrets versions access latest --secret=bedbug-staging-env --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env.staging",
       ]
 
+  # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
