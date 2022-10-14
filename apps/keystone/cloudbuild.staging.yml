@@ -20,7 +20,7 @@ steps:
   # Migrate database schema to the latest version
   # https://knexjs.org/#Migrations-CLI
   - id: start-proxy
-    name: gcr.io/cloud-builders/yarn
+    name: gcr.io/cloud-builders/gcloud
     entrypoint: sh
     args:
       - '-c'
