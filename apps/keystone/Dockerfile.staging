@@ -1,4 +1,7 @@
 FROM node:18-buster AS builder
+ARG ENV
+ENV ENV $ENV
+
 # Set working directory
 WORKDIR /usr/src/app
 
@@ -6,12 +9,9 @@ RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=keystone --docker
 
-# RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
-# RUN chmod +x cloud_sql_proxy
-# RUN ./cloud_sql_proxy -instances=bedbug-365120:us-central1:bedbug=tcp:5432
-
-RUN ls -la
-RUN cat /usr/src/app/.env.staging
+RUN touch .env.staging
+RUN echo $ENV >> .env.staging
+RUN cat .env.staging
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-buster AS installer
@@ -24,10 +24,8 @@ COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/yarn.lock ./yarn.lock
 RUN yarn install --ignore-scripts
 
-COPY .env.staging /usr/src/app/.env.staging
 RUN yarn package
 RUN yarn build:staging --filter=keystone
-# RUN yarn migrate:deploy --filter=keystone
 
 # Build the project and its dependencies
 COPY --from=builder /usr/src/app/out/full/ .
