@@ -44,7 +44,6 @@ steps:
       - '.'
     id: 'bedbug-keystone-staging'
     waitFor: ['debug']
-
 options:
   logging: CLOUD_LOGGING_ONLY
 
