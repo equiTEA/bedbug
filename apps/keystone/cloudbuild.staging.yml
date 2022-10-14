@@ -62,4 +62,4 @@ steps:
         'us-central1',
       ]
 
-images: ['gcr.io/bedbug-365120/bedbug-keystone']
+images: ['gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA']
