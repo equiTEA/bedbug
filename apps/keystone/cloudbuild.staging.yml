@@ -36,14 +36,30 @@ steps:
 
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'build container image'
     args:
       - 'build'
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
-      - 'bedbug-staging-keystone/$PROJECT_ID/image'
+      - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
       - '.'
-    id: 'bedbug-keystone-staging'
-options:
-  logging: CLOUD_LOGGING_ONLY
 
-images: ['bedbug-staging-keystone/$PROJECT_ID/image']
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        'bedbug-keystone',
+        '--image',
+        'gcr.io/bedbug-365120/bedbug-keystone',
+        '--region',
+        'us-central1',
+      ]
+
+images: ['gcr.io/bedbug-365120/bedbug-keystone']
