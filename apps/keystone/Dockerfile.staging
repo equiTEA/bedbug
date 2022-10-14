@@ -32,4 +32,4 @@ COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
 EXPOSE 3000
-CMD ls -la /; ls -la /usr/src/app; cat .env.staging; yarn migrate:deploy --filter=keystone && yarn start:staging --filter=keystone
+CMD ls -la / && ls -la /usr/src/app && cat .env.staging && yarn migrate:deploy --filter=keystone && yarn start:staging --filter=keystone
