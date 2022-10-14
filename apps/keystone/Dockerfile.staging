@@ -26,11 +26,11 @@ RUN yarn install --ignore-scripts
 
 RUN yarn package
 RUN yarn build:staging --filter=keystone
-RUN yarn migrate:deploy --filter=keystone
+# RUN yarn migrate:deploy --filter=keystone
 
 # Build the project and its dependencies
 COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
 EXPOSE 3000
-CMD ["yarn", "start:staging", "--filter=keystone"]
+CMD ["yarn", "migrate:deploy && start:staging", "--filter=keystone"]
