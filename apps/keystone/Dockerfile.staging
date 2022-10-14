@@ -5,6 +5,9 @@ WORKDIR /usr/src/app
 RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=keystone --docker
+
+RUN ls -la /
+
 COPY /cloudsql /cloudsql
 
 # RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy

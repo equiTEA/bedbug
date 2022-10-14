@@ -30,9 +30,11 @@ steps:
 
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: sh
     args:
       - 'ls -la'
       - '&&'
+      - 'docker'
       - 'build'
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
