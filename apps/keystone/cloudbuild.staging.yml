@@ -37,6 +37,6 @@ steps:
       - 'bedbug-staging-keystone/$PROJECT_ID/image'
       - '.'
     id: 'bedbug-keystone-staging'
-    waitFor: ['start-proxy']
+    waitFor: ['-']
 
 images: ['bedbug-staging-keystone/$PROJECT_ID/image']
