@@ -28,9 +28,11 @@ steps:
     timeout: '120s'
     waitFor: ['proxy-install']
 
-  - name: 'ubuntu'
+  - id: debug
+    name: 'ubuntu'
     entrypoint: 'bash'
     args: ['ls', '-la']
+    waitFor: ['start-proxy']
 
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
@@ -41,6 +43,6 @@ steps:
       - 'bedbug-staging-keystone/$PROJECT_ID/image'
       - '.'
     id: 'bedbug-keystone-staging'
-    waitFor: ['-']
+    waitFor: ['debug']
 
 images: ['bedbug-staging-keystone/$PROJECT_ID/image']
