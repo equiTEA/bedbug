@@ -10,6 +10,7 @@ COPY . .
 RUN turbo prune --scope=keystone --docker
 
 RUN touch .env.staging
+RUN echo $ENV
 RUN echo $ENV >> .env.staging
 RUN cat .env.staging
 
