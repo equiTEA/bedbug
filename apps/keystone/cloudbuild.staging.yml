@@ -57,7 +57,7 @@ steps:
         'deploy',
         'bedbug-keystone',
         '--image',
-        'gcr.io/bedbug-365120/bedbug-keystone',
+        'gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA',
         '--region',
         'us-central1',
       ]
