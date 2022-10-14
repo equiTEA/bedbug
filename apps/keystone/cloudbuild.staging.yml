@@ -8,6 +8,26 @@ steps:
         "gcloud secrets versions access latest --secret=bedbug-staging-env --format='get(payload.data)' | tr '_-' '/+' | base64 -d > .env.staging",
       ]
 
+  # Install Cloud SQL proxy
+  - id: proxy-install
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: sh
+    args:
+      - '-c'
+      - 'wget https://storage.googleapis.com/cloudsql-proxy/v1.20.1/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy && chmod +x cloud_sql_proxy'
+    waitFor: ['-']
+
+  # Migrate database schema to the latest version
+  # https://knexjs.org/#Migrations-CLI
+  - id: start-proxy
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: sh
+    args:
+      - '-c'
+      - './cloud_sql_proxy -dir=/cloudsql -instances=bedbug-365120:us-central1:bedbug'
+    timeout: '120s'
+    waitFor: ['proxy-install']
+
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
     args:
@@ -17,5 +37,6 @@ steps:
       - 'bedbug-staging-keystone/$PROJECT_ID/image'
       - '.'
     id: 'bedbug-keystone-staging'
+    waitFor: ['start-proxy']
 
 images: ['bedbug-staging-keystone/$PROJECT_ID/image']
