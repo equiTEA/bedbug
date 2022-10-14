@@ -6,14 +6,11 @@ RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=keystone --docker
 
-RUN ls -la /
-
 # RUN wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
 # RUN chmod +x cloud_sql_proxy
 # RUN ./cloud_sql_proxy -instances=bedbug-365120:us-central1:bedbug=tcp:5432
 
 RUN ls -la
-RUN ls -la /cloudsql
 RUN cat /usr/src/app/.env.staging
 
 # Add lockfile and package.json's of isolated subworkspace
