@@ -10,7 +10,7 @@ steps:
 
   # Install Cloud SQL proxy
   - id: proxy-install
-    name: gcr.io/cloud-builders/gcloud
+    name: gcr.io/cloud-builders/yarn
     entrypoint: sh
     args:
       - '-c'
@@ -20,7 +20,7 @@ steps:
   # Migrate database schema to the latest version
   # https://knexjs.org/#Migrations-CLI
   - id: start-proxy
-    name: gcr.io/cloud-builders/gcloud
+    name: gcr.io/cloud-builders/yarn
     entrypoint: sh
     args:
       - '-c'
