@@ -31,8 +31,8 @@ steps:
   - id: debug
     name: 'ubuntu'
     entrypoint: 'bash'
-    args: ['ls', '-la']
-    waitFor: ['start-proxy']
+    args: ['-c', 'sleep 5 && ls -la']
+    waitFor: ['-']
 
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
