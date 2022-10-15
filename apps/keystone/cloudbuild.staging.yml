@@ -12,7 +12,7 @@ steps:
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
     args: ['-c', 'ls -la']
-    dependsOn: ['Read Environment Variables From Secret Manager']
+    waitFor: ['Read Environment Variables From Secret Manager']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
@@ -42,17 +42,20 @@ steps:
 
   # Build from Dockerfile
   - name: 'gcr.io/cloud-builders/docker'
-    id: 'build container image'
+    id: 'Build Container Image'
     args:
       - 'build'
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
       - '.'
+    waitFor: ['Read Environment Variables From Secret Manager']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Container Image To Registry'
     args: ['push', 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA']
+    waitFor: ['Build Container Image']
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -67,5 +70,6 @@ steps:
         '--region',
         'us-central1',
       ]
+    waitFor: ['Push Container Image To Registry']
 
 images: ['gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA']
