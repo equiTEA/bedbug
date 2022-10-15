@@ -6,6 +6,7 @@ steps:
       [
         '-c',
         "gcloud secrets versions access latest --secret=bedbug-staging-env --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /.env.staging",
+        "_ENV_FILE=$(cat password.txt) && echo -n \)_ENV_FILE",
       ]
 
   # # Install Cloud SQL proxy
@@ -43,7 +44,7 @@ steps:
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
       - --build-arg
-      - ENV_FILE=$(cat .env.staging)
+      - ENV_FILE=_ENV_FILE
       - '.'
 
   # Push the container image to Container Registry
