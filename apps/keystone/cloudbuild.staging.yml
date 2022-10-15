@@ -11,13 +11,13 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'ls -la']
+    args: ['-c', 'ls -la /']
     waitFor: ['Read Environment Variables From Secret Manager']
 
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check 2 (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'cat env.txt']
+    args: ['-c', 'cat /env.txt']
     waitFor: ['Read Environment Variables From Secret Manager']
 
   # # Install Cloud SQL proxy
