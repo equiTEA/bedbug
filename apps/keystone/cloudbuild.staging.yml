@@ -18,7 +18,7 @@ steps:
     id: 'Sanity Check 2 (delete)'
     entrypoint: 'bash'
     args: ['-c', 'cat /env.txt']
-    waitFor: ['Read Environment Variables From Secret Manager']
+    waitFor: ['Sanity Check (delete)']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
