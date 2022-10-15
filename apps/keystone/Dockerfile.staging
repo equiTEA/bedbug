@@ -9,7 +9,7 @@ RUN yarn global add turbo
 COPY . .
 RUN turbo prune --scope=keystone --docker
 
-RUN touch .env.staging && cat ${ENV_FILE} >> .env.staging
+RUN touch .env.staging && echo ${ENV_FILE} >> .env.staging
 RUN ls -la
 RUN cat .env.staging
 
