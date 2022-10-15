@@ -8,7 +8,7 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'ls -la', 'cat .env.staging']
+    args: ['-c', 'ls -la && cat .env.staging']
     waitFor: ['Write .env']
     secretEnv: ['ENV_FILE']
 
