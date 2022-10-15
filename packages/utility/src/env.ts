@@ -23,6 +23,8 @@ const verifyStrictMode = () => {
 }
 
 const verifyEnv = () => {
+  console.log(process.env)
+
   verifyStrictMode()
 
   if (!process.env.DATABASE_URL)
