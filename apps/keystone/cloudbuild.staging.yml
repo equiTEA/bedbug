@@ -3,7 +3,6 @@ steps:
     id: 'Write .env'
     entrypoint: 'bash'
     args: ['-c', 'touch .env.staging', 'echo $$ENV_FILE > .env.staging']
-    waitFor: ['Read Environment Variables From Secret Manager']
     secretEnv: ['ENV_FILE']
 
   - name: gcr.io/cloud-builders/gcloud
