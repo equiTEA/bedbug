@@ -9,18 +9,19 @@ steps:
     entrypoint: 'bash'
     args: ['-c', 'echo $$ENV_FILE > .env.staging']
     secretEnv: ['ENV_FILE']
+    waitFor: ['Write .env']
 
   - name: gcr.io/cloud-builders/gcloud
     id: 'Debug 1'
     entrypoint: 'bash'
-    args: ['-c', 'ls -lacat .env.staging']
+    args: ['-c', 'ls -la']
     waitFor: ['Write .env 2']
 
   - name: gcr.io/cloud-builders/gcloud
     id: 'Debug 2'
     entrypoint: 'bash'
     args: ['-c', 'cat .env.staging']
-    waitFor: ['Write .env 2']
+    waitFor: ['Debug 1']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
@@ -59,7 +60,7 @@ steps:
       - '--build-arg'
       - 'ENV_FILE=$$ENV_FILE'
       - '.'
-    waitFor: ['Write .env']
+    waitFor: ['Debug 2']
     secretEnv: ['ENV_FILE']
 
   # Push the container image to Container Registry
