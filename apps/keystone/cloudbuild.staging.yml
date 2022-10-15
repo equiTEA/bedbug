@@ -15,6 +15,20 @@ steps:
     waitFor: ['Read Environment Variables From Secret Manager']
     secretEnv: ['ENV_FILE']
 
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Sanity Check 2 (delete)'
+    entrypoint: 'bash'
+    args: ['-c', 'touch .env.staging', 'echo $$ENV_FILE > .env.staging']
+    waitFor: ['Read Environment Variables From Secret Manager']
+    secretEnv: ['ENV_FILE']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Sanity Check (delete)'
+    entrypoint: 'bash'
+    args: ['-c', 'ls -la']
+    waitFor: ['Sanity Check 2 (delete)']
+    secretEnv: ['ENV_FILE']
+
   # # Install Cloud SQL proxy
   # - id: proxy-install
   #   name: gcr.io/cloud-builders/yarn
