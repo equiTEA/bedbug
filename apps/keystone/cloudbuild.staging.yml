@@ -12,6 +12,7 @@ steps:
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
     args: ['-c', 'ls -la']
+    dependsOn: ['Read Environment Variables From Secret Manager']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
