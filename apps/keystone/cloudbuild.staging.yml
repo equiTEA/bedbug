@@ -49,7 +49,7 @@ steps:
       - '--build-arg'
       - 'ENV_FILE=$$ENV_FILE'
       - '.'
-    waitFor: ['Read Environment Variables From Secret Manager']
+    waitFor: ['Write .env']
     secretEnv: ['ENV_FILE']
 
   # Push the container image to Container Registry
