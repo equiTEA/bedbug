@@ -80,7 +80,7 @@ steps:
     waitFor: ['Push Container Image To Registry']
 availableSecrets:
   secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/bedbug-keystone-staging/versions/latest
+    - versionName: projects/bedbug-365120/secrets/bedbug-keystone-staging/versions/latest
       env: 'ENV_FILE'
 
 images: ['gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA']
