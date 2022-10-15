@@ -5,6 +5,7 @@ WORKDIR /usr/src/app
 
 RUN yarn global add turbo
 COPY . .
+COPY .env.staging .env.staging
 RUN turbo prune --scope=keystone --docker
 
 RUN ls -la
