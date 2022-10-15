@@ -2,15 +2,25 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Write .env'
     entrypoint: 'bash'
-    args: ['-c', 'touch .env.staging', 'echo $$ENV_FILE > .env.staging']
+    args: ['-c', 'touch .env.staging']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Write .env 2'
+    entrypoint: 'bash'
+    args: ['-c', 'echo $$ENV_FILE > .env.staging']
     secretEnv: ['ENV_FILE']
 
   - name: gcr.io/cloud-builders/gcloud
-    id: 'Sanity Check (delete)'
+    id: 'Debug 1'
     entrypoint: 'bash'
-    args: ['-c', 'ls -la && cat .env.staging']
-    waitFor: ['Write .env']
-    secretEnv: ['ENV_FILE']
+    args: ['-c', 'ls -lacat .env.staging']
+    waitFor: ['Write .env 2']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Debug 2'
+    entrypoint: 'bash'
+    args: ['-c', 'cat .env.staging']
+    waitFor: ['Write .env 2']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
