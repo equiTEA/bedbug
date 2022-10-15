@@ -61,9 +61,5 @@ steps:
         '--region',
         'us-central1',
       ]
-availableSecrets:
-  secretManager:
-    - versionName: projects/71384662643/secrets/bedbug-staging-env/versions/latest
-      env: 'ENV_FILE'
 
 images: ['gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA']
