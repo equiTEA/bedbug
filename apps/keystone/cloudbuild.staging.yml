@@ -42,10 +42,7 @@ steps:
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
-      - '--build-arg'
-      - 'ENV_FILE=$$ENV_FILE'
       - '.'
-    secretEnv: ['ENV_FILE']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
