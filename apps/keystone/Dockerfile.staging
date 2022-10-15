@@ -1,6 +1,6 @@
 FROM node:18-buster AS builder
-ARG ENV
-ENV ENV $ENV
+ARG ENV_FILE
+ENV ENV_FILE $ENV_FILE
 
 # Set working directory
 WORKDIR /usr/src/app
@@ -10,9 +10,9 @@ COPY . .
 RUN turbo prune --scope=keystone --docker
 
 RUN touch .env.staging
-RUN echo $ENV
-RUN echo $ENV >> .env.staging
+RUN echo $ENV_FILE >> .env.staging
 RUN cat .env.staging
+COPY . .
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:18-buster AS installer
@@ -33,4 +33,4 @@ COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
 EXPOSE 3000
-CMD echo '=======================================================\n' && ls -la .env.staging && yarn migrate:deploy --filter=keystone && yarn start:staging --filter=keystone
+CMD cat .env.staging && yarn migrate:deploy --filter=keystone && yarn start:staging --filter=keystone
