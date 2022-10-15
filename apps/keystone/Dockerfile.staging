@@ -2,10 +2,13 @@ FROM node:18-buster AS builder
 
 # Set working directory
 WORKDIR /usr/src/app
+ARG ENV_FILE
+
+RUN touch .env.staging
+RUN echo $ENV_FILE >> .env.staging
 
 RUN yarn global add turbo
 COPY . .
-COPY .env.staging .env.staging
 RUN turbo prune --scope=keystone --docker
 
 RUN ls -la

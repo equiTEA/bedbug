@@ -42,6 +42,8 @@ steps:
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
+      - --build-arg
+      - ENV_FILE=$(cat .env.staging)
       - '.'
 
   # Push the container image to Container Registry
