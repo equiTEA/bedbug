@@ -11,7 +11,7 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'cat .env.staging']
+    args: ['-c', 'cat /.env.staging']
 
   # # Install Cloud SQL proxy
   # - id: proxy-install
