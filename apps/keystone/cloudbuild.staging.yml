@@ -11,8 +11,9 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'ls -la /workspace']
+    args: ['-c', 'echo $$ENV_FILE']
     waitFor: ['Read Environment Variables From Secret Manager']
+    secretEnv: ['ENV_FILE']
 
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check 2 (delete)'
@@ -77,5 +78,9 @@ steps:
         'us-central1',
       ]
     waitFor: ['Push Container Image To Registry']
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/bedbug-keystone-staging/versions/latest
+      env: 'ENV_FILE'
 
 images: ['gcr.io/bedbug-365120/bedbug-keystone:$COMMIT_SHA']
