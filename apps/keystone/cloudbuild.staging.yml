@@ -1,22 +1,6 @@
 steps:
   - name: gcr.io/cloud-builders/gcloud
-    id: 'Read Environment Variables From Secret Manager'
-    entrypoint: 'bash'
-    args:
-      [
-        '-c',
-        "gcloud secrets versions access latest --secret=bedbug-staging-env --format='get(payload.data)' | tr '_-' '/+' | base64 -d > /env.txt",
-      ]
-
-  - name: gcr.io/cloud-builders/gcloud
-    id: 'Sanity Check (delete)'
-    entrypoint: 'bash'
-    args: ['-c', 'echo $$ENV_FILE']
-    waitFor: ['Read Environment Variables From Secret Manager']
-    secretEnv: ['ENV_FILE']
-
-  - name: gcr.io/cloud-builders/gcloud
-    id: 'Sanity Check 2 (delete)'
+    id: 'Write .env'
     entrypoint: 'bash'
     args: ['-c', 'touch .env.staging', 'echo $$ENV_FILE > .env.staging']
     waitFor: ['Read Environment Variables From Secret Manager']
@@ -25,8 +9,8 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Sanity Check (delete)'
     entrypoint: 'bash'
-    args: ['-c', 'ls -la']
-    waitFor: ['Sanity Check 2 (delete)']
+    args: ['-c', 'ls -la', 'cat .env.staging']
+    waitFor: ['Write .env']
     secretEnv: ['ENV_FILE']
 
   # # Install Cloud SQL proxy
