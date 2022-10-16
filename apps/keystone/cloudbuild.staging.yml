@@ -7,8 +7,29 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Write .env 2'
     entrypoint: 'bash'
-    args: ['-c', 'echo $$ENV_FILE > .env.staging']
-    secretEnv: ['ENV_FILE']
+    args: [
+        '-c',
+        # Secrets
+        'echo ADMIN_USER_EMAIL=$$ADMIN_USER_EMAIL > .env.staging',
+        'echo ADMIN_USER_PASSWORD=$$ADMIN_USER_PASSWORD > .env.staging',
+        'echo DATABASE_URL=$$DATABASE_URL > .env.staging',
+        'echo COOKIE_SECRET=$$COOKIE_SECRET > .env.staging',
+        'echo POSITIONSTACK_API_ACCESS_KEY=$$POSITIONSTACK_API_ACCESS_KEY > .env.staging',
+        # Environment Variables
+        'echo DEPLOYMENT_TARGET=staging > .env.staging',
+        'echo NODE_ENV=production > .env.staging',
+        'echo SEED_COUNT=1000 > .env.staging',
+        'echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=changeme > .env.staging',
+        'echo NEXT_PUBLIC_STRICT_MODE=true > .env.staging',
+      ]
+    secretEnv:
+      [
+        'POSITIONSTACK_API_ACCESS_KEY',
+        'ADMIN_USER_EMAIL',
+        'ADMIN_USER_PASSWORD',
+        'COOKIE_SECRET',
+        'DATABASE_URL',
+      ]
     waitFor: ['Write .env']
 
   - name: gcr.io/cloud-builders/gcloud
@@ -57,11 +78,8 @@ steps:
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-keystone:$COMMIT_SHA'
-      - '--build-arg'
-      - 'ENV_FILE=$$ENV_FILE'
       - '.'
     waitFor: ['Debug 2']
-    secretEnv: ['ENV_FILE']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
