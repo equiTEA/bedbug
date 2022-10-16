@@ -7,21 +7,20 @@ steps:
   - name: gcr.io/cloud-builders/gcloud
     id: 'Write .env 2'
     entrypoint: 'bash'
-    args: 
-        - '-c'
-        - | 
-          echo ADMIN_USER_EMAIL=$$ADMIN_USER_EMAIL > .env.staging \
-          && echo ADMIN_USER_PASSWORD=$$ADMIN_USER_PASSWORD > .env.staging \
-          && echo DATABASE_URL=$$DATABASE_URL > .env.staging \
-          && echo COOKIE_SECRET=$$COOKIE_SECRET > .env.staging \
-          && echo POSITIONSTACK_API_ACCESS_KEY=$$POSITIONSTACK_API_ACCESS_KEY > .env.staging' \
+    args:
+      - '-c'
+      - |
+        echo ADMIN_USER_EMAIL=$$ADMIN_USER_EMAIL > .env.staging \
+        && echo ADMIN_USER_PASSWORD=$$ADMIN_USER_PASSWORD > .env.staging \
+        && echo DATABASE_URL=$$DATABASE_URL > .env.staging \
+        && echo COOKIE_SECRET=$$COOKIE_SECRET > .env.staging \
+        && echo POSITIONSTACK_API_ACCESS_KEY=$$POSITIONSTACK_API_ACCESS_KEY > .env.staging' \
 
-          && echo DEPLOYMENT_TARGET=staging > .env.staging' \
-          && echo NODE_ENV=production > .env.staging \
-          && echo SEED_COUNT=1000 > .env.staging \
-          && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=changeme > .env.staging \
-          && echo NEXT_PUBLIC_STRICT_MODE=true > .env.staging
-      ]
+        && echo DEPLOYMENT_TARGET=staging > .env.staging' \
+        && echo NODE_ENV=production > .env.staging \
+        && echo SEED_COUNT=1000 > .env.staging \
+        && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=changeme > .env.staging \
+        && echo NEXT_PUBLIC_STRICT_MODE=true > .env.staging
     secretEnv:
       [
         'POSITIONSTACK_API_ACCESS_KEY',
