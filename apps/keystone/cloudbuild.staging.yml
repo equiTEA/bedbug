@@ -99,7 +99,7 @@ steps:
         'us-central1',
         '--service-account',
         '71384662643-compute@developer.gserviceaccount.com',
-        '--add-cloud-sql-instances',
+        '--add-cloudsql-instances',
         'bedbug-365120:us-central1:bedbug',
         '--update-env-vars',
         'INSTANCE_CONNECTION_NAME=bedbug-365120:us-central1:bedbug',
