@@ -98,7 +98,7 @@ steps:
         '--region',
         'us-central1',
         '--service-account',
-        '71384662643-compute@developer.gserviceaccount.com',
+        'bedbug-staging-keystone@bedbug-365120.iam.gserviceaccount.com',
         '--add-cloudsql-instances',
         'bedbug-365120:us-central1:bedbug',
         '--update-env-vars',
