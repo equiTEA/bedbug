@@ -83,7 +83,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 availableSecrets:
   secretManager:
-    - versionName: projects/$PROJECT_ID/secrets/POSITIONSTACK_API_ACCESS_KEY/versions/latest
+    - versionName: projects/$PROJECT_ID/secrets/STAGING_POSITIONSTACK_API_ACCESS_KEY/versions/latest
       env: 'POSITIONSTACK_API_ACCESS_KEY'
     - versionName: projects/$PROJECT_ID/secrets/STAGING_ADMIN_USER_EMAIL/versions/latest
       env: 'ADMIN_USER_EMAIL'
