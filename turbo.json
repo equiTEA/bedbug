@@ -24,31 +24,31 @@
     },
     "build": {
       "dependsOn": [
-        "^build",
-        "package"
+        "^package",
+        "^build"
       ],
       "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
     },
     "build:staging": {
       "dependsOn": [
-        "^build",
-        "package"
+        "package",
+        "^build"
       ],
       "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
     },
     "migrate:deploy": {
       "dependsOn": [
+        "^package",
         "^build",
-        "package",
         "^migrate:deploy"
       ],
       "outputs": ["prisma/migrations/**"]
     },
     "start:staging": {
       "dependsOn": [
+        "^package",
         "^build",
-        "package",
-        "migrate:deploy",
+        "^migrate:deploy",
         "^start:staging"
       ]
     },

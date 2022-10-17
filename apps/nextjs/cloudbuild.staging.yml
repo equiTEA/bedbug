@@ -1,0 +1,71 @@
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Write .env'
+    entrypoint: 'bash'
+    args: ['-c', 'touch .env.staging']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Write .env 2'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo DEPLOYMENT_TARGET=staging >> .env.staging \
+        && echo NODE_ENV=production >> .env.staging \
+        && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://bedbug-keystone-staging-x7qinylila-uc.a.run.app/api/graphql >> .env.staging \
+        && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging
+    waitFor: ['Write .env']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Debug 1'
+    entrypoint: 'bash'
+    args: ['-c', 'ls -la']
+    waitFor: ['Write .env 2']
+
+  - name: gcr.io/cloud-builders/gcloud
+    id: 'Debug 2'
+    entrypoint: 'bash'
+    args: ['-c', 'cat .env.staging']
+    waitFor: ['Debug 1']
+
+  # Build from Dockerfile
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Build Container Image'
+    args:
+      - 'build'
+      - '--file=./apps/nextjs/Dockerfile.staging'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/bedbug-staging-next:$COMMIT_SHA'
+      - '.'
+    waitFor: ['Debug 2']
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'Push Container Image To Registry'
+    args: ['push', 'gcr.io/$PROJECT_ID/bedbug-staging-next:$COMMIT_SHA']
+    waitFor: ['Build Container Image']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        'bedbug-staging-next',
+        '--image',
+        'gcr.io/$PROJECT_ID/bedbug-staging-next:$COMMIT_SHA',
+        '--region',
+        'us-central1',
+        '--service-account',
+        '129195590798-compute@developer.gserviceaccount.com',
+        '--add-cloudsql-instances',
+        'bedbug-0:us-central1:postgres',
+        '--update-env-vars',
+        'INSTANCE_CONNECTION_NAME=bedbug-0:us-central1:postgres',
+      ]
+    waitFor: ['Push Container Image To Registry']
+options:
+  logging: CLOUD_LOGGING_ONLY
+images: ['gcr.io/bedbug-0/bedbug-staging-next:$COMMIT_SHA']
+timeout: 1800s
