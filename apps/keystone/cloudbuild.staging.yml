@@ -94,3 +94,4 @@ availableSecrets:
     - versionName: projects/$PROJECT_ID/secrets/STAGING_DATABASE_URL/versions/latest
       env: 'DATABASE_URL'
 images: ['gcr.io/bedbug-0/bedbug-staging-keystone:$COMMIT_SHA']
+timeout: 1800s
