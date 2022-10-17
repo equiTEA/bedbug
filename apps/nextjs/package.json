@@ -7,7 +7,7 @@
     "dev:local": "wait-on http-get://localhost:3000 &&../../node_modules/.bin/dotenv -e ../../.env.local next dev -- -p 3001",
     "build": "next build",
     "build:staging": "dotenv -e ../../.env.staging next build",
-    "start:staging": "wait-on http-get://localhost:3000 &&../../node_modules/.bin/dotenv -e ../../.env.staging -- next start -p 3001",
+    "start:staging": "../../node_modules/.bin/dotenv -e ../../.env.staging -- next start -p 3001",
     "lint": "next lint"
   },
   "dependencies": {
