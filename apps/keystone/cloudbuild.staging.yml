@@ -117,6 +117,6 @@ availableSecrets:
       env: 'COOKIE_SECRET'
     - versionName: projects/$PROJECT_ID/secrets/STAGING_DATABASE_URL/versions/latest
       env: 'DATABASE_URL'
+images: ['gcr.io/bedbug-365120/bedbug-staging-keystone:$COMMIT_SHA']
 options:
   logging: CLOUD_LOGGING_ONLY
-images: ['gcr.io/bedbug-365120/bedbug-staging-keystone:$COMMIT_SHA']
