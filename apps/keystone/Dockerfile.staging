@@ -28,6 +28,5 @@ RUN yarn build:staging --filter=keystone
 COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
-USER node
 EXPOSE 3000
 CMD yarn migrate:deploy --filter=keystone && yarn start:staging --filter=keystone
