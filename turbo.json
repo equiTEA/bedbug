@@ -31,7 +31,7 @@
     },
     "build:staging": {
       "dependsOn": [
-        "package",
+        "^package",
         "^build"
       ],
       "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
