@@ -24,16 +24,16 @@ export default config(
       },
     },
     server: {
-      healthCheck: true,
       cors: {
-        origin: [
-          'http://localhost:3001', // Development environment
-          'https://staging.bedbug.app', // Staging environment
-          'https://bedbug.app', // Production environment
-
-          'https://bedbug-staging-next-x7qinylila-uc.a.run.app', // TODO: remove when DNS is set up
-        ],
+        origin: process.env.NEXT_PUBLIC_CORS_ORIGIN as string,
         credentials: true,
+        allowedHeaders: [
+          'Content-Type',
+          'Authorization',
+          'Access-Control-Allow-Origin',
+          'Access-Control-Allow-Headers',
+          'Access-Control-Allow-Methods',
+        ],
       },
     },
   }),

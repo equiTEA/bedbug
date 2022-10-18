@@ -1,8 +1,6 @@
 import { commonEnvVars } from '@bedbug/utility'
 
 const verifyEnv = () => {
-  console.log(process.env)
-
   if (!process.env.DATABASE_URL)
     throw new Error('DATABASE_URL not set in environment variables')
 
@@ -29,10 +27,12 @@ const verifyEnv = () => {
     )
 
   return {
+    ...commonEnvVars,
     DATABASE_URL: process.env.DATABASE_URL,
     COOKIE_SECRET: process.env.COOKIE_SECRET,
     SEED_COUNT: parseInt(process.env.SEED_COUNT) || 0,
     POSITIONSTACK_API_ACCESS_KEY: process.env.POSITIONSTACK_API_ACCESS_KEY,
+    NEXT_PUBLIC_CORS_ORIGIN: process.env.NEXT_PUBLIC_CORS_ORIGIN,
     NEXT_PUBLIC_STRICT_MODE: commonEnvVars.NEXT_PUBLIC_STRICT_MODE
       ? JSON.parse(commonEnvVars.NEXT_PUBLIC_STRICT_MODE)
       : true,

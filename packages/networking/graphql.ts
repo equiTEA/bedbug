@@ -40,9 +40,9 @@ export const graphql = async <
 
     // Allow the request to be rewriten in development
     const isServer = typeof window === 'undefined'
-    return `${
-      isServer ? process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT : ''
-    }/api/graphql`
+    return isServer
+      ? (process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string)
+      : '/api/graphql'
   })()
 
   console.log({ endpoint })
@@ -60,6 +60,7 @@ export const graphql = async <
   })
 
   console.log(response.body)
+  console.log(response.headers)
 
   const deserialized = await response.json()
 
