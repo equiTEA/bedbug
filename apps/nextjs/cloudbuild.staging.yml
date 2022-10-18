@@ -12,6 +12,7 @@ steps:
       - |
         echo NEXT_PUBLIC_DEPLOYMENT_TARGET=staging >> .env.staging \
         && echo NODE_ENV=production >> .env.staging \
+        && echo NEXT_PUBLIC_CORS_ORIGIN=https://staging.bedbug.app >> .env.staging \
         && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://staging.bedbug.app/api/graphql >> .env.staging \
         && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging
     waitFor: ['Write .env']
