@@ -23,5 +23,18 @@ export default config(
         return context.session?.data.role === Roles.ADMIN
       },
     },
+    server: {
+      healthCheck: true,
+      cors: {
+        origin: [
+          'http://localhost:3001', // Development environment
+          'https://staging.bedbug.app', // Staging environment
+          'https://bedbug.app', // Production environment
+
+          'https://bedbug-staging-next-x7qinylila-uc.a.run.app', // TODO: remove when DNS is set up
+        ],
+        credentials: true,
+      },
+    },
   }),
 )
