@@ -37,7 +37,7 @@ export const graphql = async <
   headers = {},
 }: GraphQLRequestArguments<Variables>): Promise<Response | void> => {
   const endpoint = (() => {
-    if (env.NEXT_PUBLIC_DEPLOYMENT_TARGET === 'production')
+    if (env.NODE_ENV === 'production')
       return env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string
 
     // Allow the request to be rewriten in development
