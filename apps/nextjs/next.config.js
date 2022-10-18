@@ -23,10 +23,6 @@ const nextConfig = withNextTranspileModules({
       destination: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     },
   ],
-  images: {
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
 })
 
 module.exports = nextConfig

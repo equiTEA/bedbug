@@ -32,6 +32,7 @@ const UnauthenticatedLayout = ({ children, ...props }: Props) => {
     <Box sx={pageContainerStyles}>
       <Box sx={backgroundImageContainerStyles}>
         <Image
+          unoptimized
           style={imageStyles}
           src={BedbugsImage}
           alt="background texture of bedbug vector drawings"
