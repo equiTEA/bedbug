@@ -1,5 +1,3 @@
-import { env } from 'process'
-
 export type GraphQLError = {
   message: string
   path: string[]
@@ -37,12 +35,14 @@ export const graphql = async <
   headers = {},
 }: GraphQLRequestArguments<Variables>): Promise<Response | void> => {
   const endpoint = (() => {
-    if (env.NODE_ENV === 'production')
-      return env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string
+    if (process.env.NODE_ENV === 'production')
+      return process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string
 
     // Allow the request to be rewriten in development
     const isServer = typeof window === 'undefined'
-    return `${isServer ? env.NEXT_PUBLIC_GRAPHQL_ENDPOINT : ''}/api/graphql`
+    return `${
+      isServer ? process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT : ''
+    }/api/graphql`
   })()
 
   const response = await fetch(endpoint, {
