@@ -5,6 +5,8 @@ import { config } from '@keystone-6/core'
 import { withAuth, session } from './config/auth'
 import { extendGraphqlSchema } from './config/graphQLSchemaExtension'
 
+console.log('CORS_ORIGIN: ', process.env.NEXT_PUBLIC_CORS_ORIGIN)
+
 export default config(
   withAuth({
     db,
@@ -26,7 +28,6 @@ export default config(
     server: {
       cors: {
         origin: process.env.NEXT_PUBLIC_CORS_ORIGIN as string,
-        credentials: true,
         allowedHeaders: [
           'Content-Type',
           'Authorization',
