@@ -49,6 +49,8 @@ steps:
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-staging-keystone:$COMMIT_SHA'
+      - '--cache-from'
+      - 'gcr.io/bedbug-0/bedbug-staging-keystone:latest'
       - '.'
     waitFor: ['Debug 2']
 
