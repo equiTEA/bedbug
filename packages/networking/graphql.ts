@@ -59,7 +59,7 @@ export const graphql = async <
     }),
   })
 
-  console.log({ response })
+  console.log(response.body)
 
   const deserialized = await response.json()
 
