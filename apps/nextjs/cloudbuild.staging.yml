@@ -10,7 +10,7 @@ steps:
     args:
       - '-c'
       - |
-        echo DEPLOYMENT_TARGET=staging >> .env.staging \
+        echo NEXT_PUBLIC_DEPLOYMENT_TARGET=staging >> .env.staging \
         && echo NODE_ENV=production >> .env.staging \
         && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://bedbug-keystone-staging-x7qinylila-uc.a.run.app/api/graphql >> .env.staging \
         && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging

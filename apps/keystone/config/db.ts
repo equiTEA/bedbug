@@ -21,7 +21,7 @@ export const db: DatabaseConfig<BaseKeystoneTypeInfo> = {
 
     await seedAdminUser(keystoneContext)
 
-    if (process.env.DEPLOYMENT_TARGET !== 'production') {
+    if (process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production') {
       const [
         users,
         landlords,

@@ -36,10 +36,14 @@ export const graphql = async <
   handleErrors,
   headers = {},
 }: GraphQLRequestArguments<Variables>): Promise<Response | void> => {
-  const isServer = typeof window === 'undefined'
-  const endpoint = `${
-    isServer ? env.NEXT_PUBLIC_GRAPHQL_ENDPOINT : ''
-  }/api/graphql`
+  const endpoint = (() => {
+    if (env.NEXT_PUBLIC_DEPLOYMENT_TARGET === 'production')
+      return env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string
+
+    // Allow the request to be rewriten in development
+    const isServer = typeof window === 'undefined'
+    return `${isServer ? env.NEXT_PUBLIC_GRAPHQL_ENDPOINT : ''}/api/graphql`
+  })()
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -63,7 +67,7 @@ export const graphql = async <
   // Don't log the error if an error handler is provided
   console.error(deserialized.errors)
 
-  if (process.env.DEPLOYMENT_TARGET !== 'production')
+  if (process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production')
     console.error(
       `Error handler not provided ${
         operationName ? `for operation ${operationName}` : `for query ${query}`

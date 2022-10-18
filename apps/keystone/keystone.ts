@@ -14,7 +14,8 @@ export default config(
     graphql: {
       apolloConfig: {
         cache: 'bounded',
-        introspection: process.env.DEPLOYMENT_TARGET !== 'production',
+        introspection:
+          process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production',
       },
     },
     ui: {
