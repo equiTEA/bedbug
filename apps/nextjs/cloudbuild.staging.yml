@@ -6,15 +6,13 @@ steps:
 
   - name: gcr.io/cloud-builders/gcloud
     id: 'Write .env 2'
-    entrypoint:
-      'bash'
-      # TODO: Point to endpoint to env var
+    entrypoint: 'bash'
     args:
       - '-c'
       - |
         echo NEXT_PUBLIC_DEPLOYMENT_TARGET=staging >> .env.staging \
         && echo NODE_ENV=production >> .env.staging \
-        && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://bedbug-staging-keystone-x7qinylila-uw.a.run.app/api/graphql >> .env.staging \ 
+        && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://bedbug-staging-keystone-x7qinylila-uw.a.run.app/api/graphql >> .env.staging \
         && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging
     waitFor: ['Write .env']
 
