@@ -14,6 +14,11 @@ export default config(
     session,
     extendGraphqlSchema,
     graphql: {
+      cors: {
+        origin: process.env.NEXT_PUBLIC_CORS_ORIGIN,
+        credentials: true,
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+      },
       apolloConfig: {
         cache: 'bounded',
         introspection:
@@ -36,31 +41,6 @@ export default config(
           'Access-Control-Allow-Headers',
           'Access-Control-Allow-Methods',
         ],
-      },
-      extendExpressApp: (app) => {
-        app.options('/api/graphql', (req, res) => {
-          console.log('OPTIONS HANDLER RUNNING')
-          console.log('req.headers.origin: ', req.headers.origin)
-
-          if (req.headers.origin === process.env.NEXT_PUBLIC_CORS_ORIGIN) {
-            console.log('OPTIONS HANDLER: ORIGIN MATCH')
-
-            res.set('Access-Control-Allow-Origin', req.headers.origin)
-            res.set('Access-Control-Allow-Methods', ['POST', 'OPTIONS'])
-            res.set('Access-Control-Allow-Headers', [
-              'Content-Type',
-              'Authorization',
-              'Access-Control-Allow-Origin',
-              'Access-Control-Allow-Headers',
-              'Access-Control-Allow-Methods',
-            ])
-
-            return res.status(200).send()
-          }
-          console.log('DIDNT MATCH')
-
-          return res.status(403).send()
-        })
       },
     },
   }),
