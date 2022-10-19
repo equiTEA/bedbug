@@ -28,6 +28,7 @@ export default config(
     server: {
       cors: {
         origin: process.env.NEXT_PUBLIC_CORS_ORIGIN as string,
+        methods: ['POST', 'OPTIONS'],
         allowedHeaders: [
           'Content-Type',
           'Authorization',
