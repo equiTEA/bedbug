@@ -30,6 +30,7 @@ export default config(
     },
     server: {
       cors: {
+        credentials: true,
         origin: process.env.NEXT_PUBLIC_CORS_ORIGIN as string,
         methods: ['POST', 'OPTIONS'],
         allowedHeaders: [

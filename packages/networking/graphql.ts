@@ -47,6 +47,7 @@ export const graphql = async <
 
   const response = await fetch(endpoint, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       ...headers,
       'Content-Type': 'application/json',
