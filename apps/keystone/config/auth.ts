@@ -43,17 +43,7 @@ const session = statelessSessions({
   secret: sessionSecret,
   secure: process.env.NODE_ENV === 'production',
   sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  domain:
-    process.env.NODE_ENV === 'production'
-      ? // Get the domain by removing the protocol and the trailing slash path
-        (env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string)
-          .split(
-            `http${
-              env.NEXT_PUBLIC_GRAPHQL_ENDPOINT.startsWith('https://') ? 's' : ''
-            }://`,
-          )[1]
-          .split('/')[0]
-      : 'localhost',
+  domain: process.env.NODE_ENV === 'production' ? 'bedbug.app' : 'localhost',
 })
 
 export { withAuth, session }
