@@ -10,12 +10,18 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "package": "turbo run package",
-    "build": "turbo run build",
-    "build:staging": "turbo run build:staging",
-    "migrate:deploy": "turbo run migrate:deploy",
-    "start:staging": "turbo run start:staging",
+    
     "dev": "turbo run dev --parallel",
-    "dev:local": "turbo run dev:local --parallel"
+    "dev:local": "turbo run dev:local --parallel",
+    "build": "turbo run build",
+
+    "build:prod": "turbo run build:prod",
+    "migrate:prod": "turbo run migrate:prod",
+    "start:prod": "turbo run start:prod",
+
+    "build:staging": "turbo run build:staging",
+    "migrate:staging": "turbo run migrate:staging",
+    "start:staging": "turbo run start:staging"
   },
   "devDependencies": {
     "dotenv-cli": "^6.0.0",

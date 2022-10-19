@@ -1,17 +1,15 @@
-FROM node:18-buster AS builder
+FROM node:18-buster-slim AS builder
+RUN apt-get update && apt-get install --no-install-recommends --yes openssl
 
 # Set working directory
 WORKDIR /usr/src/app
 
 RUN yarn global add turbo
 COPY . .
-RUN turbo prune --scope=keystone --docker
-
-RUN ls -la
-RUN cat .env.staging
+RUN turbo prune --scope=nextjs --docker
 
 # Add lockfile and package.jsons of isolated subworkspace
-FROM node:18-buster AS installer
+FROM node:18-buster-slim AS installer
 WORKDIR /usr/src/app
 
 # First install dependencies (as they change less often)
@@ -22,11 +20,11 @@ COPY --from=builder /usr/src/app/out/yarn.lock ./yarn.lock
 RUN yarn install --ignore-scripts --pure-lockfile
 
 RUN yarn package
-RUN yarn build:staging --filter=keystone
+RUN yarn build:prod --filter=nextjs
 
 # Build the project and its dependencies
 COPY --from=builder /usr/src/app/out/full/ .
 COPY turbo.json turbo.json
 
-EXPOSE 3000
-CMD yarn migrate:staging --filter=keystone && yarn start:staging --filter=keystone
+EXPOSE 3001
+CMD yarn start:prod --filter=nextjs
