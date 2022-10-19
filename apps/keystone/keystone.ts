@@ -39,10 +39,12 @@ export default config(
       },
       extendExpressApp: (app) => {
         app.options('/api/graphql', (req, res) => {
-          if (origin === process.env.NEXT_PUBLIC_CORS_ORIGIN) {
-            res.set('Access-Control-Allow-Origin', origin)
+          if (req.headers.origin === process.env.NEXT_PUBLIC_CORS_ORIGIN) {
+            res.set('Access-Control-Allow-Origin', req.headers.origin)
             return res.status(200).send()
           }
+
+          return res.status(403).send()
         })
       },
     },
