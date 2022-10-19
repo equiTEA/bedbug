@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const { commonEnvVars } = require('@bedbug/utility')
-const { env } = require('./env')
 
 const withNextTranspileModules = require('next-transpile-modules')([
   '@bedbug/ui',
@@ -20,7 +19,7 @@ const nextConfig = withNextTranspileModules({
   rewrites: () => [
     {
       source: '/api/graphql',
-      destination: env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+      destination: commonEnvVars.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
     },
   ],
 })

@@ -27,8 +27,12 @@ const session = statelessSessions({
   domain:
     process.env.NODE_ENV === 'production'
       ? // Get the domain by removing the protocol and the trailing slash path
-        (env.NEXT_PUBLIC_CORS_ORIGIN as string)
-          .split('https://')[1]
+        (env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string)
+          .split(
+            `http${
+              env.NEXT_PUBLIC_GRAPHQL_ENDPOINT.startsWith('https://') ? 's' : ''
+            }://`,
+          )[1]
           .split('/')[0]
       : 'localhost',
 })
