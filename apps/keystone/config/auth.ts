@@ -25,6 +25,7 @@ const session = statelessSessions({
   secret: sessionSecret,
   domain: env.NEXT_PUBLIC_CORS_ORIGIN as string,
   sameSite: 'none',
+  secure: true,
 })
 
 export { withAuth, session }
