@@ -24,6 +24,7 @@ const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
   domain: env.NEXT_PUBLIC_CORS_ORIGIN as string,
+  sameSite: 'none',
 })
 
 export { withAuth, session }
