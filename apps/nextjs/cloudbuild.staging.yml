@@ -37,8 +37,6 @@ steps:
       - '--file=./apps/nextjs/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-staging-next:$COMMIT_SHA'
-      - '--cache-from'
-      - 'gcr.io/bedbug-0/bedbug-staging-next:latest'
       - '.'
     waitFor: ['Debug 2']
 
