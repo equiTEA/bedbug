@@ -23,6 +23,7 @@ let sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
+  domain: env.NEXT_PUBLIC_CORS_ORIGIN as string,
 })
 
 export { withAuth, session }
