@@ -37,6 +37,14 @@ export default config(
           'Access-Control-Allow-Methods',
         ],
       },
+      extendExpressApp: (app) => {
+        app.options('/api/graphql', (req, res) => {
+          if (origin === process.env.NEXT_PUBLIC_CORS_ORIGIN) {
+            res.set('Access-Control-Allow-Origin', origin)
+            return res.status(200).send()
+          }
+        })
+      },
     },
   }),
 )
