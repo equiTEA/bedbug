@@ -23,9 +23,14 @@ let sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
-  domain: env.NEXT_PUBLIC_CORS_ORIGIN as string,
-  sameSite: 'none',
-  secure: true,
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  domain:
+    process.env.NODE_ENV === 'production'
+      ? // Get the domain by removing the protocol and the trailing slash path
+        (env.NEXT_PUBLIC_CORS_ORIGIN as string)
+          .split('https://')[1]
+          .split('/')[0]
+      : 'localhost',
 })
 
 export { withAuth, session }
