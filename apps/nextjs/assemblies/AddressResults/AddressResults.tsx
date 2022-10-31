@@ -6,10 +6,12 @@ import Fade from '@mui/material/Fade'
 import { useRouter } from 'next/router'
 import AddressCard from '../AddressCard'
 import { useAuthUser } from '@bedbug/hooks'
+import CTACard from '../../components/CTACard'
 import { resultsContainerStyles } from './styles'
 import NewAddressCTACard from '../NewAddressCTACard'
-import CircularProgress from '@mui/material/CircularProgress'
 import SignUpCTACard from '../../assemblies/SignUpCTACard'
+import CircularProgress from '@mui/material/CircularProgress'
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation'
 
 import type { Address } from '@bedbug/types'
 
@@ -30,7 +32,7 @@ const AddressResults = ({
   loading,
   allottedHeight,
 }: Props) => {
-  const { push } = useRouter()
+  const { push, query } = useRouter()
   const { user } = useAuthUser()
 
   const noResultsFound = useMemo(
@@ -64,7 +66,21 @@ const AddressResults = ({
             Couldn&apos;t find any address matches.
           </Body1>
 
-          {user ? <NewAddressCTACard /> : <SignUpCTACard />}
+          {user ? (
+            <CTACard
+              text="Not finding the address you're looking for? Add it and rate it to advocate for yourself and protect other renters!"
+              buttonText="Add it to our system"
+              icon={
+                <NotListedLocationIcon fontSize="large" color="secondary" />
+              }
+              buttonHref={{
+                query,
+                pathname: '/addresses/new',
+              }}
+            />
+          ) : (
+            <SignUpCTACard />
+          )}
         </Box>
       </Fade>
     )

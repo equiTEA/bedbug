@@ -1,3 +1,5 @@
+import type { Descendant } from 'slate'
+import type { Address } from './Address'
 import type { Business } from './Business'
 import type { Landlord } from './Landlord'
 import type { BaseEntity } from './BaseEntity'
@@ -11,16 +13,17 @@ export enum RatingSentiments {
   EXTREMELY_NEGATIVE = 1,
 }
 
-type Scalars = {
+export type Scalars = {
   sentiment: RatingSentiments
-  body: string
+  body: Descendant[]
   rentPrice: number
 }
 
-type Associations = {
+export type Associations = {
   landlordAtDateOfRating?: Landlord
   propertyManagementCompanyAtDateOfRating?: PropertyManagementCompany
   doingBusinessAsAtDateOfRating?: Business
+  address?: Address
 }
 
 export type Rating = Partial<Associations & Scalars & BaseEntity>

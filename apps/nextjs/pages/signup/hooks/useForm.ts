@@ -4,10 +4,11 @@ import { graphql, createUser, GraphQLError } from '@bedbug/networking'
 import { useCallback, useState, useMemo, FormEvent, useEffect } from 'react'
 
 type Errors = {
-  username?: string
-  email?: string
-  password?: string
-  form?: string
+  username: string | null
+  email: string | null
+  password: string | null
+  form: string | null
+  hCaptcha: string | null
 }
 
 export const useForm = () => {
@@ -23,27 +24,36 @@ export const useForm = () => {
   const [passwordBlurred, setPasswordBlurred] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
 
+  const [hCaptchaVerified, setHCaptchaVerified] = useState(false)
   const [didAttemptSubmit, setDidAttemptSubmit] = useState(false)
-  const [formError, setFormError] = useState<string | undefined>(undefined)
+  const [formError, setFormError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState<boolean>(false)
 
   const usernameError = useMemo(() => {
     if (username === '') return 'Username is required'
+    return null
   }, [username])
 
   const emailError = useMemo(() => {
     if (email === '') return 'Email is required'
     if (!isEmail(email)) return 'Email is invalid'
+    return null
   }, [email])
 
   const passwordError = useMemo(() => {
     if (password === '') return 'Password is required'
     if (password.length < 8) return 'Password must be at least 8 characters'
+    return null
   }, [password])
 
+  const hCaptchaError = useMemo(() => {
+    if (!hCaptchaVerified) return 'Please verify you are human'
+    return null
+  }, [hCaptchaVerified])
+
   useEffect(() => {
-    setFormError(undefined)
-  }, [email, password, username])
+    setFormError(null)
+  }, [email, password, username, hCaptchaVerified])
 
   const errors: Errors = useMemo(
     () => ({
@@ -51,13 +61,22 @@ export const useForm = () => {
       email: emailError,
       password: passwordError,
       form: formError,
+      hCaptcha: hCaptchaError,
     }),
-    [usernameError, emailError, passwordError, formError],
+    [usernameError, emailError, passwordError, formError, hCaptchaError],
   )
 
   const errorsExist = useMemo(
     () => Object.values(errors).some(Boolean),
     [errors],
+  )
+
+  const handleHCaptchaVerificationSuccess = useCallback(
+    (token: string, ekey: string) => {
+      console.log('verification success', token, ekey)
+      setHCaptchaVerified(true)
+    },
+    [],
   )
 
   const handleSubmit = useCallback(
@@ -129,5 +148,8 @@ export const useForm = () => {
     setPasswordBlurred,
     passwordVisible,
     setPasswordVisible,
+
+    hCaptchaVerified,
+    handleHCaptchaVerificationSuccess,
   }
 }

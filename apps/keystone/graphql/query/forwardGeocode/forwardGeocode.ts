@@ -21,29 +21,6 @@ export const forwardGeocode = async (
   { address }: { address: string },
   context: KeystoneContext,
 ) => {
-  // TODO: Remove temp stub for testing:
-
-  return [
-    {
-      full: '3080 South Glencoe Street, Denver, CO, USA',
-      line1: '3080 South Glencoe Street',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80222',
-      neighborhood: 'University Hills',
-      countryCode: 'USA',
-    },
-    {
-      full: '3080 S Glencoe St, Denver, CO, USA',
-      line1: '3080 S Glencoe St',
-      city: 'Denver',
-      state: 'CO',
-      zip: '80222',
-      neighborhood: 'University Hills',
-      countryCode: 'USA',
-    },
-  ]
-
   /** Ensure only logged-in, non-banned users may access this API */
   if (!context.session?.data || context.session.data.banned)
     throw new Error('Unauthorized')
@@ -94,11 +71,8 @@ export const forwardGeocode = async (
             country_code,
           }: PositionStackAPIResult,
         ) => {
-          /** Filter out non-address results (i.e., venues) */
-          if (type !== 'address') return acc
-
-          /** Ignore results where fields are missing */
-          if (
+          const shouldIgnoreResult =
+            type !== 'address' || // Filter out non-address results (i.e., venues) */
             !name ||
             !locality ||
             !region_code ||
@@ -107,8 +81,9 @@ export const forwardGeocode = async (
             !latitude ||
             !longitude ||
             !confidence // (no way to sort values, if not present)
-          )
-            return acc
+
+          /** Ignore results where fields are missing */
+          if (shouldIgnoreResult) return acc
 
           return [
             ...acc,

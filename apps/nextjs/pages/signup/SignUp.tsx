@@ -5,13 +5,14 @@ import Logo from '../../components/Logo'
 import Button from '@mui/material/Button'
 import { useForm } from './hooks/useForm'
 import { useTheme } from '@mui/material/styles'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import IconButton from '@mui/material/IconButton'
 import FormControl from '@mui/material/FormControl'
 import Visibility from '@mui/icons-material/Visibility'
 import InputAdornment from '@mui/material/InputAdornment'
 import { smallViewportLogoContainerStyles } from './styles'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { H1, H3, TextField, Body1, BackLink } from '@bedbug/ui'
+import { H1, H3, Body1, BackLink, TextField } from '@bedbug/ui'
 import UnauthenticatedLayout from '../../components/layouts/Unauthenticated'
 import { sharedAnimatedContainerStyles } from '../../styles/shared/animatedContainerStyles'
 
@@ -41,10 +42,13 @@ const SignUp = () => {
     setPasswordBlurred,
     passwordVisible,
     setPasswordVisible,
+
+    hCaptchaVerified,
+    handleHCaptchaVerificationSuccess,
   } = useForm()
 
   return (
-    <>
+    <Box sx={{ pt: 3 }}>
       <Box sx={{ pl: 2 }}>
         <BackLink linkText="Address Search" href="/" />
       </Box>
@@ -71,13 +75,13 @@ const SignUp = () => {
 
             <TextField
               size="small"
-              label="Username"
-              color="secondary"
-              id="signup-username"
               name="username"
-              onChange={({ target: { value } }) => setUsername(value)}
-              onBlur={() => setUsernameBlurred(true)}
               value={username}
+              color="secondary"
+              label="Username"
+              id="signup-username"
+              onBlur={() => setUsernameBlurred(true)}
+              onChange={({ target: { value } }) => setUsername(value)}
               error={(usernameBlurred || didAttemptSubmit) && !!errors.username}
               helperText={
                 (usernameBlurred || didAttemptSubmit) && errors.username
@@ -93,13 +97,13 @@ const SignUp = () => {
           <FormControl fullWidth>
             <TextField
               size="small"
+              name="email"
               label="Email"
+              value={email}
               color="secondary"
               id="signup-email"
-              name="email"
               onChange={({ target: { value } }) => setEmail(value)}
               onBlur={() => setEmailBlurred(true)}
-              value={email}
               error={(emailBlurred || didAttemptSubmit) && !!errors.email}
               helperText={(emailBlurred || didAttemptSubmit) && errors.email}
             />
@@ -110,14 +114,14 @@ const SignUp = () => {
           <FormControl fullWidth>
             <TextField
               size="small"
+              name="password"
               label="Password"
+              value={password}
               color="secondary"
               id="signup-password"
-              name="password"
-              onChange={({ target: { value } }) => setPassword(value)}
               onBlur={() => setPasswordBlurred(true)}
-              value={password}
               type={passwordVisible ? 'text' : 'password'}
+              onChange={({ target: { value } }) => setPassword(value)}
               error={(passwordBlurred || didAttemptSubmit) && !!errors.password}
               helperText={
                 (passwordBlurred || didAttemptSubmit) && errors.password
@@ -126,9 +130,9 @@ const SignUp = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
+                      edge="end"
                       aria-label="toggle password visibility"
                       onClick={() => setPasswordVisible(!passwordVisible)}
-                      edge="end"
                     >
                       {passwordVisible ? (
                         <VisibilityOff color="secondary" />
@@ -142,12 +146,25 @@ const SignUp = () => {
             />
           </FormControl>
 
+          <Box sx={{ my: 3 }}>
+            <HCaptcha
+              size="normal"
+              onLoad={() => console.log('loaded')}
+              onExpire={() => console.log('token expired')}
+              onChalExpired={() => console.log('challenge expired')}
+              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY as string}
+              onVerify={(token, ekey) =>
+                handleHCaptchaVerificationSuccess(token, ekey)
+              }
+            />
+          </Box>
+
           <Button
-            disabled={didAttemptSubmit && errorsExist}
             fullWidth
             type="submit"
-            variant="contained"
             color="secondary"
+            variant="contained"
+            disabled={didAttemptSubmit && errorsExist}
           >
             Sign Up
           </Button>
@@ -167,9 +184,9 @@ const SignUp = () => {
             <Link href="/signin" passHref>
               <Button
                 component="a"
-                disabled={submitting}
                 variant="text"
                 color="secondary"
+                disabled={submitting}
               >
                 Sign In
               </Button>
@@ -177,7 +194,7 @@ const SignUp = () => {
           </Body1>
         </form>
       </Box>
-    </>
+    </Box>
   )
 }
 

@@ -1,12 +1,12 @@
 import type { Theme } from '@mui/material/styles'
-import type { SystemStyleObject } from '@mui/system'
+import type { SystemStyleObject, SxProps } from '@mui/system'
 
 export const sharedAnimatedContainerStyles = ({
   sx = {},
   theme,
 }: {
   theme: Theme
-  sx?: SystemStyleObject
+  sx?: SystemStyleObject<Theme>
 }) => ({
   '@keyframes fadeIn': {
     from: { opacity: 0 },

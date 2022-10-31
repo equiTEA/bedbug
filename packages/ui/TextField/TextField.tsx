@@ -12,6 +12,8 @@ export type TextFieldProps = MuiTextFieldProps & {
 
 export const TextField = ({ sx = {}, ...props }: MuiTextFieldProps) => (
   <MUITextField
+    fullWidth
+    size="small"
     sx={{ ...styles, ...sx }}
     FormHelperTextProps={{
       sx: {

@@ -10,6 +10,7 @@ export const resultsContainerStyles = {
 }
 
 export const headingStyles = ({ theme }: { theme: Theme }) => ({
+  pt: 3,
   m: '0 auto',
   maxWidth: '400px',
   [theme.breakpoints.down('md')]: { mt: 4 },

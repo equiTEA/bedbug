@@ -58,8 +58,6 @@ export const graphql = async <
     }),
   })
 
-  console.log({ response })
-
   const deserialized = await response.json()
 
   if (!deserialized.errors)

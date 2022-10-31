@@ -12,11 +12,6 @@ export default config(
     session,
     extendGraphqlSchema,
     graphql: {
-      // cors: {
-      //   origin: process.env.NEXT_PUBLIC_CORS_ORIGIN,
-      //   credentials: true,
-      //   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-      // },
       apolloConfig: {
         cache: 'bounded',
         introspection:

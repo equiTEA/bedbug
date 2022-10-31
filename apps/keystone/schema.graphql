@@ -388,7 +388,7 @@ type Rating {
   doingBusinessAsAtDateOfRating: Business
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompany
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
 }
 
@@ -415,7 +415,6 @@ input RatingWhereInput {
   doingBusinessAsAtDateOfRating: BusinessWhereInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyWhereInput
   sentiment: IntNullableFilter
-  body: StringFilter
   rentPrice: FloatFilter
 }
 
@@ -458,7 +457,6 @@ input RatingOrderByInput {
   updatedAt: OrderDirection
   isDeleted: OrderDirection
   sentiment: OrderDirection
-  body: OrderDirection
   rentPrice: OrderDirection
 }
 
@@ -474,7 +472,7 @@ input RatingUpdateInput {
   doingBusinessAsAtDateOfRating: BusinessRelateToOneForUpdateInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForUpdateInput
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
 }
 
@@ -525,7 +523,7 @@ input RatingCreateInput {
   doingBusinessAsAtDateOfRating: BusinessRelateToOneForCreateInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForCreateInput
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
 }
 
@@ -570,6 +568,8 @@ type Address {
   ): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String
@@ -604,6 +604,8 @@ input AddressWhereInput {
   deletedBy: UserWhereInput
   ratings: RatingManyRelationFilter
   isVerified: BooleanFilter
+  lat: FloatFilter
+  lng: FloatFilter
   full: StringFilter
   line1: StringFilter
   line2: StringFilter
@@ -620,6 +622,8 @@ input AddressOrderByInput {
   updatedAt: OrderDirection
   isDeleted: OrderDirection
   isVerified: OrderDirection
+  lat: OrderDirection
+  lng: OrderDirection
   full: OrderDirection
   line1: OrderDirection
   line2: OrderDirection
@@ -639,6 +643,8 @@ input AddressUpdateInput {
   deletedBy: UserRelateToOneForUpdateInput
   ratings: RatingRelateToManyForUpdateInput
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String
@@ -663,6 +669,8 @@ input AddressCreateInput {
   deletedBy: UserRelateToOneForCreateInput
   ratings: RatingRelateToManyForCreateInput
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String

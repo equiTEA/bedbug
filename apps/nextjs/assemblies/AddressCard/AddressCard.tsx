@@ -7,8 +7,9 @@ import {
 import NextLink from 'next/link'
 import Box from '@mui/material/Box'
 import MuiLink from '@mui/material/Link'
+import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, MouseEvent } from 'react'
 import { Card, H3, RatingIcon, CollapseButton } from '@bedbug/ui'
 
 import type { Address } from '@bedbug/types'
@@ -52,18 +53,14 @@ const AddressCard = ({
   return (
     <Card key={id} onClick={onClick}>
       <>
-        <Box
-          sx={headerContainerStyles}
-          ref={collapsibleRef}
-          onClick={(e) => {
-            e.stopPropagation()
-            setIsCollapsed(!isCollapsed)
-          }}
-        >
-          <CollapseButton
-            isCollapsed={isCollapsed}
-            setIsCollapsed={setIsCollapsed}
-          />
+        <Box sx={headerContainerStyles} ref={collapsibleRef}>
+          {(mostRecentDoingBusinessAs ||
+            mostRecentPropertyManagementCompany) && (
+            <CollapseButton
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
+          )}
 
           <Box sx={{ flexGrow: 1 }}>
             <Card.Heading sx={headingStyles}>
@@ -71,7 +68,6 @@ const AddressCard = ({
             </Card.Heading>
           </Box>
         </Box>
-
         {ratingCount !== undefined && ratingCount > 0 && avgRating && (
           <Card.Subheading>
             <Box sx={subheadingStyles}>
@@ -84,16 +80,33 @@ const AddressCard = ({
           </Card.Subheading>
         )}
 
+        {ratingCount === 0 && (
+          <Box sx={{ px: 3 }}>
+            <NextLink href={`/addresses/${id}/rate`} passHref>
+              <Button
+                onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                  e.stopPropagation()
+                }
+                variant="contained"
+                color="primary"
+              >
+                No ratings yet - be the first!
+              </Button>
+            </NextLink>
+          </Box>
+        )}
+
         <Card.DataPoint>
           <Card.DataPointLabel sx={{ mb: 0, px: 1 }}>
-            <NextLink href={`/addresses/${id}?tab=Ratings`} passHref>
-              <MuiLink color="secondary" underline="hover">
-                {ratingCount} Rating{ratingCount === 1 ? '' : 's'}
-              </MuiLink>
-            </NextLink>
+            {ratingCount !== undefined && ratingCount > 0 && (
+              <NextLink href={`/addresses/${id}?tab=Ratings`} passHref>
+                <Button variant="text" color="secondary">
+                  {ratingCount} Rating{ratingCount === 1 ? '' : 's'}
+                </Button>
+              </NextLink>
+            )}
           </Card.DataPointLabel>
         </Card.DataPoint>
-
         <Collapse in={!isCollapsed}>
           {mostRecentDoingBusinessAs && (
             <>
