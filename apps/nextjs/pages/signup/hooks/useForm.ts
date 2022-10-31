@@ -24,10 +24,13 @@ export const useForm = () => {
   const [passwordBlurred, setPasswordBlurred] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  const [hCaptchaVerified, setHCaptchaVerified] = useState(false)
   const [didAttemptSubmit, setDidAttemptSubmit] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState<boolean>(false)
+
+  const [hCaptchaVerified, setHCaptchaVerified] = useState(false)
+  const [hCaptchaToken, setHCaptchaToken] = useState<string | null>(null)
+  const [hCaptchaEKey, setHCaptchaEKey] = useState<string | null>(null)
 
   const usernameError = useMemo(() => {
     if (username === '') return 'Username is required'
@@ -75,9 +78,18 @@ export const useForm = () => {
     (token: string, ekey: string) => {
       console.log('verification success', token, ekey)
       setHCaptchaVerified(true)
+      setHCaptchaToken(token)
+      setHCaptchaEKey(ekey)
     },
     [],
   )
+
+  const handleHCaptchaTokenExpiration = useCallback(() => {
+    console.log('captcha expired')
+    setHCaptchaVerified(false)
+    setHCaptchaToken(null)
+    setHCaptchaEKey(null)
+  }, [])
 
   const handleSubmit = useCallback(
     async (e: FormEvent) => {
@@ -98,12 +110,13 @@ export const useForm = () => {
             email,
             password,
             username,
+            hCaptchaToken,
           },
         },
         handleErrors: (errors: GraphQLError[]) => {
           // Unique constraint violation: https://www.prisma.io/docs/reference/api-reference/error-reference
           const uniqueConstraintViolation = errors.find(
-            ({ extensions }) => extensions.prisma.code === 'P2002',
+            ({ extensions }) => extensions.prisma?.code === 'P2002',
           )
 
           if (uniqueConstraintViolation) {
@@ -121,7 +134,7 @@ export const useForm = () => {
 
       if (!response.errors) push('/')
     },
-    [errors, username, email, password, push],
+    [errors, username, email, password, push, hCaptchaToken],
   )
 
   return {
@@ -151,5 +164,6 @@ export const useForm = () => {
 
     hCaptchaVerified,
     handleHCaptchaVerificationSuccess,
+    handleHCaptchaTokenExpiration,
   }
 }

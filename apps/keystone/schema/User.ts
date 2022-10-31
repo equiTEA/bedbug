@@ -1,12 +1,14 @@
-import { list } from '@keystone-6/core'
 import {
   text,
-  relationship,
   select,
-  checkbox,
+  virtual,
   password,
+  checkbox,
+  relationship,
 } from '@keystone-6/core/fields'
 import { Roles } from '@bedbug/types'
+import { env } from '../helpers/verifyEnv'
+import { graphql, list } from '@keystone-6/core'
 import { disableHardDelete } from '../hooks/disableHardDelete'
 
 export const User = list({
@@ -60,6 +62,44 @@ export const User = list({
       ref: 'PropertyManagementCompany.deletedBy',
       many: true,
     }),
+
+    hCaptchaToken: virtual({
+      field: graphql.field({
+        type: graphql.String,
+        resolve: async (item, _, context) => null,
+      }),
+    }),
+  },
+
+  access: {
+    operation: {
+      create: ({ listKey }) => {
+        if (listKey === 'hCaptchaToken') return true
+        return true
+      },
+    },
+    item: {
+      create: async ({ inputData }) => {
+        try {
+          const captchaResult = await fetch(`https://hcaptcha.com/siteverify`, {
+            method: 'POST',
+            body: `response=${encodeURIComponent(
+              inputData.hCaptchaToken,
+            )}&secret=${encodeURIComponent(env.HCAPTCHA_SECRET)}`,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            },
+          })
+
+          const deserialized = await captchaResult.json()
+          if (!deserialized.success) return false
+          return true
+        } catch (error) {
+          console.error({ error })
+          return false
+        }
+      },
+    },
   },
   hooks: {
     ...disableHardDelete,
@@ -75,7 +115,13 @@ export const User = list({
         throw new Error('Not permitted to create an admin user')
       }
 
-      return { ...resolvedData, role: role ?? Roles.TENANT }
+      const { hCaptchaToken, ...rest } = resolvedData
+      return { ...rest, role: role ?? Roles.TENANT }
+    },
+    beforeOperation: async ({ inputData }) => {
+      if (inputData?.hCaptchaToken) {
+        delete inputData.hCaptchaToken
+      }
     },
   },
 })

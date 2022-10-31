@@ -119,6 +119,7 @@ type User {
   deletedPropertyManagementCompaniesCount(
     where: PropertyManagementCompanyWhereInput! = {}
   ): Int
+  hCaptchaToken: String
 }
 
 type PasswordState {
@@ -348,6 +349,7 @@ input UserCreateInput {
   createdPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
   updatedPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
   deletedPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
+  hCaptchaToken: String!
 }
 
 input RatingRelateToManyForCreateInput {

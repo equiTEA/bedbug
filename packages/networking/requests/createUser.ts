@@ -33,20 +33,9 @@ export const createUser = /* GraphQL */ `
           state
           zip
 
-          mostRecentLandlord {
-            id
-            name
-          }
-
-          mostRecentDoingBusinessAs {
-            id
-            name
-          }
-
-          mostRecentPropertyManagementCompany {
-            id
-            name
-          }
+          mostRecentLandlord
+          mostRecentDoingBusinessAs
+          mostRecentPropertyManagementCompany
         }
       }
     }

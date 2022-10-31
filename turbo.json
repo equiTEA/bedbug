@@ -17,7 +17,8 @@
     "ADMIN_USER_EMAIL",
     "ADMIN_USER_PASSWORD",
 
-    "POSITIONSTACK_API_ACCESS_KEY"
+    "POSITIONSTACK_API_ACCESS_KEY",
+    "HCAPTCHA_SECRET"
   ],
   "pipeline": {
     "package": {

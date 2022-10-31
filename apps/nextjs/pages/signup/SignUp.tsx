@@ -43,8 +43,8 @@ const SignUp = () => {
     passwordVisible,
     setPasswordVisible,
 
-    hCaptchaVerified,
     handleHCaptchaVerificationSuccess,
+    handleHCaptchaTokenExpiration,
   } = useForm()
 
   return (
@@ -149,13 +149,10 @@ const SignUp = () => {
           <Box sx={{ my: 3 }}>
             <HCaptcha
               size="normal"
-              onLoad={() => console.log('loaded')}
-              onExpire={() => console.log('token expired')}
-              onChalExpired={() => console.log('challenge expired')}
+              onExpire={handleHCaptchaTokenExpiration}
+              onVerify={handleHCaptchaVerificationSuccess}
+              onChalExpired={handleHCaptchaTokenExpiration}
               sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY as string}
-              onVerify={(token, ekey) =>
-                handleHCaptchaVerificationSuccess(token, ekey)
-              }
             />
           </Box>
 
