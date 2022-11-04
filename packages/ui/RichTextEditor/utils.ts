@@ -6,8 +6,8 @@ export const isMarkActive = (
   editor: Editor,
   format: keyof Omit<CustomText, 'text'>,
 ) => {
-  const marks: Omit<CustomText, 'text'> | null = Editor.marks(editor)
-  return marks ? marks[format] === true : false
+  const marks = Editor.marks(editor)
+  return marks ? (marks as any)[format] === true : false
 }
 
 export const toggleMark = (
