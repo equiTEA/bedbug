@@ -33,6 +33,7 @@ const App = ({
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>bedbug</title>
       </Head>
 
       <ThemeProvider theme={theme}>

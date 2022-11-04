@@ -1,6 +1,7 @@
 import Big from 'big.js'
 import {
   text,
+  float,
   virtual,
   checkbox,
   timestamp,
@@ -68,8 +69,9 @@ export const Address = list({
       },
     }),
 
+    lat: float({ defaultValue: 0.0, validation: { isRequired: true } }),
+    lng: float({ defaultValue: 0.0, validation: { isRequired: true } }),
     full: text({ isIndexed: 'unique' }),
-
     line1: text({ validation: { isRequired: true } }),
     line2: text({ validation: { isRequired: false } }),
     line3: text({ validation: { isRequired: false } }),
@@ -93,10 +95,12 @@ export const Address = list({
             },
             where: {
               address: {
-                id: (item as any).id, // TODO: extract types into consumable library
+                id: (item as AddressType).id,
               },
             },
           })
+
+          if (!aggregate._avg.sentiment) return null
 
           const average = new Big(aggregate._avg.sentiment)
           return average.round(1, Big.roundHalfEven).toNumber()
@@ -139,7 +143,8 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (!mostRecentRating || !mostRecentRating.landlordAtDateOfRatingId)
+            return null
 
           const landlord = await context.prisma.landlord.findFirst({
             where: {
@@ -186,7 +191,11 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (
+            !mostRecentRating ||
+            !mostRecentRating.propertyManagementCompanyAtDateOfRatingId
+          )
+            return null
 
           const propertyManagementCompany =
             await context.prisma.propertyManagementCompany.findFirst({
@@ -234,7 +243,11 @@ export const Address = list({
             },
           })
 
-          if (!mostRecentRating) return null
+          if (
+            !mostRecentRating ||
+            !mostRecentRating.doingBusinessAsAtDateOfRatingId
+          )
+            return null
 
           const doingBusinessAs = await context.prisma.business.findFirst({
             where: {

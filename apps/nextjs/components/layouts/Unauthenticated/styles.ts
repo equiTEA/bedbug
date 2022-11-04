@@ -8,7 +8,7 @@ export const pageContainerStyles = (theme: Theme) => ({
   width: '100vw',
   display: 'flex',
   height: '100vh',
-  overflow: 'hidden',
+  overflow: 'visible',
   flexDirection: 'row',
   position: 'relative',
   justifyContent: 'space-between',
@@ -31,6 +31,8 @@ export const backgroundImageContainerStyles = (theme: Theme) => ({
 
   /** Place a solid blue background behind the corner radii */
   [theme.breakpoints.down('md')]: {
+    overflowY: 'hidden',
+
     '&::after': {
       top: 0,
       right: 0,
@@ -63,7 +65,6 @@ export const accountForBorderRadiusStyles = ({ theme }: { theme: Theme }) => ({
 
 export const asideStyles = ({ theme }: { theme: Theme }) => ({
   zIndex: 1,
-  padding: 3,
   width: '550px',
   height: '100vh',
   minHeight: MIN_HEIGHT,
@@ -123,8 +124,9 @@ export const mainStyles = ({
 
 export const logoContainerStyles = ({ theme }: { theme: Theme }) => ({
   position: 'absolute',
-  bottom: '-6px',
+  bottom: 0,
   right: '-.5px',
+  height: '125px',
 
   [theme.breakpoints.down('md')]: {
     width: '300px',

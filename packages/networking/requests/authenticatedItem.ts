@@ -7,6 +7,7 @@ export const authenticatedItem = /* GraphQL */ `
         username
         email
         role
+        isEnrolledInAddressModeration
       }
     }
   }

@@ -41,7 +41,7 @@ const SignIn = () => {
   } = useForm()
 
   return (
-    <>
+    <Box sx={{ pt: 3 }}>
       <Box sx={{ pl: 2 }}>
         <BackLink linkText="Address Search" href="/" />
       </Box>
@@ -154,7 +154,7 @@ const SignIn = () => {
           </Body1>
         </form>
       </Box>
-    </>
+    </Box>
   )
 }
 

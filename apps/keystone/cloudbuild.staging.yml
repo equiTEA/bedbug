@@ -15,6 +15,7 @@ steps:
         && echo DATABASE_URL=$$DATABASE_URL >> .env.staging \
         && echo COOKIE_SECRET=$$COOKIE_SECRET >> .env.staging \
         && echo POSITIONSTACK_API_ACCESS_KEY=$$POSITIONSTACK_API_ACCESS_KEY >> .env.staging \
+        && echo NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://staging-api.bedbug.app >> .env.staging \
         && echo NEXT_PUBLIC_CORS_ORIGIN=https://staging.bedbug.app >> .env.staging \
         && echo NEXT_PUBLIC_DEPLOYMENT_TARGET=staging >> .env.staging \
         && echo NODE_ENV=production >> .env.staging \
@@ -50,8 +51,6 @@ steps:
       - '--file=./apps/keystone/Dockerfile.staging'
       - '-t'
       - 'gcr.io/$PROJECT_ID/bedbug-staging-keystone:$COMMIT_SHA'
-      - '--cache-from'
-      - 'gcr.io/bedbug-0/bedbug-staging-keystone:latest'
       - '.'
     waitFor: ['Debug 2']
 

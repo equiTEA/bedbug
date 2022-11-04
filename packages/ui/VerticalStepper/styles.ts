@@ -1,5 +1,23 @@
 import type { Theme } from '@mui/material/styles'
 
+export const stepperStyles = {
+  '& .MuiStepLabel-root': {
+    p: 0,
+  },
+
+  '& > .MuiStep-vertical': {
+    height: 'auto',
+  },
+
+  '& > .MuiStepConnector-root.MuiStepConnector-vertical.Mui-completed': {
+    height: '16px',
+  },
+
+  '& > .Mui-completed .MuiStepConnector-lineMuiStepConnector-lineVertical': {
+    height: '8px',
+  },
+}
+
 export const stepLabelStyles = {
   color: 'white !important',
 }

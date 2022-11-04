@@ -76,7 +76,13 @@ const NewAddressValidationForm = ({
         )
       }
 
-      onReceiveValidationResults(response)
+      onReceiveValidationResults(
+        response.map((addressResult: Address) => ({
+          ...addressResult,
+          isVerified: true,
+        })),
+      )
+
       setUserEnteredAddress({
         full: `${line1}, ${city} ${state?.value} ${zip}, USA`,
         line1,

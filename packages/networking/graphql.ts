@@ -45,10 +45,9 @@ export const graphql = async <
       : '/api/graphql'
   })()
 
-  console.log({ endpoint })
-
   const response = await fetch(endpoint, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       ...headers,
       'Content-Type': 'application/json',
@@ -58,9 +57,6 @@ export const graphql = async <
       variables,
     }),
   })
-
-  console.log(response.body)
-  console.log(response.headers)
 
   const deserialized = await response.json()
 

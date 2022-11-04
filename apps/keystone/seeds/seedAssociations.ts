@@ -18,6 +18,7 @@ export const seedAssociations = async ({
     /** Add 10 ratings per address */
     keystoneContext.query.Rating.findMany({
       take: seedCount * 10,
+      orderBy: { tenancyStartDate: 'asc' },
     }),
 
     ...[
@@ -39,18 +40,21 @@ export const seedAssociations = async ({
   process.stdout.write('Associating addresses...\n')
 
   const addressUpdates = []
-  for (const [index, address] of addresses.entries()) {
+  for (const [addressIndex, address] of addresses.entries()) {
+    /** Add 10 ratings per address */
+    const addressRatings = []
+    for (let i = 0; i < 10; i++) {
+      addressRatings.push(ratings[addressIndex + i * seedCount])
+    }
+
     addressUpdates.push(
       keystoneContext.query.Address.updateOne({
         where: { id: address.id },
         data: {
           ratings: {
-            /** Add 10 ratings per address */
-            connect: ratings
-              .slice(index * 10, index * 10 + 10)
-              .map(({ id }) => ({ id })),
+            connect: addressRatings.map(({ id }) => ({ id })),
           },
-          createdBy: { connect: { id: users[index].id } },
+          createdBy: { connect: { id: users[addressIndex].id } },
         },
       }),
     )

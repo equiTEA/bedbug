@@ -1,5 +1,5 @@
 {
   "extends": "tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../../packages/networking/graphql/addressDetail.ts", "../../packages/networking/graphql.ts", "../../packages/hooks/useDebouncedState.ts", "env.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../../packages/networking/graphql/addressDetail.ts", "../../packages/networking/graphql.ts", "../../packages/hooks/useDebouncedState.ts", "env.js", "../../packages/hooks/context/RateAddress/hooks/useLandlordForm.ts", "../../packages/hooks/context/RateAddress/useDBAForm.ts"],
   "exclude": ["node_modules"]
 }

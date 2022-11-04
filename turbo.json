@@ -2,8 +2,10 @@
   "$schema": "https://turborepo.org/schema.json",
   "globalEnv": [
     "NEXT_PUBLIC_DEPLOYMENT_TARGET",
+    "NEXT_PUBLIC_HCAPTCHA_SITE_KEY",
     "NODE_ENV",
     "NEXT_PUBLIC_STRICT_MODE",
+    "NEXT_PUBLIC_ETC_HOSTS",
     
     "NEXT_PUBLIC_GRAPHQL_ENDPOINT",
     "NEXT_PUBLIC_CORS_ORIGIN",
@@ -14,7 +16,9 @@
 
     "ADMIN_USER_EMAIL",
     "ADMIN_USER_PASSWORD",
-    "POSITIONSTACK_API_ACCESS_KEY"
+
+    "POSITIONSTACK_API_ACCESS_KEY",
+    "HCAPTCHA_SECRET"
   ],
   "pipeline": {
     "package": {

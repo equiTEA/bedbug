@@ -8,7 +8,7 @@ export const pageContainerStyles = (theme: Theme) => ({
   width: '100vw',
   display: 'flex',
   height: '100vh',
-  overflow: 'hidden',
+  overflow: 'visible',
   flexDirection: 'row',
   position: 'relative',
   justifyContent: 'space-between',
@@ -39,7 +39,6 @@ export const accountForBorderRadiusStyles = ({ theme }: { theme: Theme }) => ({
 
 export const asideStyles = ({ theme }: { theme: Theme }) => ({
   zIndex: 1,
-  padding: 3,
   width: '550px',
   height: '100vh',
   minHeight: MIN_HEIGHT,
@@ -50,17 +49,17 @@ export const asideStyles = ({ theme }: { theme: Theme }) => ({
     width: '100%',
     height: 'auto',
     minHeight: '100vh',
-    px: 1,
   },
 })
 
 export const asideContentContainerStyles = ({ theme }: { theme: Theme }) => ({
   m: '0 auto',
   width: '100%',
-  maxWidth: '450px',
+  overflowY: 'auto',
 
   [theme.breakpoints.down('md')]: {
     maxWidth: '100%',
+    overflowY: 'visible',
   },
 })
 
@@ -99,8 +98,9 @@ export const mainStyles = ({
 
 export const logoContainerStyles = ({ theme }: { theme: Theme }) => ({
   position: 'absolute',
-  bottom: '-6px',
+  bottom: 0,
   right: '-.5px',
+  height: '125px',
 
   [theme.breakpoints.down('md')]: {
     width: '300px',

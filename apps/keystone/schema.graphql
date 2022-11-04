@@ -7,7 +7,9 @@ type User {
   email: String
   banned: Boolean
   password: PasswordState
+  isEnrolledInAddressModeration: Boolean
   role: UserRoleType
+  createdAt: DateTime
   ratings(
     where: RatingWhereInput! = {}
     orderBy: [RatingOrderByInput!]! = []
@@ -119,6 +121,7 @@ type User {
   deletedPropertyManagementCompaniesCount(
     where: PropertyManagementCompanyWhereInput! = {}
   ): Int
+  hCaptchaToken: String
 }
 
 type PasswordState {
@@ -133,6 +136,9 @@ enum UserRoleType {
   PROPERTY_MANAGEMENT_COMPANY
 }
 
+scalar DateTime
+  @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
+
 input UserWhereUniqueInput {
   id: ID
   email: String
@@ -146,7 +152,9 @@ input UserWhereInput {
   username: StringFilter
   email: StringFilter
   banned: BooleanFilter
+  isEnrolledInAddressModeration: BooleanFilter
   role: UserRoleTypeNullableFilter
+  createdAt: DateTimeNullableFilter
   ratings: RatingManyRelationFilter
   updatedRatings: RatingManyRelationFilter
   deletedRatings: RatingManyRelationFilter
@@ -221,6 +229,17 @@ input UserRoleTypeNullableFilter {
   not: UserRoleTypeNullableFilter
 }
 
+input DateTimeNullableFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTimeNullableFilter
+}
+
 input RatingManyRelationFilter {
   every: RatingWhereInput
   some: RatingWhereInput
@@ -256,7 +275,9 @@ input UserOrderByInput {
   username: OrderDirection
   email: OrderDirection
   banned: OrderDirection
+  isEnrolledInAddressModeration: OrderDirection
   role: OrderDirection
+  createdAt: OrderDirection
 }
 
 enum OrderDirection {
@@ -269,7 +290,9 @@ input UserUpdateInput {
   email: String
   banned: Boolean
   password: String
+  isEnrolledInAddressModeration: Boolean
   role: UserRoleType
+  createdAt: DateTime
   ratings: RatingRelateToManyForUpdateInput
   updatedRatings: RatingRelateToManyForUpdateInput
   deletedRatings: RatingRelateToManyForUpdateInput
@@ -332,7 +355,9 @@ input UserCreateInput {
   email: String
   banned: Boolean
   password: String
+  isEnrolledInAddressModeration: Boolean
   role: UserRoleType
+  createdAt: DateTime
   ratings: RatingRelateToManyForCreateInput
   updatedRatings: RatingRelateToManyForCreateInput
   deletedRatings: RatingRelateToManyForCreateInput
@@ -348,6 +373,7 @@ input UserCreateInput {
   createdPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
   updatedPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
   deletedPropertyManagementCompanies: PropertyManagementCompanyRelateToManyForCreateInput
+  hCaptchaToken: String!
 }
 
 input RatingRelateToManyForCreateInput {
@@ -388,12 +414,11 @@ type Rating {
   doingBusinessAsAtDateOfRating: Business
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompany
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
+  tenancyStartDate: DateTime
+  tenancyEndDate: DateTime
 }
-
-scalar DateTime
-  @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
 input RatingWhereUniqueInput {
   id: ID
@@ -415,8 +440,9 @@ input RatingWhereInput {
   doingBusinessAsAtDateOfRating: BusinessWhereInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyWhereInput
   sentiment: IntNullableFilter
-  body: StringFilter
   rentPrice: FloatFilter
+  tenancyStartDate: DateTimeNullableFilter
+  tenancyEndDate: DateTimeNullableFilter
 }
 
 input DateTimeFilter {
@@ -458,8 +484,9 @@ input RatingOrderByInput {
   updatedAt: OrderDirection
   isDeleted: OrderDirection
   sentiment: OrderDirection
-  body: OrderDirection
   rentPrice: OrderDirection
+  tenancyStartDate: OrderDirection
+  tenancyEndDate: OrderDirection
 }
 
 input RatingUpdateInput {
@@ -474,8 +501,10 @@ input RatingUpdateInput {
   doingBusinessAsAtDateOfRating: BusinessRelateToOneForUpdateInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForUpdateInput
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
+  tenancyStartDate: DateTime
+  tenancyEndDate: DateTime
 }
 
 input UserRelateToOneForUpdateInput {
@@ -525,8 +554,10 @@ input RatingCreateInput {
   doingBusinessAsAtDateOfRating: BusinessRelateToOneForCreateInput
   propertyManagementCompanyAtDateOfRating: PropertyManagementCompanyRelateToOneForCreateInput
   sentiment: Int
-  body: String
+  body: JSON
   rentPrice: Float
+  tenancyStartDate: DateTime
+  tenancyEndDate: DateTime
 }
 
 input UserRelateToOneForCreateInput {
@@ -570,6 +601,8 @@ type Address {
   ): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String
@@ -604,6 +637,8 @@ input AddressWhereInput {
   deletedBy: UserWhereInput
   ratings: RatingManyRelationFilter
   isVerified: BooleanFilter
+  lat: FloatFilter
+  lng: FloatFilter
   full: StringFilter
   line1: StringFilter
   line2: StringFilter
@@ -620,6 +655,8 @@ input AddressOrderByInput {
   updatedAt: OrderDirection
   isDeleted: OrderDirection
   isVerified: OrderDirection
+  lat: OrderDirection
+  lng: OrderDirection
   full: OrderDirection
   line1: OrderDirection
   line2: OrderDirection
@@ -639,6 +676,8 @@ input AddressUpdateInput {
   deletedBy: UserRelateToOneForUpdateInput
   ratings: RatingRelateToManyForUpdateInput
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String
@@ -663,6 +702,8 @@ input AddressCreateInput {
   deletedBy: UserRelateToOneForCreateInput
   ratings: RatingRelateToManyForCreateInput
   isVerified: Boolean
+  lat: Float
+  lng: Float
   full: String
   line1: String
   line2: String

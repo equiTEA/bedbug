@@ -8,3 +8,5 @@ export type { Rating } from './data/Rating'
 
 export { RatingSentiments } from './data/Rating'
 export { Roles } from './data/User'
+
+export { Months } from './data/misc/Months'

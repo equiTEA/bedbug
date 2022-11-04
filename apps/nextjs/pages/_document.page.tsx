@@ -14,7 +14,7 @@ export default class Document extends DocumentClass<{
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/static/favicon.svg" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
@@ -26,6 +26,7 @@ export default class Document extends DocumentClass<{
             rel="stylesheet"
           />
           <meta name="emotion-insertion-point" content="" />
+
           {this.props.emotionStyleTags}
         </Head>
         <body>

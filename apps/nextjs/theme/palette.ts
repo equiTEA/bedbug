@@ -30,11 +30,13 @@ declare module '@mui/material/Button' {
 }
 
 const Colors = {
-  primary: '#D2223C',
+  primary: '#f92c51',
   secondary: '#CAFDFF',
   backgroundColor: '#3E4D5D',
   success: '#00FFA3',
-  text: '#FFFFFF',
+  warning: '#FB8B24',
+  text: '#e5e5e5',
+  error: '#f92c51',
 }
 
 export const palette = {
@@ -66,6 +68,12 @@ export const palette = {
     main: Colors.success,
     light: lighten(Colors.success, 0.25),
     dark: darken(Colors.success, 0.25),
+    contrastText: Colors.text,
+  },
+  error: {
+    main: Colors.error,
+    light: lighten(Colors.error, 0.25),
+    dark: darken(Colors.error, 0.25),
     contrastText: Colors.text,
   },
 }

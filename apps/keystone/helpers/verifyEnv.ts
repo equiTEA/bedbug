@@ -26,13 +26,17 @@ const verifyEnv = () => {
       'POSITIONSTACK_API_ACCESS_KEY not set in environment variables',
     )
 
+  if (!process.env.HCAPTCHA_SECRET)
+    throw new Error('HCAPTCHA_SECRET not set in environment variables')
+
   return {
     ...commonEnvVars,
     DATABASE_URL: process.env.DATABASE_URL,
     COOKIE_SECRET: process.env.COOKIE_SECRET,
+    HCAPTCHA_SECRET: process.env.HCAPTCHA_SECRET,
     SEED_COUNT: parseInt(process.env.SEED_COUNT) || 0,
-    POSITIONSTACK_API_ACCESS_KEY: process.env.POSITIONSTACK_API_ACCESS_KEY,
     NEXT_PUBLIC_CORS_ORIGIN: process.env.NEXT_PUBLIC_CORS_ORIGIN,
+    POSITIONSTACK_API_ACCESS_KEY: process.env.POSITIONSTACK_API_ACCESS_KEY,
     NEXT_PUBLIC_STRICT_MODE: commonEnvVars.NEXT_PUBLIC_STRICT_MODE
       ? JSON.parse(commonEnvVars.NEXT_PUBLIC_STRICT_MODE)
       : true,

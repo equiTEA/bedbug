@@ -23,6 +23,21 @@ let sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+  domain: (() => {
+    switch (true) {
+      case process.env.NODE_ENV === 'production': {
+        return 'bedbug.app'
+      }
+      case process.env.NEXT_PUBLIC_ETC_HOSTS === 'true': {
+        return 'bedbug.com'
+      }
+      default: {
+        return 'localhost'
+      }
+    }
+  })(),
 })
 
 export { withAuth, session }

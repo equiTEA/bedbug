@@ -6,8 +6,7 @@ import MuiStepper, {
 import MuiStepLabel, {
   StepLabelProps as MuiStepLabelProps,
 } from '@mui/material/StepLabel'
-
-import { stepLabelStyles, stepIconStyles } from './styles'
+import { stepperStyles, stepLabelStyles, stepIconStyles } from './styles'
 
 export namespace VerticalStepper {
   export type Props = MuiStepperProps & {}
@@ -19,13 +18,16 @@ export const VerticalStepper = ({
   ...props
 }: VerticalStepper.Props) => {
   return (
-    <MuiStepper orientation="vertical" {...props}>
+    <MuiStepper sx={stepperStyles} orientation="vertical" {...props}>
       {children}
     </MuiStepper>
   )
 }
 
-VerticalStepper.StepLabel = ({ children }: VerticalStepper.StepLabelProps) => {
+VerticalStepper.StepLabel = ({
+  children,
+  ...props
+}: VerticalStepper.StepLabelProps) => {
   return (
     <MuiStepLabel
       sx={stepLabelStyles}
@@ -33,6 +35,7 @@ VerticalStepper.StepLabel = ({ children }: VerticalStepper.StepLabelProps) => {
         color: 'blue !important',
         sx: (theme) => stepIconStyles({ theme }),
       }}
+      {...props}
     >
       {children}
     </MuiStepLabel>
