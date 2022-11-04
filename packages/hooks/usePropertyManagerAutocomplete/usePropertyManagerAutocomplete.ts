@@ -31,7 +31,7 @@ export const usePropertyManagerAutocompleteOptions = ({
       const response = await graphql({
         query: rateAddressPropertyManagerSearch,
         variables: {
-          take: 100,
+          take: 25,
           operationName: 'propertyManagementCompanies',
           ratingsOrderBy: [
             {

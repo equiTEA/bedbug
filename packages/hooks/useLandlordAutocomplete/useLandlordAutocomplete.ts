@@ -31,7 +31,7 @@ export const useLandlordAutocompleteOptions = ({
       const response = await graphql({
         query: rateAddressLandlordSearch,
         variables: {
-          take: 100,
+          take: 25,
           orderBy: [],
           operationName: 'landlords',
           ratingsOrderBy: [

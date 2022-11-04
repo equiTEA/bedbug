@@ -31,7 +31,7 @@ export const useBusinessAutocompleteOptions = ({
       const response = await graphql({
         query: rateAddressBusinessSearch,
         variables: {
-          take: 100,
+          take: 25,
           operationName: 'businesses',
           ratingsOrderBy: [
             {
