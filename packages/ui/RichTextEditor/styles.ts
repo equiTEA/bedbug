@@ -2,16 +2,20 @@ import type { Theme } from '@mui/material/styles'
 
 export const containerStyles = ({
   theme,
+  error,
   chromeless,
 }: {
   theme: Theme
+  error?: boolean
   chromeless?: boolean
 }) => ({
   p: 2,
   pb: 1,
   lineHeight: 1.5,
   borderRadius: '4px',
-  border: `1px solid ${theme.palette.secondary.main}`,
+  border: `1px solid ${
+    error ? theme.palette.error.main : theme.palette.secondary.main
+  }`,
 
   '& [data-slate-string="true"]': {
     color: theme.palette.textColor.light,

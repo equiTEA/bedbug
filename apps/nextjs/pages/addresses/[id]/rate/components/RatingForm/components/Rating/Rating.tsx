@@ -27,7 +27,7 @@ const Rating = ({
 
   return (
     <>
-      <Body1 sx={{ mb: 2, fontSize: '0.75rem' }}>
+      <Body1 sx={{ mb: 2, fontSize: '0.75rem', lineHeight: '1.25rem' }}>
         How do you feel about the way this address is managed by the landlord
         and property manager?
       </Body1>

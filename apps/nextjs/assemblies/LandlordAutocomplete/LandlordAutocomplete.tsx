@@ -1,14 +1,13 @@
 import {
   chipIconStyles,
   listItemStyles,
-  autocompleteStyles,
   landlordChipStyles,
   listItemTitleStyles,
   doingBusinessAsChipStyles,
   doingBusinessAsLabelStyles,
   createNewLandlordIconStyles,
-  createNewLandlordListItemStyles,
   selectedLandlordChipStyles,
+  createNewLandlordListItemStyles,
 } from './styles'
 import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
@@ -22,6 +21,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CheckedPinIcon from '@mui/icons-material/WhereToVote'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useLandlordAutocompleteOptions } from '@bedbug/hooks'
+import { sharedAutocompleteStyles } from '../../styles/shared/autocompleteStyles'
 
 import type { ChangeEvent } from 'react'
 import type { Landlord } from '@bedbug/types'
@@ -88,7 +88,7 @@ const LandlordAutocomplete = ({
       onFocus={() => setFocused(true)}
       loading={landlordOptionsLoading}
       filterOptions={(options) => options}
-      sx={(theme) => autocompleteStyles({ theme })}
+      sx={(theme) => sharedAutocompleteStyles({ theme })}
       onBlur={() => {
         setFocused(false)
         setSearchTerm('')

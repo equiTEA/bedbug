@@ -25,6 +25,7 @@ import BulletedListIcon from '@mui/icons-material/FormatListBulletedOutlined'
 import NumberedListIcon from '@mui/icons-material/FormatListNumberedOutlined'
 
 export type RichTextEditorProps = {
+  error?: boolean
   readonly?: boolean
   chromeless?: boolean
   placeholder?: string
@@ -33,6 +34,7 @@ export type RichTextEditorProps = {
 }
 
 export const RichTextEditor = ({
+  error,
   readonly,
   chromeless,
   placeholder,
@@ -52,10 +54,10 @@ export const RichTextEditor = ({
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
 
   return (
-    <Box sx={(theme) => containerStyles({ theme, chromeless })}>
+    <Box sx={(theme) => containerStyles({ theme, chromeless, error })}>
       <Slate onChange={onDocumentChange} editor={editor} value={document}>
         {!chromeless && (
-          <Toolbar>
+          <Toolbar error={error}>
             <Tooltip enterDelay={500} title="Bold">
               <Box component="span">
                 <MarkButton format="bold" icon={<BoldIcon />} />

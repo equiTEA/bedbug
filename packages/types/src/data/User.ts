@@ -12,6 +12,7 @@ export type Scalars = {
   email: string
   role: Roles
   banned: boolean
+  isEnrolledInAddressModeration: boolean
   password: {
     isSet: boolean
   }

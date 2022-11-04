@@ -155,6 +155,8 @@ export const useDBAForm = ({
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       setDidAttemptSubmit(true)
+
+      if (!knowsDBAName) return onSuccess()
       if (errorsExist) return
 
       setLoading(true)
@@ -192,6 +194,7 @@ export const useDBAForm = ({
       onSuccess,
       createMode,
       errorsExist,
+      knowsDBAName,
       createBusiness,
       associateDBAWithRating,
     ],

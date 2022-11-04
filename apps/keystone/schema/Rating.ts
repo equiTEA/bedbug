@@ -108,5 +108,7 @@ export const Rating = list({
 
     body: json(),
     rentPrice: float({ validation: { isRequired: true } }),
+    tenancyStartDate: timestamp(),
+    tenancyEndDate: timestamp(),
   },
 })

@@ -6,10 +6,11 @@ import type { BaseProps, OrNull } from '../../types'
 
 const Toolbar = forwardRef(
   (
-    { className, ...props }: PropsWithChildren<BaseProps>,
+    { className, error, ...props }: PropsWithChildren<BaseProps>,
     ref: Ref<OrNull<HTMLDivElement>>,
   ) => {
     const theme = useTheme()
+
     return (
       <Menu
         {...props}
@@ -23,7 +24,9 @@ const Toolbar = forwardRef(
           position: 'relative',
           padding: '1px 18px 17px',
           justifyContent: 'space-between',
-          borderBottom: `1px solid ${theme.palette.secondary.main}`,
+          borderBottom: `1px solid ${
+            error ? theme.palette.error.main : theme.palette.secondary.main
+          }`,
         }}
       />
     )

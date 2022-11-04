@@ -3,6 +3,7 @@ import type {
   Landlord,
   Business,
   PropertyManagementCompany,
+  Months,
 } from '@bedbug/types'
 import type { FormEvent } from 'react'
 import type { Descendant } from 'slate'
@@ -36,10 +37,17 @@ export type RatingFormFields = CommonFields & {
   setBody: (ratingBody: Descendant[]) => void
   setSentiment: (ratingSentiment: number) => void
   setRentPrice: (rentPrice: number | null) => void
+  tenancyStartDate: Date | null
+  tenancyEndDate: Date | null
+  setTenancyStartDate: (tenancyStartDate: Date | null) => void
+  setTenancyEndDate: (tenancyEndDate: Date | null) => void
   errors: CommonErrorFields & {
     body: string | null
     rentPrice: string | null
     sentiment: string | null
+    tenancyStartDate: string | null
+    tenancyEndDate: string | null
+    tenancyDateRange: string | null
   }
 }
 

@@ -18,7 +18,9 @@ model User {
   email                              String                      @unique @default("")
   banned                             Boolean                     @default(false)
   password                           String
+  isEnrolledInAddressModeration      Boolean                     @default(false)
   role                               UserRoleType?
+  createdAt                          DateTime?                   @default(now())
   ratings                            Rating[]                    @relation("Rating_createdBy")
   updatedRatings                     Rating[]                    @relation("Rating_updatedBy")
   deletedRatings                     Rating[]                    @relation("Rating_deletedBy")
@@ -58,6 +60,8 @@ model Rating {
   sentiment                                 Int?
   body                                      Json?
   rentPrice                                 Float
+  tenancyStartDate                          DateTime?
+  tenancyEndDate                            DateTime?
 
   @@index([createdById])
   @@index([updatedById])

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { faker } from '@faker-js/faker'
 import { RatingSentiments } from '@bedbug/types'
 
@@ -18,7 +19,7 @@ export const seedRatings = async ({
 }: SeedProps) => {
   process.stdout.write('Seeding ratings...\n')
 
-  const ratingsCount = await keystoneContext.query.Rating.count()
+  const ratingsCount = await keystoneContext.db.Rating.count()
 
   if (ratingsCount !== 0) {
     process.stdout.write('Ratings exist, skipping\n')
@@ -37,14 +38,27 @@ export const seedRatings = async ({
 
     const rating = {
       sentiment: randomIndex,
-      body: faker.lorem.paragraph(bodySentenceCount),
+      body: [
+        {
+          type: 'paragraph' as const,
+          children: [{ text: faker.lorem.sentence(bodySentenceCount) }],
+        },
+      ],
       rentPrice: parseFloat(faker.finance.amount(900, 3000, 2)),
+
+      tenancyStartDate: dayjs()
+        .subtract(seedCount - Math.floor(i / 10), 'year')
+        .toDate(),
+
+      tenancyEndDate: dayjs()
+        .subtract(seedCount - 1 - Math.floor(i / 10), 'year')
+        .toDate(),
     }
 
     ratings.push(rating)
   }
 
-  const createdRatings = await keystoneContext.query.Rating.createMany({
+  const createdRatings = await keystoneContext.db.Rating.createMany({
     data: ratings,
   })
 

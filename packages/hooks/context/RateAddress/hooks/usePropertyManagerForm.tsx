@@ -155,6 +155,8 @@ export const usePropertyManagerForm = ({
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       setDidAttemptSubmit(true)
+
+      if (!knowsPropertyManagerName) return onSuccess()
       if (errorsExist) return
 
       setLoading(true)
@@ -202,6 +204,7 @@ export const usePropertyManagerForm = ({
       errorsExist,
       propertyManager,
       createPropertyManager,
+      knowsPropertyManagerName,
       associatePropertyManagerWithRating,
     ],
   )

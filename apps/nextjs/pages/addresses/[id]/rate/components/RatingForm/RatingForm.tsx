@@ -7,6 +7,7 @@ import { useRateAddress } from '@bedbug/hooks'
 import RentPrice from './components/RentPrice'
 import { useTheme } from '@mui/material/styles'
 import RatingBody from './components/RatingBody'
+import TenancyDateRange from './components/TenancyDateRange'
 
 const RatingForm = () => {
   const theme = useTheme()
@@ -19,7 +20,11 @@ const RatingForm = () => {
       sentiment,
       setRentPrice,
       setSentiment,
+      tenancyEndDate,
       didAttemptSubmit,
+      tenancyStartDate,
+      setTenancyEndDate,
+      setTenancyStartDate,
     },
   } = useRateAddress()
 
@@ -44,6 +49,17 @@ const RatingForm = () => {
         onDocumentChange={setBody}
         ratingBodyInitialValue={body}
         didAttemptSubmit={didAttemptSubmit}
+      />
+
+      <TenancyDateRange
+        error={errors.tenancyDateRange}
+        tenancyEndDate={tenancyEndDate}
+        didAttemptSubmit={didAttemptSubmit}
+        tenancyStartDate={tenancyStartDate}
+        onEndDateChange={setTenancyEndDate}
+        onStartDateChange={setTenancyStartDate}
+        tenancyEndDateError={errors.tenancyEndDate}
+        tenancyStartDateError={errors.tenancyStartDate}
       />
 
       <H3 sx={{ mt: 3, mb: 1 }}>

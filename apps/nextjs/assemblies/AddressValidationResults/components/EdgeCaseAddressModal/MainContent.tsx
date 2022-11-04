@@ -106,19 +106,23 @@ const MainContent = ({
                 in={selectedOption === EdgeCaseAddressRadioOptions.Accuracy}
               >
                 <Body1 gutterBottom>
-                  That&apos;s okay! We can&apos;t guarantee that the address
-                  will be pinnable to the map, but we can use the address as you
-                  entered it.
+                  Apologies, and thank you for your patience.
+                </Body1>
+                <Body1 gutterBottom>
+                  We are working on a mechanism to support this. In the
+                  meantime, you can reach out to hello@teactivism.com with your
+                  address and we are happy to add it for you.
                 </Body1>
 
                 <Box sx={actionsRowStyles}>
-                  <Button
+                  {/** Disabling this for now to ensure data integrity */}
+                  {/* <Button
                     onClick={handleAddUserEnteredAddress}
                     color="secondary"
                     variant="text"
                   >
                     Use The Address I Entered
-                  </Button>
+                  </Button> */}
                   <Button
                     onClick={onClose}
                     color="secondary"

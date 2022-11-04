@@ -24,8 +24,6 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     }),
   ])
 
-  console.log({ results })
-
   if (!results?.address) {
     return {
       notFound: true,

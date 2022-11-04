@@ -1,6 +1,11 @@
+import {
+  graphql,
+  createUser,
+  GraphQLError,
+  authenticateUserWithPassword,
+} from '@bedbug/networking'
 import { useRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
-import { graphql, createUser, GraphQLError } from '@bedbug/networking'
 import { useCallback, useState, useMemo, FormEvent, useEffect } from 'react'
 
 type Errors = {
@@ -30,7 +35,6 @@ export const useForm = () => {
 
   const [hCaptchaVerified, setHCaptchaVerified] = useState(false)
   const [hCaptchaToken, setHCaptchaToken] = useState<string | null>(null)
-  const [hCaptchaEKey, setHCaptchaEKey] = useState<string | null>(null)
 
   const usernameError = useMemo(() => {
     if (username === '') return 'Username is required'
@@ -74,21 +78,14 @@ export const useForm = () => {
     [errors],
   )
 
-  const handleHCaptchaVerificationSuccess = useCallback(
-    (token: string, ekey: string) => {
-      console.log('verification success', token, ekey)
-      setHCaptchaVerified(true)
-      setHCaptchaToken(token)
-      setHCaptchaEKey(ekey)
-    },
-    [],
-  )
+  const handleHCaptchaVerificationSuccess = useCallback((token: string) => {
+    setHCaptchaVerified(true)
+    setHCaptchaToken(token)
+  }, [])
 
   const handleHCaptchaTokenExpiration = useCallback(() => {
-    console.log('captcha expired')
     setHCaptchaVerified(false)
     setHCaptchaToken(null)
-    setHCaptchaEKey(null)
   }, [])
 
   const handleSubmit = useCallback(
@@ -102,7 +99,7 @@ export const useForm = () => {
 
       setSubmitting(true)
 
-      const response = await graphql({
+      const createUserResponse = await graphql({
         operationName: 'createUser',
         query: createUser,
         variables: {
@@ -132,7 +129,25 @@ export const useForm = () => {
         },
       })
 
-      if (!response.errors) push('/')
+      const signInResponse = await graphql({
+        operationName: 'authenticateUserWithPassword',
+        query: authenticateUserWithPassword,
+        variables: {
+          email,
+          password,
+        },
+        handleErrors: (errors: GraphQLError[]) => {
+          console.error({ errors })
+          if (errors.length > 0) setFormError('An unexpected error occurred')
+        },
+      })
+
+      if (signInResponse.message === 'Authentication failed.') {
+        setSubmitting(false)
+        return setFormError('An unexpected error occurred. Please try again.')
+      }
+
+      if (!createUserResponse.errors && !signInResponse.errors) push('/')
     },
     [errors, username, email, password, push, hCaptchaToken],
   )

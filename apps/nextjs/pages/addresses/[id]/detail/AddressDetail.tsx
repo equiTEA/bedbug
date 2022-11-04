@@ -1,6 +1,10 @@
+import Link from 'next/link'
+import { useMemo } from 'react'
 import Box from '@mui/material/Box'
 import Tabs from '@mui/material/Tabs'
 import { useRouter } from 'next/router'
+import Button from '@mui/material/Button'
+import { useAuthUser } from '@bedbug/hooks'
 import { containerStyles, tabsStyles } from './styles'
 import { H1, H2, H3, LinkTab, BackLink } from '@bedbug/ui'
 import { useAddressDetailTabs } from './hooks/useAddressDetailTabs'
@@ -19,13 +23,19 @@ const AddressDetail: NextPageWithLayout<Props> = ({
   ratingsCount,
 }: Props) => {
   const { query, route } = useRouter()
+  const { user } = useAuthUser()
 
   const { headerRef, tabContent, handleTabChange, currentTab } =
     useAddressDetailTabs({
       address,
     })
 
-  const { line1, line2, line3, city, state, zip } = address
+  const { id, line1, line2, line3, city, state, zip, ratings } = address
+
+  const userOwnedRatingForAddress = useMemo(
+    () => ratings?.find(({ createdBy }) => createdBy?.id === user.id),
+    [user, ratings],
+  )
 
   return (
     <Box
@@ -52,6 +62,20 @@ const AddressDetail: NextPageWithLayout<Props> = ({
             </H3>
           </Box>
         </Box>
+
+        {!userOwnedRatingForAddress && (
+          <Box sx={{ position: 'absolute', right: 0, zIndex: 2 }}>
+            <Link passHref href={`/addresses/${id}/rate`}>
+              <Button
+                sx={{ height: '36px' }}
+                color="secondary"
+                variant="outlined"
+              >
+                + Rating
+              </Button>
+            </Link>
+          </Box>
+        )}
 
         <Tabs
           sx={(theme) => tabsStyles({ theme })}

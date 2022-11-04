@@ -3,7 +3,6 @@ import {
   listItemStyles,
   addressChipStyles,
   addressLabelStyles,
-  autocompleteStyles,
   listItemTitleStyles,
   propertyManagerChipStyles,
   selectedPropertyManagerChipStyles,
@@ -22,6 +21,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CheckedPinIcon from '@mui/icons-material/WhereToVote'
 import CircularProgress from '@mui/material/CircularProgress'
 import { usePropertyManagerAutocompleteOptions } from '@bedbug/hooks'
+import { sharedAutocompleteStyles } from '../../styles/shared/autocompleteStyles'
 
 import type { ChangeEvent } from 'react'
 import type { PropertyManagementCompany } from '@bedbug/types'
@@ -102,7 +102,7 @@ const PropertyManagerAutocomplete = ({
       onFocus={() => setFocused(true)}
       loading={propertyManagerOptionsLoading}
       filterOptions={(options) => options}
-      sx={(theme) => autocompleteStyles({ theme })}
+      sx={(theme) => sharedAutocompleteStyles({ theme })}
       onBlur={() => {
         setFocused(false)
         setSearchTerm('')

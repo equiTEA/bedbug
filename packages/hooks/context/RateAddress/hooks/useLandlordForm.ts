@@ -157,6 +157,7 @@ export const useLandlordForm = ({
       e.preventDefault()
       setDidAttemptSubmit(true)
 
+      if (!knowsLandlordName) return onSuccess()
       if (errorsExist) return
 
       setLoading(true)
@@ -196,6 +197,7 @@ export const useLandlordForm = ({
       createMode,
       errorsExist,
       createLandlord,
+      knowsLandlordName,
       associateLandlordWithRating,
     ],
   )

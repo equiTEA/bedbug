@@ -17,6 +17,8 @@ export type Scalars = {
   sentiment: RatingSentiments
   body: Descendant[]
   rentPrice: number
+  tenancyStartDate: Date
+  tenancyEndDate: Date
 }
 
 export type Associations = {

@@ -3,10 +3,11 @@ import { dividerColor } from '../../../../styles/shared/dividerStyles'
 import type { Theme } from '@mui/material/styles'
 
 export const containerStyles = ({ theme }: { theme: Theme }) => ({
-  width: '100%',
-  maxWidth: '750px',
-  m: '0 auto',
   pt: 3,
+  width: '100%',
+  m: '0 auto',
+  maxWidth: '750px',
+  position: 'relative',
 
   '& .card': {
     mb: 2,

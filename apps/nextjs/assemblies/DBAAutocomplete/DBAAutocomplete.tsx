@@ -4,7 +4,6 @@ import {
   listItemStyles,
   addressChipStyles,
   addressLabelStyles,
-  autocompleteStyles,
   listItemTitleStyles,
   selectedDBAChipStyles,
   createNewDBAIconStyles,
@@ -22,6 +21,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CheckedPinIcon from '@mui/icons-material/WhereToVote'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useBusinessAutocompleteOptions } from '@bedbug/hooks'
+import { sharedAutocompleteStyles } from '../../styles/shared/autocompleteStyles'
 
 import type { Business } from '@bedbug/types'
 
@@ -87,7 +87,7 @@ const DBAAutocomplete = ({
       onFocus={() => setFocused(true)}
       loading={businessOptionsLoading}
       filterOptions={(options) => options}
-      sx={(theme) => autocompleteStyles({ theme })}
+      sx={(theme) => sharedAutocompleteStyles({ theme })}
       onBlur={() => {
         setFocused(false)
         setSearchTerm('')

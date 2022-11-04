@@ -1,14 +1,16 @@
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import isEqual from 'lodash/isEqual'
 import {
+  GraphQLError,
   updateRating as updateRatingMutation,
   createRating as createRatingMutation,
-  GraphQLError,
 } from '@bedbug/networking'
-import isEqual from 'lodash/isEqual'
 import { useCallback, useEffect, useMemo, useState, FormEvent } from 'react'
 
 import type { Descendant } from 'slate'
-import { graphql } from '@bedbug/networking'
 import type { Rating } from '@bedbug/types'
+import { graphql } from '@bedbug/networking'
 
 type Props = {
   addressId: string
@@ -18,6 +20,8 @@ type Props = {
 
 type CreateRatingResponse = Promise<void | Rating | { errors: GraphQLError[] }>
 type EditRatingResponse = Promise<void | Rating | { errors: GraphQLError[] }>
+
+dayjs.extend(customParseFormat)
 
 const bodyInitialState = [
   {
@@ -42,6 +46,18 @@ export const useRatingForm = ({
   )
   const [body, setBody] = useState<Descendant[]>(
     editingRating ? editingRating.body ?? bodyInitialState : bodyInitialState,
+  )
+
+  const [tenancyStartDate, setTenancyStartDate] = useState<Date | null>(
+    editingRating?.tenancyStartDate
+      ? dayjs(editingRating.tenancyStartDate).toDate() ?? null
+      : null,
+  )
+
+  const [tenancyEndDate, setTenancyEndDate] = useState<Date | null>(
+    editingRating?.tenancyEndDate
+      ? dayjs(editingRating.tenancyEndDate).toDate() ?? null
+      : null,
   )
 
   const [loading, setLoading] = useState(false)
@@ -75,7 +91,7 @@ export const useRatingForm = ({
     }
 
     return body.every((node) => ratingBodyIsEmpty(node))
-      ? 'Please explain why you selected this rating'
+      ? 'Please explain why you selected your rating'
       : null
   }, [body])
 
@@ -91,15 +107,60 @@ export const useRatingForm = ({
     return null
   }, [rentPrice])
 
+  const tenancyStartDateError = useMemo(() => {
+    if (!tenancyStartDate) return 'Please select a start date'
+    if (!dayjs(tenancyStartDate).isValid()) return 'Please enter a valid date'
+    if (dayjs(tenancyStartDate).isBefore(dayjs().subtract(20, 'years')))
+      return `Please enter a date after ${dayjs()
+        .subtract(20, 'years')
+        .format('M/D/YYYY')}`
+
+    return null
+  }, [tenancyStartDate])
+
+  const tenancyEndDateError = useMemo(() => {
+    if (!tenancyEndDate) return 'Please select an end date'
+    if (!dayjs(tenancyEndDate).isValid()) return 'Please enter a valid date'
+    if (dayjs(tenancyEndDate).isBefore(dayjs().subtract(20, 'years')))
+      return `Please enter a date after ${dayjs()
+        .subtract(20, 'years')
+        .format('M/D/YYYY')}`
+
+    return null
+  }, [tenancyEndDate])
+
+  const tenancyDateRangeError = useMemo(() => {
+    const startDate = dayjs(tenancyStartDate)
+    const endDate = dayjs(tenancyEndDate)
+
+    if (startDate.isAfter(endDate)) return 'End date must be after start date'
+    if (startDate.isSame(endDate)) return 'End date must be after start date'
+
+    return null
+  }, [tenancyStartDate, tenancyEndDate])
+
   const errors = useMemo(
     () => ({
       form: formError,
       body: ratingBodyError,
       rentPrice: rentPriceError,
       sentiment: ratingSentimentError,
+      tenancyStartDate: tenancyStartDateError,
+      tenancyEndDate: tenancyEndDateError,
+      tenancyDateRange: tenancyDateRangeError,
     }),
-    [rentPriceError, ratingBodyError, ratingSentimentError, formError],
+    [
+      rentPriceError,
+      ratingBodyError,
+      ratingSentimentError,
+      tenancyStartDateError,
+      tenancyEndDateError,
+      tenancyDateRangeError,
+      formError,
+    ],
   )
+
+  console.log({ errors })
 
   const errorsExist = useMemo(
     () => Object.values(errors).some((error) => error !== null),
@@ -116,6 +177,8 @@ export const useRatingForm = ({
             body,
             sentiment,
             rentPrice,
+            tenancyStartDate,
+            tenancyEndDate,
             address: {
               connect: {
                 id: addressId,
@@ -127,16 +190,29 @@ export const useRatingForm = ({
           console.log('errors', errors)
         },
       }),
-    [addressId, body, sentiment, rentPrice],
+    [addressId, body, sentiment, rentPrice, tenancyStartDate, tenancyEndDate],
   )
 
   const updateRating = useCallback((): EditRatingResponse => {
     if (!editingRating) return Promise.resolve()
 
+    console.log(
+      sentiment !== editingRating?.sentiment,
+      rentPrice !== editingRating?.rentPrice,
+      tenancyStartDate?.toISOString() !== editingRating?.tenancyStartDate,
+      tenancyEndDate?.toISOString() !== editingRating?.tenancyEndDate,
+      !isEqual(body, editingRating?.body),
+    )
+
+    console.log(tenancyStartDate, editingRating?.tenancyStartDate)
+    console.log(tenancyEndDate, editingRating?.tenancyEndDate)
+
     /** Prevent unecessary network requests if values not changed */
     const valuesHaveChanged =
       sentiment !== editingRating?.sentiment ||
       rentPrice !== editingRating?.rentPrice ||
+      tenancyStartDate?.toISOString() !== editingRating?.tenancyStartDate ||
+      tenancyEndDate?.toISOString() !== editingRating?.tenancyEndDate ||
       !isEqual(body, editingRating?.body)
 
     if (!valuesHaveChanged) return Promise.resolve(editingRating)
@@ -152,6 +228,8 @@ export const useRatingForm = ({
           body,
           sentiment,
           rentPrice,
+          tenancyStartDate,
+          tenancyEndDate,
           address: {
             connect: {
               id: addressId,
@@ -160,11 +238,22 @@ export const useRatingForm = ({
         },
       },
       handleErrors: (errors) => {
-        console.log({ errors })
+        if (process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production')
+          console.log({ errors })
+
         setFormError('An unexpected error occurred.')
       },
     })
-  }, [editingRating, body, sentiment, rentPrice, rating?.id, addressId])
+  }, [
+    body,
+    addressId,
+    rentPrice,
+    rating?.id,
+    sentiment,
+    editingRating,
+    tenancyEndDate,
+    tenancyStartDate,
+  ])
 
   const handleSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -208,6 +297,12 @@ export const useRatingForm = ({
 
     sentiment,
     setSentiment,
+
+    tenancyStartDate,
+    setTenancyStartDate,
+
+    tenancyEndDate,
+    setTenancyEndDate,
 
     errors,
     loading,

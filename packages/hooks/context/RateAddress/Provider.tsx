@@ -32,7 +32,6 @@ export const RateAddressContextProvider = ({
   })
 
   const landlordForm = useLandlordForm({
-    addressId,
     editingRating,
     rating: ratingForm.rating,
     setRating: ratingForm.setRating,

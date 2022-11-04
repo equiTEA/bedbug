@@ -1,4 +1,5 @@
 export * from './createUser'
+export * from './updateUser'
 export * from './endSession'
 export * from './createRating'
 export * from './updateRating'

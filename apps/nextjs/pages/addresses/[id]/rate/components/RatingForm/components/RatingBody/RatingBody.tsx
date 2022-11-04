@@ -7,7 +7,7 @@ import type { Descendant } from 'slate'
 type Props = {
   error: string | null
   didAttemptSubmit: boolean
-  ratingBodyInitialValue: any[]
+  ratingBodyInitialValue: Descendant[]
   onDocumentChange: (document: Descendant[]) => void
 }
 
@@ -29,6 +29,7 @@ const RatingBody = ({
       </Body1>
 
       <RichTextEditor
+        error={didAttemptSubmit && !!error}
         document={document}
         onDocumentChange={setDocument}
         placeholder="Tell us about your rental experience"

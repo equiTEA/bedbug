@@ -5,10 +5,10 @@ import Checkbox from '@mui/material/Checkbox'
 import { useCallback, useState } from 'react'
 import { useRateAddress } from '@bedbug/hooks'
 import { H3, Body1, Card, TextField } from '@bedbug/ui'
-import { sharedCheckboxLabelStyles } from '../../styles'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import DBAAutocomplete from '../../../../../../assemblies/DBAAutocomplete'
+import { sharedCheckboxLabelStyles } from '../../../../../../styles/shared/checkboxStyles'
 
 import type { ChangeEvent } from 'react'
 import type { Landlord } from '@bedbug/types'
@@ -75,9 +75,9 @@ const DBAForm = () => {
           sx={(theme) => sharedCheckboxLabelStyles({ theme })}
           control={
             <Checkbox
-              sx={(theme) => ({ color: theme.palette.secondary.main })}
               color="secondary"
               checked={knowsDBAName}
+              sx={(theme) => ({ color: theme.palette.secondary.main })}
               onChange={(_: ChangeEvent<HTMLInputElement>, checked: boolean) =>
                 setKnowsDBAName(checked)
               }

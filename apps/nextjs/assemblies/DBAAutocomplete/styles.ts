@@ -64,18 +64,6 @@ export const listItemTitleStyles = ({ theme, selected }: BaseProps) => ({
     : {}),
 })
 
-export const autocompleteStyles = ({ theme }: { theme: Theme }) => ({
-  '& .MuiAutocomplete-clearIndicator, & > .MuiAutocomplete-popupIndicator, & .MuiSvgIcon-root':
-    {
-      color: `${theme.palette.secondary.main} !important`,
-    },
-
-  '& .MuiAutocomplete-endAdornment .MuiAutocomplete-popupIndicator .MuiSvgIcon-root':
-    {
-      color: `${theme.palette.secondary.main} !important`,
-    },
-})
-
 export const createNewDBAListItemStyles = ({ theme, selected }: BaseProps) => ({
   ...listItemStyles({ theme, selected }),
   flexDirection: 'row',
