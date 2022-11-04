@@ -134,7 +134,7 @@ export const User = list({
       }
 
       const { hCaptchaToken, ...rest } = resolvedData
-      return { ...rest, role: role ?? Roles.TENANT }
+      return { ...rest }
     },
     beforeOperation: async ({ inputData }) => {
       if (inputData?.hCaptchaToken) {

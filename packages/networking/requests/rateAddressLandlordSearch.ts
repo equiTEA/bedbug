@@ -8,8 +8,6 @@ export const rateAddressLandlordSearch = /* GraphQL */ `
     landlords(where: $where, orderBy: $orderBy, take: $take) {
       id
       name
-      ratingsCount(where: {})
-      avgRating
 
       doingBusinessAs {
         id
@@ -22,14 +20,6 @@ export const rateAddressLandlordSearch = /* GraphQL */ `
 
         address {
           id
-          full
-          line1
-          line2
-          city
-          state
-          zip
-          latitude
-          longitude
 
           ratings(orderBy: $ratingsOrderBy) {
             id
@@ -37,7 +27,6 @@ export const rateAddressLandlordSearch = /* GraphQL */ `
 
             address {
               id
-              full
             }
 
             landlordAtDateOfRating {
