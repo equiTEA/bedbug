@@ -19,7 +19,8 @@ steps:
         && echo NEXT_PUBLIC_DEPLOYMENT_TARGET=production >> .env.prod \
         && echo NODE_ENV=production >> .env.prod \
         && echo SEED_COUNT=0 >> .env.prod \
-        && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.prod
+        && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging \
+        && echo HCAPTCHA_SECRET=$$HCAPTCHA_SECRET >> .env.staging
     secretEnv:
       [
         'POSITIONSTACK_API_ACCESS_KEY',
@@ -27,6 +28,7 @@ steps:
         'ADMIN_USER_PASSWORD',
         'COOKIE_SECRET',
         'DATABASE_URL',
+        'HCAPTCHA_SECRET',
       ]
     waitFor: ['Write .env']
 
@@ -95,5 +97,7 @@ availableSecrets:
       env: 'COOKIE_SECRET'
     - versionName: projects/$PROJECT_ID/secrets/PROD_DATABASE_URL/versions/latest
       env: 'DATABASE_URL'
+    - versionName: projects/$PROJECT_ID/secrets/STAGING_HCAPTCHA_SECRET/versions/latest
+      env: 'HCAPTCHA_SECRET'
 images: ['gcr.io/bedbug-0/bedbug-prod-keystone:$COMMIT_SHA']
 timeout: 1800s

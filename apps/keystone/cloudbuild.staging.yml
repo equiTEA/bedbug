@@ -20,7 +20,8 @@ steps:
         && echo NEXT_PUBLIC_DEPLOYMENT_TARGET=staging >> .env.staging \
         && echo NODE_ENV=production >> .env.staging \
         && echo SEED_COUNT=0 >> .env.staging \
-        && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging
+        && echo NEXT_PUBLIC_STRICT_MODE=true >> .env.staging \
+        && echo HCAPTCHA_SECRET=$$HCAPTCHA_SECRET >> .env.staging
     secretEnv:
       [
         'POSITIONSTACK_API_ACCESS_KEY',
@@ -28,6 +29,7 @@ steps:
         'ADMIN_USER_PASSWORD',
         'COOKIE_SECRET',
         'DATABASE_URL',
+        'HCAPTCHA_SECRET',
       ]
     waitFor: ['Write .env']
 
