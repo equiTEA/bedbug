@@ -22,8 +22,8 @@ export const rateAddressBusinessSearch = /* GraphQL */ `
           city
           state
           zip
-          lat
-          lng
+          latitude
+          longitude
 
           ratings(orderBy: $ratingsOrderBy) {
             id
