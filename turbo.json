@@ -41,11 +41,26 @@
       ],
       "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
     },
-    "migrate:deploy": {
+    "build:prod": {
+      "dependsOn": [
+        "^package",
+        "^build:prod"
+      ],
+      "outputs": ["dist/**", ".next/**", ".keystone/admin/.next/**"]
+    },
+    "migrate:staging": {
       "dependsOn": [
         "^package",
         "^build",
-        "^migrate:deploy"
+        "^migrate:staging"
+      ],
+      "outputs": ["prisma/migrations/**"]
+    },
+    "migrate:prod": {
+      "dependsOn": [
+        "^package",
+        "^build",
+        "^migrate:prod"
       ],
       "outputs": ["prisma/migrations/**"]
     },
@@ -53,8 +68,16 @@
       "dependsOn": [
         "^package",
         "^build",
-        "^migrate:deploy",
+        "^migrate:staging",
         "^start:staging"
+      ]
+    },
+    "start:prod": {
+      "dependsOn": [
+        "^package",
+        "^build",
+        "^migrate:prod",
+        "^start:prod"
       ]
     },
     "lint": {
