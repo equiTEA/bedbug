@@ -9,10 +9,10 @@
     "dev": "wait-on http-get://localhost:3000 && next dev -p 3001",
     "dev:local": "wait-on http-get://localhost:3000 &&../../node_modules/.bin/dotenv -e ../../.env.local next dev -- -p 3001",
     
-    "build:staging": "../../node_modules/.bind/dotenv -e ../../.env.staging next build",
+    "build:staging": "../../node_modules/.bin/dotenv -e ../../.env.staging next build",
     "start:staging": "../../node_modules/.bin/dotenv -e ../../.env.staging -- next start -p 3001",
 
-    "build:prod": "../../node_modules/.bind/dotenv -e ../../.env.prod next build",
+    "build:prod": "../../node_modules/.bin/dotenv -e ../../.env.prod next build",
     "start:prod": "../../node_modules/.bin/dotenv -e ../../.env.prod -- next start -p 3001"
   },
   "dependencies": {
