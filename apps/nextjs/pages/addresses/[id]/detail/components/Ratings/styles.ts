@@ -8,10 +8,10 @@ export const containerStyles = ({
   theme: Theme
   allottedHeight: number
 }) => ({
-  height: `${allottedHeight}px`,
-  overflowY: 'auto',
   pl: 1,
   pr: 2,
+  overflowY: 'auto',
+  height: `${allottedHeight}px`,
   borderBottom: `1px solid ${dividerColor(theme)}`,
   boxShadow: `rgba(33, 35, 38, 0.1) 0px 10px 10px -10px`,
 
@@ -20,9 +20,10 @@ export const containerStyles = ({
   },
 
   [theme.breakpoints.down('md')]: {
-    height: 'auto',
-    borderBottom: 'none',
+    pb: 8,
     pl: 0,
     pr: 0,
+    height: 'auto',
+    borderBottom: 'none',
   },
 })

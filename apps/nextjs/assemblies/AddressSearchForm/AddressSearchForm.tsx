@@ -148,7 +148,6 @@ const AddressSearchForm = forwardRef(
               <Autocomplete
                 fullWidth
                 size="small"
-                disablePortal
                 value={state}
                 options={states.map((state) => ({
                   label: state,
