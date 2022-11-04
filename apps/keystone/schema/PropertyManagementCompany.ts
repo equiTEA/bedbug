@@ -1,10 +1,10 @@
 import Big from 'big.js'
 import {
   text,
-  relationship,
-  timestamp,
-  checkbox,
   virtual,
+  checkbox,
+  timestamp,
+  relationship,
 } from '@keystone-6/core/fields'
 import { baseHooks } from '../hooks/base'
 import { list, graphql } from '@keystone-6/core'
@@ -65,13 +65,13 @@ export const PropertyManagementCompany = list({
               sentiment: true,
             },
             where: {
-              propertyManagementCompany: {
-                some: {
-                  id: (item as any).id,
-                },
+              propertyManagementCompanyAtDateOfRating: {
+                id: (item as any).id,
               },
             },
           })
+
+          if (!aggregate._avg?.sentiment) return null
 
           const average = new Big(aggregate._avg.sentiment)
           return average.round(1, Big.roundHalfEven).toNumber()

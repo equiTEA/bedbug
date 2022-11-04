@@ -3,7 +3,7 @@ import type { Landlord } from './Landlord'
 import type { BaseEntity } from './BaseEntity'
 import type { PropertyManagementCompany } from './PropertyManagementCompany'
 
-type Scalars = {
+export type Scalars = {
   full: string
   line1: string
   line2?: string
@@ -16,11 +16,11 @@ type Scalars = {
   isVerified: boolean
 }
 
-type Associations = {
+export type Associations = {
   ratings?: Rating[]
 }
 
-type Virtuals = {
+export type Virtuals = {
   mostRecentLandlord?: Landlord
   mostRecentDoingBusinessAs?: Landlord
   mostRecentPropertyManagementCompany?: PropertyManagementCompany

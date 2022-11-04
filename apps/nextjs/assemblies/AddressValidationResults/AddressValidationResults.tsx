@@ -1,5 +1,9 @@
-// TODO: extract styles
-
+import {
+  infoIconStyles,
+  flexEndContainerStyles,
+  resultsContainerStyles,
+  buttonGroupButtonStyles,
+} from './styles'
 import { H3 } from '@bedbug/ui'
 import Box from '@mui/material/Box'
 import Fade from '@mui/material/Fade'
@@ -7,12 +11,12 @@ import { useRouter } from 'next/router'
 import { Body1, Card } from '@bedbug/ui'
 import Button from '@mui/material/Button'
 import { useCallback, useState } from 'react'
-import { resultsContainerStyles } from './styles'
 import ButtonGroup from '@mui/material/ButtonGroup'
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import EdgeCaseAddressModal from './components/EdgeCaseAddressModal'
 
 import type { Address } from '@bedbug/types'
+import { sharedActionsRowStyles } from '../../styles/shared/actionsRowStyles'
 
 type Props = {
   /** The Address results to display */
@@ -33,8 +37,6 @@ const AddressValidationResults = ({
   userEnteredAddress,
   onConfirmSelection,
 }: Props) => {
-  const { push } = useRouter()
-
   const [selectedIndex, setSelectedIndex] = useState<number>(0)
   const [
     shouldDisplayEdgeCaseAddressModal,
@@ -70,8 +72,8 @@ const AddressValidationResults = ({
         <EdgeCaseAddressModal
           validatedAddresses={results}
           onAddAddress={handleAddAddress}
-          userEnteredAddress={userEnteredAddress}
           selectedAddressIndex={selectedIndex}
+          userEnteredAddress={userEnteredAddress}
           open={shouldDisplayEdgeCaseAddressModal}
           onClose={() => setShouldDisplayEdgeCaseAddressModal(false)}
         />
@@ -79,16 +81,9 @@ const AddressValidationResults = ({
 
       <Fade in={true} timeout={1000} style={{ transitionDelay: '200ms' }}>
         <Box sx={(theme) => resultsContainerStyles({ theme })}>
-          <Card sx={{ px: 2, mb: 1 }}>
+          <Card sx={{ py: 1, px: 2, mb: 1 }}>
             <Body1 sx={{ display: 'inline-block' }}>
-              <InfoOutlined
-                sx={{
-                  display: 'inline-block',
-                  color: 'secondary.main',
-                  mr: 1,
-                  transform: 'translateY(6px)',
-                }}
-              />
+              <InfoOutlinedIcon sx={infoIconStyles} />
               Addresses are normalized to ensure that we can reliably pin them
               on the map, and so that renters can easily search for them.
             </Body1>
@@ -111,33 +106,28 @@ const AddressValidationResults = ({
                     onClick={() => setSelectedIndex(index)}
                     key={full}
                     disabled={selectedIndex === index}
-                    sx={(theme) => ({
-                      textTransform: 'none !important',
-                      ...(selectedIndex === index
-                        ? {
-                            backgroundColor: 'secondary.main',
-                            color: `${theme.palette.backgroundColor.main} !important`,
-                          }
-                        : {}),
-                    })}
+                    sx={(theme) =>
+                      buttonGroupButtonStyles({
+                        theme,
+                        isSelected: selectedIndex === index,
+                      })
+                    }
                   >
                     <Box>{full}</Box>
                   </Button>
                 ))}
               </ButtonGroup>
 
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+              <Box sx={flexEndContainerStyles}>
                 <Button
-                  onClick={() => setShouldDisplayEdgeCaseAddressModal(true)}
                   color="secondary"
+                  onClick={() => setShouldDisplayEdgeCaseAddressModal(true)}
                 >
                   None of these
                 </Button>
               </Box>
 
-              <Box
-                sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}
-              >
+              <Box sx={sharedActionsRowStyles}>
                 <Button
                   type="button"
                   variant="text"
@@ -146,6 +136,7 @@ const AddressValidationResults = ({
                 >
                   Back
                 </Button>
+
                 <Button
                   onClick={handleConfirmSelection}
                   type="button"

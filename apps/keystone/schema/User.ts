@@ -1,12 +1,15 @@
-import { list } from '@keystone-6/core'
 import {
   text,
-  relationship,
   select,
-  checkbox,
+  virtual,
   password,
+  checkbox,
+  timestamp,
+  relationship,
 } from '@keystone-6/core/fields'
 import { Roles } from '@bedbug/types'
+import { env } from '../helpers/verifyEnv'
+import { graphql, list } from '@keystone-6/core'
 import { disableHardDelete } from '../hooks/disableHardDelete'
 
 export const User = list({
@@ -15,6 +18,7 @@ export const User = list({
     email: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
     banned: checkbox({ defaultValue: false }),
     password: password({ validation: { isRequired: true } }),
+    isEnrolledInAddressModeration: checkbox({ defaultValue: false }),
     role: select({
       type: 'enum',
       isFilterable: true,
@@ -28,6 +32,14 @@ export const User = list({
           value: Roles.PROPERTY_MANAGEMENT_COMPANY,
         },
       ],
+    }),
+
+    /** Auditing fields */
+
+    createdAt: timestamp({
+      defaultValue: {
+        kind: 'now',
+      },
     }),
 
     /** Relations */
@@ -60,6 +72,50 @@ export const User = list({
       ref: 'PropertyManagementCompany.deletedBy',
       many: true,
     }),
+
+    /**
+     * This is a hack to make the hCaptchaToken field accessible to Keystone access control checks
+     * without having to store the token in the database.
+     */
+    hCaptchaToken: virtual({
+      field: graphql.field({
+        type: graphql.String,
+        resolve: async (item, _, context) => null,
+      }),
+    }),
+  },
+
+  access: {
+    operation: {
+      create: ({ listKey }) => {
+        if (listKey === 'hCaptchaToken') return true
+        // TODO: banned IP addresses
+        return true
+      },
+    },
+    item: {
+      create: async ({ inputData }) => {
+        try {
+          const captchaResult = await fetch(`https://hcaptcha.com/siteverify`, {
+            method: 'POST',
+            body: `response=${encodeURIComponent(
+              inputData.hCaptchaToken,
+            )}&secret=${encodeURIComponent(env.HCAPTCHA_SECRET)}`,
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            },
+          })
+
+          const deserialized = await captchaResult.json()
+
+          if (!deserialized.success) return false
+          return true
+        } catch (error) {
+          console.error({ error })
+          return false
+        }
+      },
+    },
   },
   hooks: {
     ...disableHardDelete,
@@ -70,12 +126,20 @@ export const User = list({
       if (role === Roles.ADMIN) {
         const noUsersExistYet = (await context.prisma.user.count()) === 0
 
+        const { hCaptchaToken, ...hCaptchaOmitted } = resolvedData
+
         // Only resolve the request if no user exists yet
-        if (noUsersExistYet) return { ...resolvedData }
+        if (noUsersExistYet) return { ...hCaptchaOmitted }
         throw new Error('Not permitted to create an admin user')
       }
 
-      return { ...resolvedData, role: role ?? Roles.TENANT }
+      const { hCaptchaToken, ...rest } = resolvedData
+      return { ...rest, role: role ?? Roles.TENANT }
+    },
+    beforeOperation: async ({ inputData }) => {
+      if (inputData?.hCaptchaToken) {
+        delete inputData.hCaptchaToken
+      }
     },
   },
 })

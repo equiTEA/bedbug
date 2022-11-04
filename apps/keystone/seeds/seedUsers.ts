@@ -6,6 +6,7 @@ import type { SeedProps } from './types/SeedProps'
 
 type UserInput = Omit<User, 'password'> & {
   password: string
+  hCaptchaToken: string
 }
 
 export const seedUsers = async ({
@@ -35,10 +36,11 @@ export const seedUsers = async ({
       password,
       role: Roles.TENANT,
       banned: false,
+      hCaptchaToken: '',
     })
   }
 
-  const createdUsers = await keystoneContext.query.User.createMany({
+  const createdUsers = await keystoneContext.db.User.createMany({
     data: users,
   })
 

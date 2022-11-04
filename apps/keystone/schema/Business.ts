@@ -67,11 +67,11 @@ export const Business = list({
               sentiment: true,
             },
             where: {
-              landlord: {
-                some: {
-                  doingBusinessAs: {
-                    some: {
-                      id: (item as BusinessType).id,
+              landlordAtDateOfRating: {
+                doingBusinessAs: {
+                  some: {
+                    id: {
+                      equals: (item as BusinessType).id,
                     },
                   },
                 },
@@ -79,10 +79,10 @@ export const Business = list({
             },
           })
 
+          if (!aggregate._avg?.sentiment) return null
+
           const average = new Big(aggregate._avg.sentiment)
-          return average
-            .round(aggregate._avg.sentiment, Big.roundHalfEven)
-            .toNumber()
+          return average.round(1, Big.roundHalfEven).toNumber()
         },
       }),
     }),

@@ -1,17 +1,43 @@
-import { RatingSentiments } from '@bedbug/types'
-import { list } from '@keystone-6/core'
 import {
-  relationship,
-  timestamp,
-  checkbox,
-  select,
-  text,
+  json,
   float,
+  select,
+  checkbox,
+  timestamp,
+  relationship,
 } from '@keystone-6/core/fields'
+import { list } from '@keystone-6/core'
 import { baseHooks } from '../hooks/base'
+import { RatingSentiments } from '@bedbug/types'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
 
 export const Rating = list({
+  access: {
+    operation: {
+      query: ({ session, context, listKey, operation }) => {
+        if (session && session.data.banned) return false // TODO: IP ban
+        return true
+      },
+      create: ({ session, context, listKey, operation }) => {
+        if (!session?.data) return false // TODO: IP Ban
+        if (session.data.banned) return false
+
+        return true
+      },
+      update: ({ session, context, listKey, operation }) => {
+        if (!session?.data) return false // TODO: IP Ban
+        if (session.data.banned) return false
+
+        return true
+      },
+      delete: ({ session, context, listKey, operation }) => {
+        if (!session?.data) return false // TODO: IP Ban
+        if (session.data.banned) return false
+
+        return true
+      },
+    },
+  },
   hooks: baseHooks,
   fields: {
     /** Auditing fields */
@@ -80,7 +106,9 @@ export const Rating = list({
       ],
     }),
 
-    body: text({ validation: { isRequired: true } }),
+    body: json(),
     rentPrice: float({ validation: { isRequired: true } }),
+    tenancyStartDate: timestamp(),
+    tenancyEndDate: timestamp(),
   },
 })

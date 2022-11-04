@@ -51,6 +51,8 @@ export const addressDetail = /* GraphQL */ `
         sentiment
         body
         rentPrice
+        tenancyStartDate
+        tenancyEndDate
       }
 
       mostRecentLandlord

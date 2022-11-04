@@ -6,12 +6,13 @@ export enum Roles {
   PROPERTY_MANAGEMENT_COMPANY = 'PROPERTY_MANAGEMENT_COMPANY',
 }
 
-type Scalars = {
+export type Scalars = {
   id: string
   username: string
   email: string
   role: Roles
   banned: boolean
+  isEnrolledInAddressModeration: boolean
   password: {
     isSet: boolean
   }

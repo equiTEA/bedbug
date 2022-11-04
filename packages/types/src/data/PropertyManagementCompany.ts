@@ -1,14 +1,15 @@
+import type { Rating } from './Rating'
 import type { BaseEntity } from './BaseEntity'
 
-type Scalars = {
+export type Scalars = {
   name: string
 }
 
-type Associations = {
-  /** TODO: */
+export type Associations = {
+  ratings?: Rating[]
 }
 
-type Virtuals = {
+export type Virtuals = {
   avgRating: number
 }
 

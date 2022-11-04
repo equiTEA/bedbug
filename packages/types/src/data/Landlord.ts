@@ -1,17 +1,18 @@
-import type { BaseEntity } from './BaseEntity'
+import type { Rating } from './Rating'
 import type { Business } from './Business'
+import type { BaseEntity } from './BaseEntity'
 
-type Scalars = {
+export type Scalars = {
   name: string
   isVerified: boolean
 }
 
-type Associations = {
+export type Associations = {
   doingBusinessAs?: Business[]
-  /* ... TODO: */
+  ratings?: Rating[]
 }
 
-type Virtuals = {
+export type Virtuals = {
   avgRating: number
 }
 

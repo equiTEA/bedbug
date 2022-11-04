@@ -11,6 +11,10 @@ export const extendGraphqlSchema: ExtendGraphqlSchema = (keystoneSchema) =>
         forwardGeocode(address: String!): [ForwardGeocodeResult!]!
       }
 
+      extend input UserCreateInput {
+        hCaptchaToken: String!
+      }
+
       ${typedefs}
     `,
     resolvers: {

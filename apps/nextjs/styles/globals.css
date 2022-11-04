@@ -10,15 +10,29 @@ html {
 
 html, body {
   background-color: #3E4D5D !important;
+  margin: 0;
 }
 
-* {
+body {
+  position: relative;
+  line-height: .75;
+  color: #fff;
+}
+
+
+:not(code):not(code > span) {
   font-family: 'Albert Sans', sans-serif;
 }
 
 /**
 * Overidden Button Styles
 */
+
+.MuiButton-root.MuiButton-containedPrimary {
+  background: linear-gradient(to right, #465665, #f92c51) !important;
+  border: 1px solid #c9fdfe !important;
+  color: #fff !important;
+}
 
 .MuiButton-root {
   font-weight: 900;
@@ -30,6 +44,30 @@ html, body {
   border-width: 2px;
 }
 
-.MuiButton-text {
+.MuiButton-textSecondary {
   background-color: #465665;
+}
+
+/**
+* Make error text more visible
+*/
+.MuiFormHelperText-root.Mui-error {
+  font-weight: 700;
+}
+
+/**
+* Prevent Checkbox label text from colliding with checkbox hover outline
+*/
+.MuiCheckbox-root {
+  margin-right: 8px;
+}
+
+.MuiAutocomplete-popper {
+  box-shadow: 0px 10px 50px 4px rgba(0,0,0,0.6) !important;
+}
+
+@media (min-width: 975px) {
+  body {
+    overflow: hidden;
+  }
 }

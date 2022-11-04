@@ -18,7 +18,9 @@ model User {
   email                              String                      @unique @default("")
   banned                             Boolean                     @default(false)
   password                           String
+  isEnrolledInAddressModeration      Boolean                     @default(false)
   role                               UserRoleType?
+  createdAt                          DateTime?                   @default(now())
   ratings                            Rating[]                    @relation("Rating_createdBy")
   updatedRatings                     Rating[]                    @relation("Rating_updatedBy")
   deletedRatings                     Rating[]                    @relation("Rating_deletedBy")
@@ -56,8 +58,10 @@ model Rating {
   propertyManagementCompanyAtDateOfRating   PropertyManagementCompany? @relation("Rating_propertyManagementCompanyAtDateOfRating", fields: [propertyManagementCompanyAtDateOfRatingId], references: [id])
   propertyManagementCompanyAtDateOfRatingId String?                    @map("propertyManagementCompanyAtDateOfRating")
   sentiment                                 Int?
-  body                                      String                     @default("")
+  body                                      Json?
   rentPrice                                 Float
+  tenancyStartDate                          DateTime?
+  tenancyEndDate                            DateTime?
 
   @@index([createdById])
   @@index([updatedById])
@@ -81,6 +85,8 @@ model Address {
   deletedById String?  @map("deletedBy")
   ratings     Rating[] @relation("Rating_address")
   isVerified  Boolean  @default(false)
+  lat         Float    @default(0)
+  lng         Float    @default(0)
   full        String   @unique @default("")
   line1       String   @default("")
   line2       String   @default("")

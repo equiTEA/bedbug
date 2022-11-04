@@ -14,11 +14,13 @@ export const cardStyles = ({
   theme: Theme
   sx: SystemCssProperties<Theme>
 }) => ({
-  width: '100%',
   py: 2,
-  borderStyle: 'solid',
+  width: '100%',
   borderWidth: '1px',
   borderRadius: '4px',
+  borderStyle: 'solid',
+  cursor: onClickProvided ? 'pointer' : 'default',
+  transition: 'background-color 0.15s ease-in-out',
   borderColor: alpha(
     sx?.color ? (sx.color as string) : theme.palette.secondary.main,
     0.25,
@@ -27,8 +29,6 @@ export const cardStyles = ({
     sx?.color ? (sx.color as string) : theme.palette.secondary.main,
     0.05,
   ),
-  transition: 'background-color 0.15s ease-in-out',
-  cursor: onClickProvided ? 'pointer' : 'default',
 
   /** Text */
 
@@ -74,6 +74,11 @@ export const cardStyles = ({
           transition: 'color 0.15s ease-in-out',
         },
 
+        '&:hover .MuiButton-text': {
+          backgroundColor: `${theme.palette.secondary.dark} !important`,
+          color: `${theme.palette.secondary.contrastText} !important`,
+        },
+
         '&:hover .MuiIconButton-root': {
           border: `1px solid ${alpha(
             theme.palette.secondary.contrastText,
@@ -87,73 +92,73 @@ export const cardStyles = ({
 })
 
 export const cardHeadingStyles = {
-  fontFamily: 'Albert Sans, sans-serif',
-  fontStyle: 'normal',
+  mb: 1,
+  px: PADDING,
   fontWeight: 500,
   fontSize: '20px',
+  fontStyle: 'normal',
   lineHeight: '133.4%',
   color: 'secondary.main',
+  fontFamily: 'Albert Sans, sans-serif',
   transition: 'color 0.15s ease-in-out',
-  px: PADDING,
-  mb: 1,
 }
 
 export const cardSubheadingStyles = {
-  fontFamily: 'Albert Sans, sans-serif',
-  fontStyle: 'normal',
+  px: PADDING,
   fontWeight: 700,
   fontSize: '16px',
+  fontStyle: 'normal',
   lineHeight: '133.4%',
   color: 'backgroundColor.contrastText',
   transition: 'color 0.15s ease-in-out',
-  px: PADDING,
+  fontFamily: 'Albert Sans, sans-serif',
 }
 
 export const cardSectionHeadingStyles = {
-  fontFamily: 'Albert Sans, sans-serif',
-  fontStyle: 'normal',
-  fontWeight: 700,
-  fontSize: '12px',
-  lineHeight: '133.4%',
-  color: 'secondary.main',
-  letterSpacing: '2px',
-  textTransform: 'uppercase' as const,
-  transition: 'color 0.15s ease-in-out',
   mb: 2,
   px: PADDING,
+  fontWeight: 700,
+  fontSize: '12px',
+  fontStyle: 'normal',
+  lineHeight: '133.4%',
+  letterSpacing: '2px',
+  color: 'secondary.main',
+  textTransform: 'uppercase' as const,
+  transition: 'color 0.15s ease-in-out',
+  fontFamily: 'Albert Sans, sans-serif',
 }
 
 export const dataPointStyles = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start',
   px: PADDING,
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
 }
 
 export const dataPointLabelStyles = {
-  fontFamily: 'Albert Sans',
-  fontStyle: 'normal',
-  fontWeight: 500,
-  fontSize: '14px',
-  color: 'secondary.main',
-  lineHeight: '133.4%',
-  width: 'auto',
-  maxWidth: '49%',
-  transition: 'color 0.15s ease-in-out',
   mb: 1,
+  width: 'auto',
+  fontWeight: 500,
+  maxWidth: '49%',
+  fontSize: '14px',
+  fontStyle: 'normal',
+  lineHeight: '133.4%',
+  color: 'secondary.main',
+  fontFamily: 'Albert Sans',
+  transition: 'color 0.15s ease-in-out',
 }
 
 export const dataPointValueStyles = {
-  fontFamily: 'Albert Sans',
-  fontStyle: 'normal',
-  fontWeight: 400,
-  fontSize: '14px',
-  color: 'secondary.main',
-  lineHeight: '133.4%',
-  textAlign: 'right' as const,
+  mb: 1,
   width: 'auto',
   maxWidth: '49%',
-  mb: 1,
+  fontWeight: 400,
+  fontSize: '14px',
+  fontStyle: 'normal',
+  lineHeight: '133.4%',
+  color: 'secondary.main',
+  fontFamily: 'Albert Sans',
+  textAlign: 'right' as const,
   transition: 'color 0.15s ease-in-out',
 }
 

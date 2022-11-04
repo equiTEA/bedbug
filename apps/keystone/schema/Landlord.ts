@@ -10,6 +10,8 @@ import { list, graphql } from '@keystone-6/core'
 import { hideUIForDefaults } from '../helpers/schemaHelpers'
 import Big from 'big.js'
 
+import type { Landlord as LandlordType } from '@bedbug/types'
+
 export const Landlord = list({
   hooks: baseHooks,
   fields: {
@@ -66,13 +68,13 @@ export const Landlord = list({
               sentiment: true,
             },
             where: {
-              landlord: {
-                some: {
-                  id: (item as any).id,
-                },
+              landlordAtDateOfRatingId: {
+                equals: (item as LandlordType).id,
               },
             },
           })
+
+          if (!aggregate._avg?.sentiment) return null
 
           const average = Big(aggregate._avg.sentiment)
           return average.round(1, Big.roundHalfEven).toNumber()

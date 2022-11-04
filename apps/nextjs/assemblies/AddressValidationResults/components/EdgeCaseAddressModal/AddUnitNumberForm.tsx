@@ -21,7 +21,6 @@ type Props = {
 }
 
 const AddUnitNumberForm = ({
-  unitNumber,
   selectedAddressIndex: initialSelectedAddressIndex,
   validatedAddresses,
   onSubmit,
@@ -60,6 +59,7 @@ const AddUnitNumberForm = ({
         ...address,
         line2,
         full: `${address.line1} ${line2}, ${address.city}, ${address.state} ${address.zip}, ${address.countryCode}`,
+        isVerified: false,
       })
 
       onClose()

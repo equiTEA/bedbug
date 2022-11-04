@@ -9,8 +9,8 @@ type UseAddressSearchHookProps = {
 }
 
 export const useAddressSearchForm = ({
-  debounceInterval = 500,
   initialState = {},
+  debounceInterval = 500,
 }: UseAddressSearchHookProps = {}) => {
   const [line1, setLine1] = useState(initialState.line1 || '')
   const [line1Blurred, setLine1Blurred] = useState(false)

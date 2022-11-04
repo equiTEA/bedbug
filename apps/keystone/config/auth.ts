@@ -20,30 +20,24 @@ const { withAuth } = createAuth({
 let sessionSecret = env.COOKIE_SECRET
 let sessionMaxAge = 60 * 60 * 24 * 30 // 30 days
 
-const domainValue =
-  process.env.NODE_ENV === 'production'
-    ? // Get the domain by removing the protocol and the trailing slash path
-      (env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string)
-        .split(
-          `http${
-            env.NEXT_PUBLIC_GRAPHQL_ENDPOINT.startsWith('https://') ? 's' : ''
-          }://`,
-        )[1]
-        .split('/')[0]
-    : 'localhost'
-
-console.log({
-  domainValue,
-  sameSiteValue: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  secureValue: process.env.NODE_ENV === 'production',
-})
-
 const session = statelessSessions({
   maxAge: sessionMaxAge,
   secret: sessionSecret,
   secure: process.env.NODE_ENV === 'production',
   sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-  domain: process.env.NODE_ENV === 'production' ? 'bedbug.app' : 'localhost',
+  domain: (() => {
+    switch (true) {
+      case process.env.NODE_ENV === 'production': {
+        return 'bedbug.app'
+      }
+      case process.env.NEXT_PUBLIC_ETC_HOSTS === 'true': {
+        return 'bedbug.com'
+      }
+      default: {
+        return 'localhost'
+      }
+    }
+  })(),
 })
 
 export { withAuth, session }

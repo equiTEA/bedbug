@@ -22,6 +22,7 @@ export const seedAdminUser = async (keystone: KeystoneContext) => {
       password: process.env.ADMIN_USER_PASSWORD,
       role: Roles.ADMIN,
       banned: false,
+      hCaptchaToken: '',
     },
   })
 
