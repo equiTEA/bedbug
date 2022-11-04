@@ -32,10 +32,10 @@ const AddressDetail: NextPageWithLayout<Props> = ({
 
   const { id, line1, line2, line3, city, state, zip, ratings } = address
 
-  const userOwnedRatingForAddress = useMemo(
-    () => ratings?.find(({ createdBy }) => createdBy?.id === user.id),
-    [user, ratings],
-  )
+  const userOwnedRatingForAddress = useMemo(() => {
+    if (!user || !ratings) return
+    return ratings?.find(({ createdBy }) => createdBy?.id === user.id)
+  }, [user, ratings])
 
   return (
     <Box
@@ -63,7 +63,7 @@ const AddressDetail: NextPageWithLayout<Props> = ({
           </Box>
         </Box>
 
-        {!userOwnedRatingForAddress && (
+        {user && !userOwnedRatingForAddress && (
           <Box sx={{ position: 'absolute', right: 0, zIndex: 2 }}>
             <Link passHref href={`/addresses/${id}/rate`}>
               <Button
