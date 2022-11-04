@@ -160,8 +160,6 @@ export const useRatingForm = ({
     ],
   )
 
-  console.log({ errors })
-
   const errorsExist = useMemo(
     () => Object.values(errors).some((error) => error !== null),
     [errors],
@@ -195,17 +193,6 @@ export const useRatingForm = ({
 
   const updateRating = useCallback((): EditRatingResponse => {
     if (!editingRating) return Promise.resolve()
-
-    console.log(
-      sentiment !== editingRating?.sentiment,
-      rentPrice !== editingRating?.rentPrice,
-      tenancyStartDate?.toISOString() !== editingRating?.tenancyStartDate,
-      tenancyEndDate?.toISOString() !== editingRating?.tenancyEndDate,
-      !isEqual(body, editingRating?.body),
-    )
-
-    console.log(tenancyStartDate, editingRating?.tenancyStartDate)
-    console.log(tenancyEndDate, editingRating?.tenancyEndDate)
 
     /** Prevent unecessary network requests if values not changed */
     const valuesHaveChanged =

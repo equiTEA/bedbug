@@ -74,6 +74,8 @@ const NewAddress = () => {
             zip: validatedAddress?.zip,
             countryCode: validatedAddress?.countryCode,
             isVerified: validatedAddress?.isVerified,
+            latitude: validatedAddress?.latitude,
+            longitude: validatedAddress?.longitude,
           },
         },
         handleErrors: (errors: GraphQLError[]) => {
