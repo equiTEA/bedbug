@@ -19,7 +19,7 @@ COPY .gitignore .gitignore
 COPY . .
 COPY --from=builder /usr/src/app/out/json/ .
 COPY --from=builder /usr/src/app/out/yarn.lock ./yarn.lock
-RUN yarn install --ignore-scripts --pure-lockfile
+RUN yarn install --ignore-scripts --pure-lockfile --ignore-engines
 
 RUN yarn package
 RUN yarn build:staging --filter=keystone
