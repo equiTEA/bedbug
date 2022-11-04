@@ -8,6 +8,8 @@ export const forwardGeocodeAddress = /* GraphQL */ `
       zip
       neighborhood
       countryCode
+      latitude
+      longitude
     }
   }
 `

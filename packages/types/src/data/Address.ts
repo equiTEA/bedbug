@@ -12,6 +12,8 @@ export type Scalars = {
   state: string
   zip: string
   countryCode: string
+  latitude: number
+  longitude: number
 
   isVerified: boolean
 }

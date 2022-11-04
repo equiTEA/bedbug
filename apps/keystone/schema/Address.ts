@@ -69,8 +69,8 @@ export const Address = list({
       },
     }),
 
-    lat: float({ defaultValue: 0.0, validation: { isRequired: true } }),
-    lng: float({ defaultValue: 0.0, validation: { isRequired: true } }),
+    latitude: float({ defaultValue: 0.0, validation: { isRequired: true } }),
+    longitude: float({ defaultValue: 0.0, validation: { isRequired: true } }),
     full: text({ isIndexed: 'unique' }),
     line1: text({ validation: { isRequired: true } }),
     line2: text({ validation: { isRequired: false } }),

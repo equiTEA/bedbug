@@ -42,12 +42,12 @@ export const forwardGeocode = async (
     'latitude',
     'longitude',
   ].reduce(
-    (acc, field, index) => `${acc}${index === 0 ? ',' : ''}results.${field}`,
+    (acc, field, index) => `${acc}${index === 0 ? '' : ','}results.${field}`,
     '',
   )
 
   const API_KEY = env.POSITIONSTACK_API_ACCESS_KEY
-  const URL = `http://api.positionstack.com/v1/forward?access_key=${API_KEY}&query=${address}&limit=10&output=json`
+  const URL = `http://api.positionstack.com/v1/forward?access_key=${API_KEY}&query=${address}&limit=10&output=json&fields=${fields}`
 
   try {
     const response = await fetch(URL)
