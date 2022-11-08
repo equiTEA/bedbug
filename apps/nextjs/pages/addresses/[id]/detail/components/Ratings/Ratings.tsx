@@ -67,7 +67,7 @@ const Ratings = ({ addressId, ratings, allottedHeight }: Props) => {
           style={{ transitionDelay: `${index * 200}ms` }}
         >
           <Box>
-            <RatingCard rating={rating} />
+            <RatingCard rating={rating} addressId={addressId} />
           </Box>
         </Fade>
       ))}

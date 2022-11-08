@@ -33,7 +33,7 @@ const TenancyDateRange = ({
   return (
     <Box sx={{ mt: 4 }}>
       <>
-        <H3 sx={{ mb: 2 }}>When did your lease / tenancy start?</H3>
+        <H3 sx={{ mb: 2 }}>When did your lease or tenancy start?</H3>
 
         <DatePicker
           disableFuture
@@ -53,7 +53,7 @@ const TenancyDateRange = ({
           }
         />
 
-        <H3 sx={{ mb: 2 }}>When did / will your lease / tenancy end?</H3>
+        <H3 sx={{ mb: 2 }}>When did / will your lease or tenancy end?</H3>
         <DatePicker
           value={tenancyEndDate}
           onBlur={() => setTenancyEndDateBlurred(true)}

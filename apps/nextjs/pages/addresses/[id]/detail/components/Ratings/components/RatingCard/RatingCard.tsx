@@ -1,15 +1,17 @@
 import {
   H3,
   Card,
-  Body1,
   Avatar,
   RatingIcon,
   CollapseButton,
   RichTextEditor,
 } from '@bedbug/ui'
 import dayjs from 'dayjs'
+import Link from 'next/link'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import { useAuthUser } from '@bedbug/hooks'
 import Collapse from '@mui/material/Collapse'
 import { userInfoContainerStyles } from './styles'
 
@@ -18,9 +20,12 @@ import type { Rating } from '@bedbug/types'
 type Props = {
   /** The Rating to display */
   rating: Rating
+  /** Id of the associated Address */
+  addressId: string
 }
 
-const RatingCard = ({ rating }: Props) => {
+const RatingCard = ({ addressId, rating }: Props) => {
+  const { user } = useAuthUser()
   const [isCollapsed, setIsCollapsed] = useState(true)
 
   if (!rating.sentiment || !rating.createdBy?.username) return null
@@ -117,6 +122,21 @@ const RatingCard = ({ rating }: Props) => {
               {rating.propertyManagementCompanyAtDateOfRating?.name}
             </Card.DataPointValue>
           </Card.DataPoint>
+        )}
+
+        {user.id === rating.createdBy.id && (
+          <>
+            <Card.Divider />
+            <Card.DataPoint sx={{ px: 2, mb: -1, justifyContent: 'flex-end' }}>
+              <Card.DataPointValue>
+                <Link passHref href={`/addresses/${addressId}/rate`}>
+                  <Button variant="outlined" color="secondary">
+                    Edit Rating
+                  </Button>
+                </Link>
+              </Card.DataPointValue>
+            </Card.DataPoint>
+          </>
         )}
       </Collapse>
     </Card>

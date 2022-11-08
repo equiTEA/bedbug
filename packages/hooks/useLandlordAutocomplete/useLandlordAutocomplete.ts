@@ -1,8 +1,7 @@
-import { graphql } from '@bedbug/networking'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useStateIfMounted } from 'use-state-if-mounted'
 import { useDebouncedState } from '../useDebouncedState'
-import { rateAddressLandlordSearch } from '@bedbug/networking'
+import { graphql, rateAddressLandlordSearch } from '@bedbug/networking'
 
 import type { Landlord, Rating } from '@bedbug/types'
 
