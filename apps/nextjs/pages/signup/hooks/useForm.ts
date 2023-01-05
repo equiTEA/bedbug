@@ -129,6 +129,8 @@ export const useForm = () => {
         },
       })
 
+      if (!createUserResponse) return
+
       const signInResponse = await graphql({
         operationName: 'authenticateUserWithPassword',
         query: authenticateUserWithPassword,

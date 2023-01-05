@@ -4,6 +4,7 @@ import type { Theme } from '@mui/material/styles'
 
 export const containerStyles = ({ theme }: { theme: Theme }) => ({
   pt: 3,
+
   width: '100%',
   m: '0 auto',
   maxWidth: '750px',
@@ -14,6 +15,7 @@ export const containerStyles = ({ theme }: { theme: Theme }) => ({
   },
 
   [theme.breakpoints.down('md')]: {
+    pb: 12,
     '& .card:last-of-type': {
       mb: 0,
     },

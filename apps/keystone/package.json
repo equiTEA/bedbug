@@ -8,6 +8,7 @@
 
     "dev": "keystone dev",
     "dev:local": "../../node_modules/.bin/dotenv -e ../../.env.local yarn keystone dev",
+    "dev:ci": "../../node_modules/.bin/dotenv -e ../../.env.ci yarn keystone dev",
     
     "build:staging": "../../node_modules/.bin/dotenv -e ../../.env.staging keystone build",
     "migrate:staging": "../../node_modules/.bin/dotenv -e ../../.env.staging keystone prisma migrate deploy",

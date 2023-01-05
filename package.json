@@ -10,20 +10,23 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "package": "turbo run package",
-    
     "dev": "turbo run dev --parallel",
     "dev:local": "turbo run dev:local --parallel",
+    "dev:ci": "turbo run dev:ci --parallel",
     "build": "turbo run build",
-
     "build:prod": "turbo run build:prod",
     "migrate:prod": "turbo run migrate:prod",
     "start:prod": "turbo run start:prod",
-
     "build:staging": "turbo run build:staging",
     "migrate:staging": "turbo run migrate:staging",
-    "start:staging": "turbo run start:staging"
+    "start:staging": "turbo run start:staging",
+    "e2e": "dotenv -e ./.env.ci yarn playwright test --headed --workers 3",
+    "e2e:ci": "dotenv -e ./.env.ci yarn playwright test --workers 3",
+    "e2e:debug": "dotenv -e ./.env.ci yarn playwright test --debug --workers 3",
+    "e2e:codegen": "dotenv -e ./.env.ci yarn playwright codegen"
   },
   "devDependencies": {
+    "@playwright/test": "^1.28.1",
     "dotenv-cli": "^6.0.0",
     "eslint-config-custom": "*",
     "prettier": "latest",

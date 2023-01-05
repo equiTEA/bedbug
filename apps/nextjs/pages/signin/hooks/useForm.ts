@@ -73,7 +73,9 @@ export const useForm = () => {
           password,
         },
         handleErrors: (errors: GraphQLError[]) => {
-          console.error({ errors })
+          if (process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production')
+            console.error({ errors })
+
           if (errors.length > 0) setFormError('An unexpected error occurred')
         },
       })

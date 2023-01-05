@@ -124,7 +124,7 @@ const RatingCard = ({ addressId, rating }: Props) => {
           </Card.DataPoint>
         )}
 
-        {user.id === rating.createdBy.id && (
+        {user?.id === rating.createdBy.id && (
           <>
             <Card.Divider />
             <Card.DataPoint sx={{ px: 2, mb: -1, justifyContent: 'flex-end' }}>

@@ -1,8 +1,8 @@
-import type { Descendant } from 'slate'
 import type { Address } from './Address'
 import type { Business } from './Business'
 import type { Landlord } from './Landlord'
 import type { BaseEntity } from './BaseEntity'
+import type { CustomElement } from '@bedbug/ui/RichTextEditor'
 import type { PropertyManagementCompany } from './PropertyManagementCompany'
 
 export enum RatingSentiments {
@@ -15,7 +15,7 @@ export enum RatingSentiments {
 
 export type Scalars = {
   sentiment: RatingSentiments
-  body: Descendant[]
+  body: CustomElement[]
   rentPrice: number
   tenancyStartDate: Date
   tenancyEndDate: Date

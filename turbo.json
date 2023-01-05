@@ -13,6 +13,7 @@
 
     "DATABASE_URL",
     "SEED_COUNT",
+    "CI",
 
     "ADMIN_USER_EMAIL",
     "ADMIN_USER_PASSWORD",
@@ -90,6 +91,12 @@
       "cache": false
     },
     "dev:local": {
+      "dependsOn": [
+        "^build"
+      ],
+      "cache": false
+    },
+    "dev:ci": {
       "dependsOn": [
         "^build"
       ],

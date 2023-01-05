@@ -41,8 +41,9 @@ export const asideStyles = ({ theme }: { theme: Theme }) => ({
   zIndex: 1,
   width: '550px',
   height: '100vh',
-  minHeight: MIN_HEIGHT,
+  overflow: 'auto',
   position: 'relative',
+  minHeight: MIN_HEIGHT,
   backgroundColor: 'backgroundColor.main',
 
   [theme.breakpoints.down('md')]: {

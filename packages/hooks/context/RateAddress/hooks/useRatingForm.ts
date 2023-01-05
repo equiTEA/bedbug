@@ -185,7 +185,8 @@ export const useRatingForm = ({
           },
         },
         handleErrors: (errors) => {
-          console.log('errors', errors)
+          if (process.env.NEXT_PUBLIC_DEPLOYMENT_TARGET !== 'production')
+            console.error(errors)
         },
       }),
     [addressId, body, sentiment, rentPrice, tenancyStartDate, tenancyEndDate],

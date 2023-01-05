@@ -1,0 +1,170 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "./generated/client"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource postgresql {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Address {
+  id                           String   @id
+  createdAt                    DateTime @default(now())
+  createdBy                    String?
+  updatedAt                    DateTime @default(now())
+  updatedBy                    String?
+  isDeleted                    Boolean  @default(false)
+  deletedBy                    String?
+  isVerified                   Boolean  @default(false)
+  full                         String   @unique @default("")
+  line1                        String   @default("")
+  line2                        String   @default("")
+  line3                        String   @default("")
+  city                         String   @default("")
+  state                        String   @default("")
+  zip                          String   @default("")
+  countryCode                  String   @default("USA")
+  latitude                     Float    @default(0)
+  longitude                    Float    @default(0)
+  User_Address_createdByToUser User?    @relation("Address_createdByToUser", fields: [createdBy], references: [id])
+  User_Address_deletedByToUser User?    @relation("Address_deletedByToUser", fields: [deletedBy], references: [id])
+  User_Address_updatedByToUser User?    @relation("Address_updatedByToUser", fields: [updatedBy], references: [id])
+  Rating                       Rating[]
+
+  @@index([createdBy])
+  @@index([deletedBy])
+  @@index([updatedBy])
+}
+
+model Business {
+  id                            String     @id
+  createdAt                     DateTime   @default(now())
+  createdBy                     String?
+  updatedAt                     DateTime   @default(now())
+  updatedBy                     String?
+  isDeleted                     Boolean    @default(false)
+  deletedBy                     String?
+  name                          String     @default("")
+  isVerified                    Boolean    @default(false)
+  User_Business_createdByToUser User?      @relation("Business_createdByToUser", fields: [createdBy], references: [id])
+  User_Business_deletedByToUser User?      @relation("Business_deletedByToUser", fields: [deletedBy], references: [id])
+  User_Business_updatedByToUser User?      @relation("Business_updatedByToUser", fields: [updatedBy], references: [id])
+  Rating                        Rating[]
+  Landlord                      Landlord[] @relation("Business_landlords")
+
+  @@index([createdBy])
+  @@index([deletedBy])
+  @@index([updatedBy])
+}
+
+model Landlord {
+  id                            String     @id
+  createdAt                     DateTime   @default(now())
+  createdBy                     String?
+  updatedAt                     DateTime   @default(now())
+  updatedBy                     String?
+  isDeleted                     Boolean    @default(false)
+  deletedBy                     String?
+  name                          String     @default("")
+  isVerified                    Boolean    @default(false)
+  User_Landlord_createdByToUser User?      @relation("Landlord_createdByToUser", fields: [createdBy], references: [id])
+  User_Landlord_deletedByToUser User?      @relation("Landlord_deletedByToUser", fields: [deletedBy], references: [id])
+  User_Landlord_updatedByToUser User?      @relation("Landlord_updatedByToUser", fields: [updatedBy], references: [id])
+  Rating                        Rating[]
+  Business                      Business[] @relation("Business_landlords")
+
+  @@index([createdBy])
+  @@index([deletedBy])
+  @@index([updatedBy])
+}
+
+model PropertyManagementCompany {
+  id                                             String   @id
+  createdAt                                      DateTime @default(now())
+  createdBy                                      String?
+  updatedAt                                      DateTime @default(now())
+  updatedBy                                      String?
+  isDeleted                                      Boolean  @default(false)
+  deletedBy                                      String?
+  name                                           String   @default("")
+  isVerified                                     Boolean  @default(false)
+  User_PropertyManagementCompany_createdByToUser User?    @relation("PropertyManagementCompany_createdByToUser", fields: [createdBy], references: [id])
+  User_PropertyManagementCompany_deletedByToUser User?    @relation("PropertyManagementCompany_deletedByToUser", fields: [deletedBy], references: [id])
+  User_PropertyManagementCompany_updatedByToUser User?    @relation("PropertyManagementCompany_updatedByToUser", fields: [updatedBy], references: [id])
+  Rating                                         Rating[]
+
+  @@index([createdBy])
+  @@index([deletedBy])
+  @@index([updatedBy])
+}
+
+model Rating {
+  id                                      String                     @id
+  createdAt                               DateTime                   @default(now())
+  createdBy                               String?
+  updatedAt                               DateTime                   @default(now())
+  updatedBy                               String?
+  isDeleted                               Boolean                    @default(false)
+  deletedBy                               String?
+  address                                 String?
+  landlordAtDateOfRating                  String?
+  doingBusinessAsAtDateOfRating           String?
+  propertyManagementCompanyAtDateOfRating String?
+  sentiment                               Int?
+  rentPrice                               Float
+  body                                    Json?
+  tenancyEndDate                          DateTime?
+  tenancyStartDate                        DateTime?
+  Address                                 Address?                   @relation(fields: [address], references: [id])
+  User_Rating_createdByToUser             User?                      @relation("Rating_createdByToUser", fields: [createdBy], references: [id])
+  User_Rating_deletedByToUser             User?                      @relation("Rating_deletedByToUser", fields: [deletedBy], references: [id])
+  Business                                Business?                  @relation(fields: [doingBusinessAsAtDateOfRating], references: [id])
+  Landlord                                Landlord?                  @relation(fields: [landlordAtDateOfRating], references: [id])
+  PropertyManagementCompany               PropertyManagementCompany? @relation(fields: [propertyManagementCompanyAtDateOfRating], references: [id])
+  User_Rating_updatedByToUser             User?                      @relation("Rating_updatedByToUser", fields: [updatedBy], references: [id])
+
+  @@index([address])
+  @@index([createdBy])
+  @@index([deletedBy])
+  @@index([doingBusinessAsAtDateOfRating])
+  @@index([landlordAtDateOfRating])
+  @@index([propertyManagementCompanyAtDateOfRating])
+  @@index([updatedBy])
+}
+
+model User {
+  id                                                                  String                      @id
+  username                                                            String                      @default("")
+  email                                                               String                      @unique @default("")
+  banned                                                              Boolean                     @default(false)
+  password                                                            String
+  role                                                                UserRoleType?
+  createdAt                                                           DateTime?                   @default(now())
+  isEnrolledInAddressModeration                                       Boolean                     @default(false)
+  Address_Address_createdByToUser                                     Address[]                   @relation("Address_createdByToUser")
+  Address_Address_deletedByToUser                                     Address[]                   @relation("Address_deletedByToUser")
+  Address_Address_updatedByToUser                                     Address[]                   @relation("Address_updatedByToUser")
+  Business_Business_createdByToUser                                   Business[]                  @relation("Business_createdByToUser")
+  Business_Business_deletedByToUser                                   Business[]                  @relation("Business_deletedByToUser")
+  Business_Business_updatedByToUser                                   Business[]                  @relation("Business_updatedByToUser")
+  Landlord_Landlord_createdByToUser                                   Landlord[]                  @relation("Landlord_createdByToUser")
+  Landlord_Landlord_deletedByToUser                                   Landlord[]                  @relation("Landlord_deletedByToUser")
+  Landlord_Landlord_updatedByToUser                                   Landlord[]                  @relation("Landlord_updatedByToUser")
+  PropertyManagementCompany_PropertyManagementCompany_createdByToUser PropertyManagementCompany[] @relation("PropertyManagementCompany_createdByToUser")
+  PropertyManagementCompany_PropertyManagementCompany_deletedByToUser PropertyManagementCompany[] @relation("PropertyManagementCompany_deletedByToUser")
+  PropertyManagementCompany_PropertyManagementCompany_updatedByToUser PropertyManagementCompany[] @relation("PropertyManagementCompany_updatedByToUser")
+  Rating_Rating_createdByToUser                                       Rating[]                    @relation("Rating_createdByToUser")
+  Rating_Rating_deletedByToUser                                       Rating[]                    @relation("Rating_deletedByToUser")
+  Rating_Rating_updatedByToUser                                       Rating[]                    @relation("Rating_updatedByToUser")
+}
+
+enum UserRoleType {
+  ADMIN
+  MODERATOR
+  TENANT
+  LANDLORD
+  PROPERTY_MANAGEMENT_COMPANY
+}

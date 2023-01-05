@@ -1,4 +1,5 @@
 import type { Theme } from '@mui/material/styles'
+import { url } from 'inspector'
 
 const BORDER_RADIUS = '60px'
 const BORDER_RADIUS_MOBILE = '30px'
@@ -24,13 +25,15 @@ export const pageContainerStyles = (theme: Theme) => ({
 export const backgroundImageContainerStyles = (theme: Theme) => ({
   top: '-16px',
   left: '-16px',
+  width: 'calc(100% - 550px)',
+  height: 'calc(100vh + 16px)',
   position: 'absolute',
-  width: '100vw',
-  height: '100vh',
   minHeight: MIN_HEIGHT,
+  backgroundImage: 'url(/images/Bedbugs.png)',
 
   /** Place a solid blue background behind the corner radii */
   [theme.breakpoints.down('md')]: {
+    width: '100%',
     overflowY: 'hidden',
 
     '&::after': {
@@ -45,7 +48,10 @@ export const backgroundImageContainerStyles = (theme: Theme) => ({
   },
 })
 
-export const imageStyles = { opacity: 0.5 }
+export const imageStyles = {
+  opacity: 0.5,
+  transform: 'translateX(-25vw)',
+}
 
 export const accountForBorderRadiusStyles = ({ theme }: { theme: Theme }) => ({
   top: 0,
@@ -67,6 +73,7 @@ export const asideStyles = ({ theme }: { theme: Theme }) => ({
   zIndex: 1,
   width: '550px',
   height: '100vh',
+  overflow: 'auto',
   minHeight: MIN_HEIGHT,
   position: 'relative',
   backgroundColor: 'backgroundColor.main',

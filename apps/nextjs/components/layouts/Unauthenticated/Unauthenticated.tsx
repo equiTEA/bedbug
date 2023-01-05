@@ -14,7 +14,6 @@ import Image from 'next/image'
 import { H1, H2 } from '@bedbug/ui'
 import Box from '@mui/material/Box'
 import { useRouter } from 'next/router'
-import BedbugsImage from './Bedbugs.png'
 import { useTheme } from '@mui/material/styles'
 import UserProfileMenu from '../../../assemblies/UserProfileMenu'
 import HeroCallToAction from '../../../assemblies/HeroCallToAction'
@@ -30,15 +29,7 @@ const UnauthenticatedLayout = ({ children, ...props }: Props) => {
   const theme = useTheme()
   return (
     <Box sx={pageContainerStyles}>
-      <Box sx={backgroundImageContainerStyles}>
-        <Image
-          unoptimized
-          style={imageStyles}
-          src={BedbugsImage}
-          alt="background texture of bedbug vector drawings"
-          layout="fixed"
-        />
-      </Box>
+      <Box sx={backgroundImageContainerStyles} />
 
       {/* Hero (Map Placeholder) */}
       <Box sx={(theme) => mainStyles({ theme, route })} component="main">
